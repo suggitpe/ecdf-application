@@ -5,7 +5,9 @@
 - [ ] Refine task list based on `requirements.md` and `agents.md`
 
 ## 1. Foundation & Containerization (12-Factor)
-- [ ] Initialize Spring Boot application (Java 21, Web, Data JPA, PostgreSQL, Liquibase, Thymeleaf, Validation, Security)
+- [ ] Initialize Multi-Module Gradle project (Groovy DSL)
+- [ ] Create `gradle/libs.versions.toml` for dependency version catalog
+- [ ] Setup `application` (Spring Boot Web/UI) and `domain` or `core` submodules as needed
 - [ ] Setup core CSS variables and design system (Vanilla CSS, premium dark-mode aesthetic, no Tailwind)
 - [ ] Implement Thymeleaf layout shell (Navigation, Header, Main Content area)
 - [ ] Configure local file storage path in `application.yml` for Evidence attachments

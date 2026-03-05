@@ -9,6 +9,9 @@ This document provides core steering instructions for AI Assistants working on t
 
 ## 2. Technical Stack & Architecture
 - **Backend Language**: Java 21
+- **Build Tool**: Gradle (using Groovy DSL).
+- **Project Structure**: Must be a **multi-module** Gradle project.
+- **Dependency Management**: Dependencies must be segregated from their versions. Strict requirement to use a Gradle Version Catalog (`gradle/libs.versions.toml`).
 - **Framework**: Spring Boot 3.4.x (Web, Data JPA, Security, Validation, Thymeleaf)
 - **Frontend**: Thymeleaf templates (Server-Side Rendering).
 - **Styling**: Vanilla CSS. Must use a Premium Dark Mode aesthetic with glassmorphism elements and modern typography. No Tailwind.
@@ -24,6 +27,8 @@ This document provides core steering instructions for AI Assistants working on t
 - **Current Phase**: Implement a `persistence` adapter using Spring Data JPA (`UserEntity`, `JpaUserRepositoryAdapter`, etc.) that translates between JPA entities and Domain records.
 
 ## 4. Test-Driven Development (TDD) Mandate (CRITICAL)
+- **Test Framework**: You MUST use **JUnit 5** and **Mockito**.
+- **Behavioral Testing ONLY**: Testing MUST focus strictly on the *behavior* of the classes. Do NOT write property-based tests or getter/setter tests for simple POJOs/Records.
 - **Test-First Approach**: You MUST write tests BEFORE implementing the production code. The Red-Green-Refactor cycle is non-negotiable.
 - **Repository Testing**: Write `@DataJpaTest` integration tests using **Testcontainers** before creating JPA entities and repository adapters.
 - **Service Testing**: Write pure unit tests using JUnit 5 and Mockito (`@ExtendWith(MockitoExtension.class)`) to isolate business logic before implementing `@Service` classes.
