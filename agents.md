@@ -3,7 +3,9 @@
 This document provides core steering instructions for AI Assistants working on the ECDF Application.
 
 ## 1. Execution Workflow (CRITICAL)
-- **Task Boundaries**: The AI MUST stop at the end of every logical task (as defined in `task.md`) and notify the user to wait for explicit human approval before proceeding to the next task.
+- **Task Boundaries & Human Approval**: 
+  - For **each** task in the checklist, you MUST explicitly ask for a human to strongly agree to start the next task.
+  - Once a task has completed, you MUST ask a human to review what has been created before moving on.
 - **Do NOT run all steps in one go**. Execute one logical block, verify it compiles and runs, then pause for human review via standard chat or `notify_user`.
 - Before making significant architectural decisions or writing massive amounts of code, confirm the approach with the user.
 
