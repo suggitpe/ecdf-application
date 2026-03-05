@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
 }
 
-defaultTasks 'clean', 'build'
+defaultTasks 'clean', 'build', 'jacocoTestReport'
 
 allprojects {
     group = 'org.acmebank.people'

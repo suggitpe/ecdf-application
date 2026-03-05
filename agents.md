@@ -20,7 +20,7 @@ This document provides core steering instructions for AI Assistants working on t
 - **Frontend**: Thymeleaf templates (Server-Side Rendering).
 - **Styling**: Vanilla CSS. Must use a Premium Dark Mode aesthetic with glassmorphism elements and modern typography. No Tailwind.
 - **Database**: PostgreSQL (schema managed via Liquibase).
-- **Testing**: Strict Test-Driven Development (TDD). JUnit 5, Mockito, `@WebMvcTest`, and **Testcontainers** for DB integration tests.
+- **Testing**: Strict Test-Driven Development (TDD). JUnit 5, Mockito, `@WebMvcTest`, and **Testcontainers** for DB integration tests. **JaCoCo** is used for test coverage metrics and is included in the default Gradle task (`.\gradlew`).
 - **Environment**: 12-Factor App design. Configuration externalized via environment variables. Containerized via standard `Dockerfile`/`Containerfile` and `docker-compose.yml`.
 
 ## 3. Workday Integration Strategy (Ports & Adapters)
