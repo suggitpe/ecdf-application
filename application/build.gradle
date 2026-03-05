@@ -1,10 +1,29 @@
 plugins {
-    id 'org.springframework.boot' version '3.4.3'
-    id 'io.spring.dependency-management' version '1.1.7'
     id 'java'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
     implementation project(':domain')
+    
+    // Core Spring Boot
     implementation libs.spring.boot.starter.web
+    implementation libs.spring.boot.starter.data.jpa
+    implementation libs.spring.boot.starter.validation
+    implementation libs.spring.boot.starter.security
+    implementation libs.spring.boot.starter.thymeleaf
+    
+    // Database
+    implementation libs.postgresql
+    implementation libs.liquibase.core
+
+    // Testing
+    testImplementation libs.spring.boot.starter.test
+    testImplementation libs.spring.security.test
+    testImplementation libs.kotlin.test.junit5
+    testImplementation libs.kotest.assertions.core
+    testImplementation libs.testcontainers.postgresql
+    testImplementation libs.testcontainers.junit.jupiter
 }

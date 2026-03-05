@@ -1,7 +1,9 @@
 plugins {
     id 'java-library'
+    alias(libs.plugins.kotlin.jvm)
 }
 
 dependencies {
-    // Domain will have minimal dependencies, mostly annotations or purely logic-driven libs
+    testImplementation libs.kotlin.test.junit5
+    testImplementation libs.kotest.assertions.core
 }
