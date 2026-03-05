@@ -5,10 +5,10 @@
 - [x] Refine task list based on `requirements.md` and `agents.md`
 
 ## 1. Foundation & Containerization (12-Factor)
-- [/] Initialize Multi-Module Gradle project (Groovy DSL)
-- [/] Create `gradle/libs.versions.toml` for dependency version catalog (Java 21, Spring Boot 3.4.x, Kotlin Test, Kotest, Testcontainers)
+- [x] Initialize Multi-Module Gradle project (Groovy DSL)
+- [x] Create `gradle/libs.versions.toml` for dependency version catalog (Java 21, Spring Boot 3.4.x, Kotlin Test, Kotest, Testcontainers)
 - [x] Setup `application` (Spring Boot Web/UI) and `domain` (Core Business Logic) submodules
-- [ ] Setup core CSS variables and design system (Vanilla CSS, premium dark-mode aesthetic, no Tailwind)
+- [x] Setup core CSS variables and design system (Vanilla CSS, premium dark-mode aesthetic, no Tailwind)
 - [ ] Implement Thymeleaf layout shell (Navigation, Header, Main Content area)
 - [ ] Configure local file storage path in `application.yml` for Evidence attachments
 - [ ] Create `Containerfile` / `Dockerfile` for the Spring Boot application
