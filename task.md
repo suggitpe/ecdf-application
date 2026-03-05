@@ -5,7 +5,7 @@
 - [x] Refine task list based on `requirements.md` and `agents.md`
 
 ## 1. Foundation & Containerization (12-Factor)
-- [ ] Initialize Multi-Module Gradle project (Groovy DSL)
+- [x] Initialize Multi-Module Gradle project (Groovy DSL)
 - [ ] Create `gradle/libs.versions.toml` for dependency version catalog (Java 21, Spring Boot 3.4.x, Kotlin Test, Kotest, Testcontainers)
 - [ ] Setup `application` (Spring Boot Web/UI) and `domain` (Core Business Logic) submodules
 - [ ] Setup core CSS variables and design system (Vanilla CSS, premium dark-mode aesthetic, no Tailwind)

@@ -1,0 +1,4 @@
+rootProject.name = 'ecdf'
+
+include 'domain'
+include 'application'

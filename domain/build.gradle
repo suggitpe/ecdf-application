@@ -1,0 +1,7 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    // Domain will have minimal dependencies, mostly annotations or purely logic-driven libs
+}

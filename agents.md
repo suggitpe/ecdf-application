@@ -14,6 +14,7 @@ This document provides core steering instructions for AI Assistants working on t
 - **Build Tool**: Gradle (using Groovy DSL).
 - **Project Structure**: Must be a **multi-module** Gradle project.
 - **Dependency Management**: Dependencies must be segregated from their versions. Strict requirement to use a Gradle Version Catalog (`gradle/libs.versions.toml`).
+- **Versioning**: The build must use date-based versioning (`yyyy.MM.dd.HHmmss`) rather than standard semantic versioning (e.g. not 0.0.1).
 - **Framework**: Spring Boot 3.4.x (Web, Data JPA, Security, Validation, Thymeleaf)
 - **Frontend**: Thymeleaf templates (Server-Side Rendering).
 - **Styling**: Vanilla CSS. Must use a Premium Dark Mode aesthetic with glassmorphism elements and modern typography. No Tailwind.

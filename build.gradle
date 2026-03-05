@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+defaultTasks 'clean', 'build'
+
+allprojects {
+    group = 'org.acmebank.people'
+    version = new Date().format('yyyy.MM.dd.HHmmss')
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+    
+    tasks.withType(Test) {
+        useJUnitPlatform()
+    }
+}
