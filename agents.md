@@ -7,6 +7,7 @@ This document provides core steering instructions for AI Assistants working on t
   - For **each** task in the checklist, you MUST explicitly ask for a human to strongly agree to start the next task.
   - Once a task has completed, you MUST ask a human to review what has been created before moving on.
 - **Do NOT run all steps in one go**. Execute one logical block, verify it compiles and runs, then pause for human review via standard chat or `notify_user`.
+- **Git Commits**: Committing any changes must be a human-in-the-loop activity. Do NOT run `git commit` commands automatically without explicit user approval.
 - Before making significant architectural decisions or writing massive amounts of code, confirm the approach with the user.
 
 ## 2. Technical Stack & Architecture
@@ -35,7 +36,7 @@ This document provides core steering instructions for AI Assistants working on t
 - **Test Framework**: Use **JUnit 5** as the test runner and **Mockito** for mocking.
 - **Behavioral Testing ONLY**: Testing MUST focus strictly on the *behavior* of the classes. Do NOT write property-based tests or getter/setter tests for simple POJOs/Records.
 - **Test-First Approach**: You MUST write tests BEFORE implementing the production code. The Red-Green-Refactor cycle is non-negotiable.
-- **Test Execution Flow**: Before starting any new task, you MUST run all tests to ensure a clean slate. Once a task is completed, you MUST run all tests again before committing any code.
+- **Test Execution Flow**: Before starting any new task, you MUST run all tests to ensure a clean slate. Once a task is completed, you MUST run all tests again and present the results to the user BEFORE asking them to commit the code.
 - **Repository Testing**: Write `@DataJpaTest` integration tests using **Testcontainers** before creating JPA entities and repository adapters.
 - **Service Testing**: Write pure unit tests using JUnit 5 and Mockito (`@ExtendWith(MockitoExtension.class)`) to isolate business logic before implementing `@Service` classes.
 - **Web/Controller Testing**: Write `@WebMvcTest` tests to verify controller routing, mapping, validation, and view selection before implementing the Spring MVC `@Controller`s.
