@@ -20,7 +20,7 @@
 ## 2. Core Domain Models & State (Ports & Adapters)
 
 - [x] Define pure Java Domain Models/DTOs (User, Grade, Pillar, Evidence, Assessment, CheckIn, PdpItem) including Dreyfus 1-5 scale constraints
-- [ ] Define pure Java API Interfaces/Ports for data access (`UserRepository`, `EvidenceRepository`, etc.)
+- [x] Define pure Java API Interfaces/Ports for data access (`UserRepository`, `EvidenceRepository`, etc.)
 - [ ] Create Liquibase migrations for Users, Grades, Expectations, Evidence, Links, Attachments, Assessments, CheckIns, and PDP tables
 - [ ] Define JPA Entities mapping to the Liquibase-created tables
 - [ ] Implement JPA-backed adapters (`JpaUserRepositoryAdapter`, etc.) that implement the Repository interfaces
