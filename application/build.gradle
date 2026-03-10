@@ -16,7 +16,7 @@ dependencies {
     implementation libs.spring.boot.starter.thymeleaf
     
     // Database
-    implementation libs.postgresql
+    runtimeOnly libs.h2
     implementation libs.liquibase.core
 
     // Testing
