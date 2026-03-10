@@ -1,0 +1,43 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component Diagram for ECDF Application (Hexagonal / Ports & Adapters)
+
+System_Boundary(ecdf, "ECDF Application") {
+    
+    Container_Boundary(web, "Web Adapters (Infrastructure)") {
+        Component(webControllers, "Spring MVC Controllers", "Java/Spring MVC", "Handles incoming HTTP requests, coordinates with Domain Services, and provides models to Thymeleaf views.")
+        Component(thymeleaf, "Thymeleaf Templates", "HTML/Thymeleaf", "Renders the UI (Dashboard, Team View, Assessments, Check-ins).")
+        
+        Rel(thymeleaf, webControllers, "Makes HTTP requests to", "HTTP")
+    }
+
+    Container_Boundary(domain, "Core Domain (Pure Java)") {
+        Component(appServices, "Application Services", "Java", "Orchestrates business logic (UserService, GradeService, EvidenceService, AssessmentService, CheckInService, PdpService).")
+        Component(ports, "Repository Ports (Interfaces)", "Java Interfaces", "Defines the contract for data persistence (UserRepository, EvidenceRepository, etc.) required by the domain.")
+        Component(domainModels, "Domain Models & Records", "Java Records/Enums", "Contains pure business rules, attributes, and constraints (User, Grade, Score, Pillar, Evidence, Assessment).")
+        
+        Rel(webControllers, appServices, "Uses", "Method Call")
+        Rel(appServices, ports, "Uses", "Interface Call")
+        Rel(appServices, domainModels, "Uses & Manipulates")
+        Rel(ports, domainModels, "Returns")
+    }
+
+    Container_Boundary(persistence, "Persistence Adapters (Infrastructure)") {
+        Component(jpaAdapters, "JPA Repository Adapters", "Java/Spring", "Implements Domain Ports. Maps pure Domain Models to JPA Entities.")
+        Component(springDataDb, "Spring Data JPA Repositories", "Java Interfaces", "Provides database access operations via JPA/Hibernate.")
+        Component(jpaEntities, "JPA Entities", "Java Classes", "Object forms of the database tables.")
+
+        Rel(jpaAdapters, ports, "Implements", "Implementation")
+        Rel(jpaAdapters, springDataDb, "Uses", "Method Call")
+        Rel(springDataDb, jpaEntities, "Manages")
+        Rel(jpaAdapters, domainModels, "Maps to/from")
+    }
+}
+
+ContainerDb(database, "Database", "H2 In-Memory / PostgreSQL", "Stores Users, Evidence, Assessments, Grades, CheckIns, and PDP Items. Schema managed by Liquibase.")
+
+Rel(springDataDb, database, "Reads from and writes to", "JDBC")
+
+SHOW_LEGEND()
+@enduml
