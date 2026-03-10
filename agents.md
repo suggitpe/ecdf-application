@@ -17,6 +17,7 @@ This document provides core steering instructions for AI Assistants working on t
 - **Build Tool**: Gradle (using Groovy DSL).
 - **Project Structure**: Must be a **multi-module** Gradle project.
 - **Dependency Management**: Dependencies must be segregated from their versions. Strict requirement to use a Gradle Version Catalog (`gradle/libs.versions.toml`).
+  - *Critical*: Always ensure test dependencies (e.g., Mockito, Kotest, Testcontainers) are explicitly declared in the specific module's `build.gradle` file where the tests reside (e.g., `domain/build.gradle` vs `application/build.gradle`) before writing tests.
 - **Versioning**: The build must use date-based versioning (`yyyy.MM.dd.HHmmss`) rather than standard semantic versioning (e.g. not 0.0.1).
 - **Framework**: Spring Boot 3.4.x (Web, Data JPA, Security, Validation, Thymeleaf)
 - **Frontend**: Thymeleaf templates (Server-Side Rendering).
@@ -31,7 +32,7 @@ This document provides core steering instructions for AI Assistants working on t
 - **Goal**: The long-term system of record is **Workday**. The database will eventually be swapped out.
 - **Architecture**: The application MUST follow the **Repository Pattern (Hexagonal / Ports & Adapters architecture)**.
 - **Rule 1**: The Business layer (`@Service`) must only interact with pure Java interface "Ports" (`UserRepository`, `EvidenceRepository`) and pure Java Domain Records/DTOs.
-- **Rule 2**: No DB-specific logic (JPA Annotations, SQL) can leak into the Domain or Service layers.
+- **Rule 2**: No DB-specific logic (JPA Annotations, SQL) **OR Framework-specific logic (e.g., Spring `@Service`, `@Component`, `@Autowired`)** can leak into the Domain layer. The domain `Service` classes must be instantiated as simple Java beans via a Spring `@Configuration` class located in the `application` (infrastructure) module.
 - **Current Phase**: Implement a `persistence` adapter using Spring Data JPA (`UserEntity`, `JpaUserRepositoryAdapter`, etc.) that translates between JPA entities and Domain records.
 
 ## 4. Test-Driven Development (TDD) Mandate (CRITICAL)
