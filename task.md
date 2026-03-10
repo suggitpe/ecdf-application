@@ -15,7 +15,7 @@
 - [x] Configure local file storage path in `application.yml` for Evidence attachments
 - [x] Create `Containerfile` / `Dockerfile` for the Spring Boot application
 - [x] Externalize configuration (file storage path) using environment variables
-- [ ] Setup `docker-compose.yml` (for Podman Compose) to orchestrate Spring Boot App and file storage volume
+- [x] Setup `docker-compose.yml` (for Podman Compose) to orchestrate Spring Boot App and file storage volume
 
 ## 2. Core Domain Models & State (Ports & Adapters)
 

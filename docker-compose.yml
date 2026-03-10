@@ -1,0 +1,13 @@
+services:
+  ecdf-app:
+    build: .
+    image: ecdf-app:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ecdf-storage:/data/storage
+    environment:
+      - FILE_STORAGE_PATH=/data/storage
+
+volumes:
+  ecdf-storage:
