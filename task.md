@@ -30,8 +30,8 @@
 
 - [x] Write Unit Tests (Kotlin/Kotest/Mockito) for `UserService` and `GradeService` (Mocking repository ports)
 - [x] Implement `UserService` and `GradeService` to pass tests
-- [ ] Write Unit Tests for `EvidenceService` (Handling creation, iterations, and attachments)
-- [ ] Implement `EvidenceService` to pass tests
+- [x] Write Unit Tests for `EvidenceService` (Handling creation, iterations, and attachments)
+- [x] Implement `EvidenceService` to pass tests
 - [ ] Write Unit Tests for `AssessmentService` (Independent scoring logic, 3rd-party ITA assignments)
 - [ ] Implement `AssessmentService` to pass tests
 - [ ] Write Unit Tests for `CheckInService` (Point-in-time ECDF snapshots, calculating promotion readiness including ITA requirement, handling evidence aging)
