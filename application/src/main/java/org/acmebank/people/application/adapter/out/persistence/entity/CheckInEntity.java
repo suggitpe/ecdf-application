@@ -38,4 +38,10 @@ public class CheckInEntity {
 
     @Column(name = "check_in_date", nullable = false)
     private LocalDate checkInDate;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "check_in_holistic_scores", joinColumns = @JoinColumn(name = "check_in_id"))
+    @MapKeyColumn(name = "pillar")
+    @Column(name = "score")
+    private java.util.Map<String, Integer> holisticScores = new java.util.HashMap<>();
 }

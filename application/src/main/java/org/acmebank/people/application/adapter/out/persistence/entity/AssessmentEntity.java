@@ -32,4 +32,10 @@ public class AssessmentEntity {
 
     @Column(name = "assessment_date", nullable = false)
     private LocalDate assessmentDate;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "assessment_scores", joinColumns = @JoinColumn(name = "assessment_id"))
+    @MapKeyColumn(name = "pillar")
+    @Column(name = "score")
+    private java.util.Map<String, Integer> scores = new java.util.HashMap<>();
 }

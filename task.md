@@ -23,7 +23,7 @@
 - [x] Define pure Java API Interfaces/Ports for data access (`UserRepository`, `EvidenceRepository`, etc.)
 - [x] Create Liquibase migrations for Users, Grades, Expectations, Evidence, Links, Attachments, Assessments, CheckIns, and PDP tables
 - [x] Define JPA Entities mapping to the Liquibase-created tables
-- [ ] Implement JPA-backed adapters (`JpaUserRepositoryAdapter`, etc.) that implement the Repository interfaces
+- [x] Implement JPA-backed adapters (`JpaUserRepositoryAdapter`, etc.) that implement the Repository interfaces
 - [ ] Write JPA Repository integration tests in **Kotlin using Kotest** and an H2 database
 
 ## 3. Business Logic (Services - Kotlin TDD)
