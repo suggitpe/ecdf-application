@@ -1,0 +1,86 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9-create-assessments-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: assessments
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: evidence_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: assessor_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: review_summary
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_third_party
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assessment_date
+                  type: date
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: assessments
+            baseColumnNames: evidence_id
+            referencedTableName: evidence
+            referencedColumnNames: id
+            constraintName: fk_assessments_evidence
+        - addForeignKeyConstraint:
+            baseTableName: assessments
+            baseColumnNames: assessor_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_assessments_assessor
+
+  - changeSet:
+      id: 10-create-assessment-scores-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: assessment_scores
+            columns:
+              - column:
+                  name: assessment_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pillar
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: int
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: assessment_scores
+            columnNames: assessment_id, pillar
+            constraintName: pk_assessment_scores
+        - addForeignKeyConstraint:
+            baseTableName: assessment_scores
+            baseColumnNames: assessment_id
+            referencedTableName: assessments
+            referencedColumnNames: id
+            constraintName: fk_scores_assessment

@@ -1,0 +1,166 @@
+databaseChangeLog:
+  - changeSet:
+      id: 11-create-checkins-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: check_ins
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: manager_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: period_start_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: period_end_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: manager_notes
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: check_in_date
+                  type: date
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: check_ins
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_checkins_user
+        - addForeignKeyConstraint:
+            baseTableName: check_ins
+            baseColumnNames: manager_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_checkins_manager
+
+  - changeSet:
+      id: 12-create-checkin-holistic-scores-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: check_in_holistic_scores
+            columns:
+              - column:
+                  name: check_in_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pillar
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: int
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: check_in_holistic_scores
+            columnNames: check_in_id, pillar
+            constraintName: pk_check_in_holistic_scores
+        - addForeignKeyConstraint:
+            baseTableName: check_in_holistic_scores
+            baseColumnNames: check_in_id
+            referencedTableName: check_ins
+            referencedColumnNames: id
+            constraintName: fk_holisticscores_checkin
+
+  - changeSet:
+      id: 13-create-pdp-items-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: pdp_items
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: check_in_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: targeted_pillar
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: gap_description
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: actionable_plan
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: learning_journey_link
+                  type: varchar(1000)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: is_completed
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date
+                  type: date
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: pdp_items
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_pdp_user
+        - addForeignKeyConstraint:
+            baseTableName: pdp_items
+            baseColumnNames: check_in_id
+            referencedTableName: check_ins
+            referencedColumnNames: id
+            constraintName: fk_pdp_checkin

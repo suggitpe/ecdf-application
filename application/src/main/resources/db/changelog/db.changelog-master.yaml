@@ -1,1 +1,9 @@
-databaseChangeLog: []
+databaseChangeLog:
+  - include:
+      file: db/changelog/01-init-users-and-grades.yaml
+  - include:
+      file: db/changelog/02-evidence.yaml
+  - include:
+      file: db/changelog/03-assessments.yaml
+  - include:
+      file: db/changelog/04-checkins-and-pdp.yaml

@@ -1,0 +1,122 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create-users-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: full_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_ita
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2-create-grades-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: grades
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: grades
+            columnNames: name, role
+            constraintName: ux_grades_name_role
+
+  - changeSet:
+      id: 3-add-user-manager-and-grade-fks
+      author: ai-assistant
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: grade_id
+                  type: uuid
+                  constraints:
+                    nullable: true
+              - column:
+                  name: manager_id
+                  type: uuid
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: grade_id
+            referencedTableName: grades
+            referencedColumnNames: id
+            constraintName: fk_users_grade
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: manager_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_users_manager
+
+  - changeSet:
+      id: 4-create-grade-expectations-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: grade_expectations
+            columns:
+              - column:
+                  name: grade_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pillar
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expected_score
+                  type: int
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: grade_expectations
+            columnNames: grade_id, pillar
+            constraintName: pk_grade_expectations
+        - addForeignKeyConstraint:
+            baseTableName: grade_expectations
+            baseColumnNames: grade_id
+            referencedTableName: grades
+            referencedColumnNames: id
+            constraintName: fk_expectations_grade

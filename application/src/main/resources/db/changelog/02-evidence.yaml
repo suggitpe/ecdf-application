@@ -1,0 +1,141 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5-create-evidence-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: evidence
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: impact
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: complexity
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contribution
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_date
+                  type: date
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: evidence
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_evidence_user
+
+  - changeSet:
+      id: 6-create-evidence-self-assessment-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: evidence_self_assessment
+            columns:
+              - column:
+                  name: evidence_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pillar
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: int
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: evidence_self_assessment
+            columnNames: evidence_id, pillar
+            constraintName: pk_evidence_self_assessment
+        - addForeignKeyConstraint:
+            baseTableName: evidence_self_assessment
+            baseColumnNames: evidence_id
+            referencedTableName: evidence
+            referencedColumnNames: id
+            constraintName: fk_selfassessment_evidence
+
+  - changeSet:
+      id: 7-create-evidence-links-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: evidence_links
+            columns:
+              - column:
+                  name: evidence_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: url
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: evidence_links
+            baseColumnNames: evidence_id
+            referencedTableName: evidence
+            referencedColumnNames: id
+            constraintName: fk_links_evidence
+
+  - changeSet:
+      id: 8-create-evidence-attachments-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: evidence_attachments
+            columns:
+              - column:
+                  name: evidence_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_path
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: evidence_attachments
+            baseColumnNames: evidence_id
+            referencedTableName: evidence
+            referencedColumnNames: id
+            constraintName: fk_attachments_evidence
