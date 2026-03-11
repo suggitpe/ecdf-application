@@ -41,9 +41,9 @@
 
 ## 4. UI Layer (Spring MVC Controllers & Views - Kotlin WebMvcTests)
 
-- [ ] Security & Authentication:
-  - [ ] Implement basic Spring Security setup
-  - [ ] Write Controller tests (Kotlin/MockMvc) and implement `LoginController` and `login.html` view
+- [x] Security & Authentication:
+  - [x] Implement basic Spring Security setup
+  - [x] Write Controller tests (Kotlin/MockMvc) and implement `LoginController` and `login.html` view
 - [ ] Dashboard View (Default for all roles):
   - [ ] Write Controller tests and implement `DashboardController` logic
   - [ ] Implement `dashboard.html` template showing holistic score radar chart (using Chart.js) and recent evidence
