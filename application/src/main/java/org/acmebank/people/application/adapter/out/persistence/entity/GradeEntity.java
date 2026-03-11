@@ -21,6 +21,6 @@ public class GradeEntity {
     @Column(nullable = false, length = 100)
     private String role;
 
-    @OneToMany(mappedBy = "grade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "grade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private java.util.List<GradeExpectationEntity> expectations = new java.util.ArrayList<>();
 }
