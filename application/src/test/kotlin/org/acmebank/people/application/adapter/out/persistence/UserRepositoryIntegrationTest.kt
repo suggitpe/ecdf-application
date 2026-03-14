@@ -4,7 +4,10 @@ import org.acmebank.people.application.adapter.out.persistence.entity.GradeEntit
 import org.acmebank.people.application.adapter.out.persistence.entity.UserEntity
 import org.acmebank.people.application.adapter.out.persistence.repository.GradeJpaRepository
 import org.acmebank.people.application.adapter.out.persistence.repository.UserJpaRepository
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.optional.shouldBePresent
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -41,10 +44,10 @@ class UserRepositoryIntegrationTest {
         val foundUser = userRepository.findByEmail("john.doe@acmebank.com")
 
         // Then
-        assertThat(savedUser.id).isNotNull()
-        assertThat(foundUser.isPresent).isTrue()
-        assertThat(foundUser.get().fullName).isEqualTo("John Doe")
-        assertThat(foundUser.get().grade.name).isEqualTo("Senior")
+        savedUser.id shouldNotBe null
+        foundUser.shouldBePresent()
+        foundUser.get().fullName shouldBe "John Doe"
+        foundUser.get().grade!!.name shouldBe "Senior"
     }
 
     @Test
@@ -77,8 +80,7 @@ class UserRepositoryIntegrationTest {
         val foundEmployees = userRepository.findByManagerId(savedManager.id)
 
         // Then
-        assertThat(foundEmployees).hasSize(1)
-        assertThat(foundEmployees[0].email).isEqualTo("emp@acmebank.com")
+        foundEmployees shouldHaveSize 1
+        foundEmployees[0].email shouldBe "emp@acmebank.com"
     }
-
 }

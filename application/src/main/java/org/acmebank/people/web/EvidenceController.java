@@ -216,10 +216,20 @@ public class EvidenceController {
         }
 
         Map<Pillar, Score> selfAssessment = buildSelfAssessment(selectedPillars, request);
-        evidenceService.updateEvidence(id, title, impact, complexity, contribution, selfAssessment);
+        Evidence updated = evidenceService.updateEvidence(id, title, impact, complexity, contribution, selfAssessment);
 
         if (attachment != null && !attachment.isEmpty()) {
-            saveAttachment(id, attachment);
+            String savedPath = saveAttachment(id, attachment);
+            if (savedPath != null) {
+                List<String> paths = new java.util.ArrayList<>(updated.attachmentPaths());
+                paths.add(savedPath);
+                
+                evidenceRepository.save(new Evidence(
+                    updated.id(), updated.userId(), updated.title(), updated.impact(),
+                    updated.complexity(), updated.contribution(), updated.selfAssessment(),
+                    updated.links(), paths, updated.status(), updated.createdDate(), java.time.LocalDate.now()
+                ));
+            }
         }
 
         return "redirect:/evidence";

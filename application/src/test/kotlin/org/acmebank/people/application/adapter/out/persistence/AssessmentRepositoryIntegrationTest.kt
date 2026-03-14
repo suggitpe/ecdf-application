@@ -8,7 +8,10 @@ import org.acmebank.people.application.adapter.out.persistence.repository.Assess
 import org.acmebank.people.application.adapter.out.persistence.repository.EvidenceJpaRepository
 import org.acmebank.people.application.adapter.out.persistence.repository.GradeJpaRepository
 import org.acmebank.people.application.adapter.out.persistence.repository.UserJpaRepository
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.optional.shouldBePresent
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -57,6 +60,7 @@ class AssessmentRepositoryIntegrationTest {
         val savedManager = userRepository.save(manager)
 
         val evidence = EvidenceEntity().apply {
+            id = java.util.UUID.randomUUID()
             this.user = savedDev
             title = "Project Y Refactoring"
             impact = "Reduced tech debt"
@@ -73,7 +77,6 @@ class AssessmentRepositoryIntegrationTest {
             this.assessor = savedManager
             reviewSummary = "Great work!"
             isThirdParty = false
-            isThirdParty = false
             assessmentDate = LocalDate.now()
         }
 
@@ -82,9 +85,9 @@ class AssessmentRepositoryIntegrationTest {
         val foundAssessment = assessmentRepository.findByEvidenceId(savedEvidence.id)
 
         // Then
-        assertThat(savedAssessment.id).isNotNull()
-        assertThat(foundAssessment).isPresent()
-        assertThat(foundAssessment.get().reviewSummary).isEqualTo("Great work!")
-        assertThat(foundAssessment.get().assessor.email).isEqualTo("mgr@acmebank.com")
+        savedAssessment.id shouldNotBe null
+        foundAssessment.shouldBePresent()
+        foundAssessment.get().reviewSummary shouldBe "Great work!"
+        foundAssessment.get().assessor.email shouldBe "mgr@acmebank.com"
     }
 }

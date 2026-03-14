@@ -6,7 +6,9 @@ import org.acmebank.people.application.adapter.out.persistence.entity.UserEntity
 import org.acmebank.people.application.adapter.out.persistence.repository.CheckInJpaRepository
 import org.acmebank.people.application.adapter.out.persistence.repository.GradeJpaRepository
 import org.acmebank.people.application.adapter.out.persistence.repository.UserJpaRepository
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.collections.shouldHaveSize
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -66,9 +68,9 @@ class CheckInRepositoryIntegrationTest {
         val foundCheckIns = checkInRepository.findByUserId(savedUser.id)
 
         // Then
-        assertThat(savedCheckIn.id).isNotNull()
-        assertThat(foundCheckIns).hasSize(1)
-        assertThat(foundCheckIns[0].managerNotes).isEqualTo("Good progress this quarter.")
-        assertThat(foundCheckIns[0].periodStartDate).isEqualTo(LocalDate.of(2023, 1, 1))
+        savedCheckIn.id shouldNotBe null
+        foundCheckIns shouldHaveSize 1
+        foundCheckIns[0].managerNotes shouldBe "Good progress this quarter."
+        foundCheckIns[0].periodStartDate shouldBe LocalDate.of(2023, 1, 1)
     }
 }

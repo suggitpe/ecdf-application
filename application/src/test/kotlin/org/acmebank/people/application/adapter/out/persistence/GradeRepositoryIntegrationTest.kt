@@ -5,7 +5,10 @@ import org.acmebank.people.application.adapter.out.persistence.entity.GradeExpec
 import org.acmebank.people.application.adapter.out.persistence.entity.GradeExpectationId
 import org.acmebank.people.application.adapter.out.persistence.repository.GradeJpaRepository
 import org.acmebank.people.domain.Pillar
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.optional.shouldBePresent
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -38,14 +41,14 @@ class GradeRepositoryIntegrationTest {
         val finalGrade = gradeRepository.save(savedGrade)
 
         // When
-        val foundGrade = gradeRepository.findById(finalGrade.id).orElse(null)
+        val foundGrade = gradeRepository.findById(finalGrade.id)
 
         // Then
-        assertThat(foundGrade).isNotNull()
-        assertThat(foundGrade.name).isEqualTo("Senior")
-        assertThat(foundGrade.expectations).hasSize(1)
-        assertThat(foundGrade.expectations[0].expectedScore).isEqualTo(3)
-        assertThat(foundGrade.expectations[0].id.pillar).isEqualTo(Pillar.DEFINES.name)
+        foundGrade.shouldBePresent()
+        foundGrade.get().name shouldBe "Senior"
+        foundGrade.get().expectations shouldHaveSize 1
+        foundGrade.get().expectations[0].expectedScore shouldBe 3
+        foundGrade.get().expectations[0].id.pillar shouldBe Pillar.DEFINES.name
     }
 
     @Test
@@ -61,8 +64,7 @@ class GradeRepositoryIntegrationTest {
         val foundGrade = gradeRepository.findByNameAndRole("Staff", "Software Engineer")
 
         // Then
-        assertThat(foundGrade.isPresent).isTrue()
-        assertThat(foundGrade.get().name).isEqualTo("Staff")
+        foundGrade.shouldBePresent()
+        foundGrade.get().name shouldBe "Staff"
     }
-
 }

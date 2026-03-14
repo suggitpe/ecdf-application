@@ -6,7 +6,10 @@ import org.acmebank.people.application.adapter.out.persistence.entity.UserEntity
 import org.acmebank.people.application.adapter.out.persistence.repository.EvidenceJpaRepository
 import org.acmebank.people.application.adapter.out.persistence.repository.GradeJpaRepository
 import org.acmebank.people.application.adapter.out.persistence.repository.UserJpaRepository
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -61,9 +64,9 @@ class EvidenceRepositoryIntegrationTest {
         val foundEvidenceList = evidenceRepository.findByUserId(savedUser.id)
 
         // Then
-        assertThat(savedEvidence.id).isNotNull()
-        assertThat(foundEvidenceList).hasSize(1)
-        assertThat(foundEvidenceList[0].title).isEqualTo("Delivered Project X")
-        assertThat(foundEvidenceList[0].links).containsExactly("https://github.com/org/repo/pull/1")
+        savedEvidence.id shouldNotBe null
+        foundEvidenceList shouldHaveSize 1
+        foundEvidenceList[0].title shouldBe "Delivered Project X"
+        foundEvidenceList[0].links shouldContainExactly listOf("https://github.com/org/repo/pull/1")
     }
 }
