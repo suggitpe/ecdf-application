@@ -48,3 +48,5 @@ This document provides core steering instructions for AI Assistants working on t
 - **Service Testing**: Write pure unit tests using JUnit 5 and Mockito (`@ExtendWith(MockitoExtension.class)`) to isolate business logic before implementing `@Service` classes.
 - **Web/Controller Testing**: Write `@WebMvcTest` tests to verify controller routing, mapping, validation, and view selection before implementing the Spring MVC `@Controller`s.
 - **Minimal Code**: Do not write production code unless it is specifically to make a failing test pass. Always ensure tests fail for the right reason before fixing them.
+- **Teardown & Cleanup**: All tests MUST clean up after themselves. If a test creates local files (e.g., file uploads), use JUnit 5's `@TempDir` to ensure automatic deletion. Do NOT pollute the project's `data/` or `storage/` directories with test artifacts.
+

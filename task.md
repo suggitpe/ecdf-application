@@ -57,7 +57,7 @@
   - [x] Implement `evidence-form.html` (Engineers select applicable pillars and self-rate; provide Impact, Complexity, Contribution)
   - [x] Implement secure file download endpoint for attachments
 - [ ] Evidence Assessment & 3rd-Party Workflow:
-  - [ ] Write Controller tests and implement `AssessmentController`
+  - [x] Write Controller tests and implement `AssessmentController`
   - [ ] Implement `assessment-form.html` (for Managers/ITAs) with independent pillar scoring and Review Summary
   - [ ] Implement UI flow for Manager to assign evidence to an Independent Technical Assessor (ITA)
   - [ ] Implement `assessor-queue.html` listing evidence assigned to the current user

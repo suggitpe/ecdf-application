@@ -22,6 +22,10 @@ import org.springframework.http.MediaType
 import org.springframework.http.HttpHeaders
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.context.bean.override.mockito.MockitoBean
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.junit.jupiter.api.io.TempDir
+import java.nio.file.Path
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.MockMvc
@@ -40,6 +44,18 @@ import java.util.UUID
 @WebMvcTest(EvidenceController::class)
 @Import(ThymeleafAutoConfiguration::class)
 class EvidenceControllerTest {
+
+    companion object {
+        @TempDir
+        @JvmStatic
+        lateinit var tempDir: Path
+
+        @DynamicPropertySource
+        @JvmStatic
+        fun registerProperties(registry: DynamicPropertyRegistry) {
+            registry.add("app.storage.path") { tempDir.toAbsolutePath().toString() }
+        }
+    }
 
     @Autowired
     private lateinit var mockMvc: MockMvc
