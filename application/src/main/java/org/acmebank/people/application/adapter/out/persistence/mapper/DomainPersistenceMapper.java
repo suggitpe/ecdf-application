@@ -3,9 +3,7 @@ package org.acmebank.people.application.adapter.out.persistence.mapper;
 import org.acmebank.people.application.adapter.out.persistence.entity.*;
 import org.acmebank.people.domain.*;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DomainPersistenceMapper {
@@ -74,6 +72,7 @@ public class DomainPersistenceMapper {
                 entity.getId(),
                 entity.getUser().getId(),
                 entity.getTitle(),
+                entity.getDescription(),
                 entity.getImpact(),
                 entity.getComplexity(),
                 entity.getContribution(),
@@ -98,6 +97,7 @@ public class DomainPersistenceMapper {
         entity.setId(domain.id());
         entity.setUser(userEntity);
         entity.setTitle(domain.title());
+        entity.setDescription(domain.description());
         entity.setImpact(domain.impact());
         entity.setComplexity(domain.complexity());
         entity.setContribution(domain.contribution());

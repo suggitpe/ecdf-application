@@ -60,7 +60,7 @@ class DashboardControllerTest {
             "Good progress", CheckInStatus.ON_TRACK, LocalDate.now()
         )
         val mockEvidence = Evidence(
-            UUID.randomUUID(), userId, "Refactored Core System", "High impact", "Complex", "Led the effort",
+            UUID.randomUUID(), userId, "Refactored Core System", "Description of work done", "High impact", "Complex", "Led the effort",
             mapOf(Pillar.DEFINES to Score(3)),
             emptyList(), emptyList(), EvidenceStatus.DRAFT, LocalDate.now(), LocalDate.now()
         )

@@ -53,7 +53,7 @@ class AssessmentControllerTest {
     )
 
     private val mockEvidence = Evidence(
-        evidenceId, userId, "Project X Refactor", "Impact X", "Complexity Y", "Contribution Z",
+        evidenceId, userId, "Project X Refactor", "Description", "Impact X", "Complexity Y", "Contribution Z",
         mapOf(Pillar.DEFINES to Score(3)), emptyList(), emptyList(), 
         EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
     )
@@ -112,7 +112,7 @@ class AssessmentControllerTest {
         val reporterId = UUID.randomUUID()
         val reporter = User(reporterId, "dev@example.com", "Reporter", null, null, false)
         val teamEvidence = Evidence(
-            UUID.randomUUID(), reporterId, "Team Project", "Impact", "Complex", "Contrib",
+            UUID.randomUUID(), reporterId, "Team Project", "Description", "Impact", "Complex", "Contrib",
             emptyMap(), emptyList(), emptyList(), EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 

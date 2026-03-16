@@ -79,7 +79,7 @@ class EvidenceControllerTest {
     )
 
     private val mockEvidence = Evidence(
-        evidenceId, userId, "Project X Refactor", "High Impact", "Complex", "Led effort",
+        evidenceId, userId, "Project X Refactor", "Description of refactor", "High Impact", "Complex", "Led effort",
         mapOf(Pillar.DEFINES to Score(3), Pillar.DELIVERS to Score(4)),
         emptyList(), emptyList(), EvidenceStatus.DRAFT, LocalDate.now(), LocalDate.now()
     )
@@ -127,7 +127,7 @@ class EvidenceControllerTest {
     fun `should create evidence from multipart form and redirect to list`() {
         `when`(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(mockUser))
         `when`(evidenceService.createEvidence(any(UUID::class.java), any(String::class.java))).thenReturn(mockEvidence)
-        `when`(evidenceService.updateEvidence(any(UUID::class.java), any(String::class.java), any(String::class.java), any(String::class.java), any(String::class.java), any())).thenReturn(mockEvidence)
+        `when`(evidenceService.updateEvidence(any(UUID::class.java), any(String::class.java), any(String::class.java), any(String::class.java), any(String::class.java), any(String::class.java), any())).thenReturn(mockEvidence)
 
         val attachment = MockMultipartFile(
             "attachment", "evidence.txt", MediaType.TEXT_PLAIN_VALUE, "some content".toByteArray()
@@ -137,6 +137,7 @@ class EvidenceControllerTest {
             multipart("/evidence/new")
                 .file(attachment)
                 .param("title", "Project X Refactor")
+                .param("description", "Description of refactor")
                 .param("impact", "High Impact")
                 .param("complexity", "Complex")
                 .param("contribution", "Led effort")
@@ -157,6 +158,7 @@ class EvidenceControllerTest {
         mockMvc.perform(
             multipart("/evidence/new")
                 .param("title", "")
+                .param("description", "")
                 .param("impact", "Some impact")
                 .param("complexity", "Low")
                 .param("contribution", "Helped")
@@ -232,7 +234,7 @@ class EvidenceControllerTest {
     @WithMockUser(username = "user@example.com")
     fun `should redirect when trying to edit non-DRAFT evidence`() {
         val submittedEvidence = Evidence(
-            evidenceId, userId, "Project X Refactor", "High Impact", "Complex", "Led effort",
+            evidenceId, userId, "Project X Refactor", "Description", "High Impact", "Complex", "Led effort",
             mapOf(Pillar.DEFINES to Score(3)), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
@@ -253,7 +255,7 @@ class EvidenceControllerTest {
     fun `should update DRAFT evidence and redirect to list`() {
         `when`(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(mockUser))
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(mockEvidence))
-        `when`(evidenceService.updateEvidence(any(), any(), any(), any(), any(), any())).thenReturn(mockEvidence)
+        `when`(evidenceService.updateEvidence(any(), any(), any(), any(), any(), any(), any())).thenReturn(mockEvidence)
 
         val attachment = MockMultipartFile(
             "attachment", "", MediaType.TEXT_PLAIN_VALUE, ByteArray(0)
@@ -264,6 +266,7 @@ class EvidenceControllerTest {
             multipart("/evidence/$evidenceId/edit")
                 .file(attachment)
                 .param("title", "Updated Title")
+                .param("description", "Updated Description")
                 .param("impact", "Updated Impact")
                 .param("complexity", "Low")
                 .param("contribution", "Pair programmed")
@@ -298,7 +301,7 @@ class EvidenceControllerTest {
         java.nio.file.Files.write(fullPath, "hello world".toByteArray())
         
         val evidenceWithAttachment = Evidence(
-            mockEvidence.id(), mockEvidence.userId(), mockEvidence.title(), mockEvidence.impact(),
+            mockEvidence.id(), mockEvidence.userId(), mockEvidence.title(), mockEvidence.description(), mockEvidence.impact(),
             mockEvidence.complexity(), mockEvidence.contribution(), mockEvidence.selfAssessment(),
             mockEvidence.links(), listOf(fullPath.toString()), mockEvidence.status(),
             mockEvidence.createdDate(), mockEvidence.lastModifiedDate()

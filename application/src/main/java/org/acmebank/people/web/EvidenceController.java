@@ -84,6 +84,7 @@ public class EvidenceController {
             Principal principal,
             HttpServletRequest request,
             @RequestParam("title") String title,
+            @RequestParam(value = "description", defaultValue = "") String description,
             @RequestParam(value = "impact", defaultValue = "") String impact,
             @RequestParam(value = "complexity", defaultValue = "") String complexity,
             @RequestParam(value = "contribution", defaultValue = "") String contribution,
@@ -91,9 +92,9 @@ public class EvidenceController {
             @RequestParam(value = "attachment", required = false) MultipartFile attachment,
             Model model) {
 
-        if (title == null || title.isBlank()) {
+        if (title == null || title.isBlank() || description == null || description.isBlank()) {
             model.addAttribute("pillars", Pillar.values());
-            model.addAttribute("error", "Title is required.");
+            model.addAttribute("error", "Complete Title and Description are required.");
             return "evidence-form";
         }
 
@@ -108,10 +109,8 @@ public class EvidenceController {
         Evidence created = evidenceService.createEvidence(user.id(), title);
         
         // If we have additional data, update it
-        if (!impact.isBlank() || !complexity.isBlank() || !contribution.isBlank() || !selfAssessment.isEmpty()) {
-            created = evidenceService.updateEvidence(
-                    created.id(), title, impact, complexity, contribution, selfAssessment);
-        }
+        created = evidenceService.updateEvidence(
+                created.id(), title, description, impact, complexity, contribution, selfAssessment);
 
         // Handle file attachment - ensure the path is actually saved to the Evidence object!
         if (attachment != null && !attachment.isEmpty()) {
@@ -126,7 +125,7 @@ public class EvidenceController {
                 // For now, we utilize the updateEvidence with existing data + new paths if possible,
                 // otherwise we rely on the service to handle it.
                 evidenceRepository.save(new Evidence(
-                    created.id(), created.userId(), created.title(), created.impact(),
+                    created.id(), created.userId(), created.title(), created.description(), created.impact(),
                     created.complexity(), created.contribution(), created.selfAssessment(),
                     created.links(), paths, created.status(), created.createdDate(), java.time.LocalDate.now()
                 ));
@@ -200,6 +199,7 @@ public class EvidenceController {
             Principal principal,
             HttpServletRequest request,
             @RequestParam("title") String title,
+            @RequestParam(value = "description", defaultValue = "") String description,
             @RequestParam(value = "impact", defaultValue = "") String impact,
             @RequestParam(value = "complexity", defaultValue = "") String complexity,
             @RequestParam(value = "contribution", defaultValue = "") String contribution,
@@ -215,15 +215,15 @@ public class EvidenceController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        if (title == null || title.isBlank()) {
+        if (title == null || title.isBlank() || description == null || description.isBlank()) {
             model.addAttribute("evidence", evidence);
             model.addAttribute("pillars", Pillar.values());
-            model.addAttribute("error", "Title is required.");
+            model.addAttribute("error", "Complete Title and Description are required.");
             return "evidence-form";
         }
 
         Map<Pillar, Score> selfAssessment = buildSelfAssessment(selectedPillars, request);
-        Evidence updated = evidenceService.updateEvidence(id, title, impact, complexity, contribution, selfAssessment);
+        Evidence updated = evidenceService.updateEvidence(id, title, description, impact, complexity, contribution, selfAssessment);
 
         if (attachment != null && !attachment.isEmpty()) {
             String savedPath = saveAttachment(id, attachment);
@@ -232,7 +232,7 @@ public class EvidenceController {
                 paths.add(savedPath);
                 
                 evidenceRepository.save(new Evidence(
-                    updated.id(), updated.userId(), updated.title(), updated.impact(),
+                    updated.id(), updated.userId(), updated.title(), updated.description(), updated.impact(),
                     updated.complexity(), updated.contribution(), updated.selfAssessment(),
                     updated.links(), paths, updated.status(), updated.createdDate(), java.time.LocalDate.now()
                 ));

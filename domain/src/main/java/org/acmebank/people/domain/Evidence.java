@@ -9,6 +9,7 @@ public record Evidence(
         UUID id,
         UUID userId,
         String title,
+        String description,
         String impact,
         String complexity,
         String contribution,

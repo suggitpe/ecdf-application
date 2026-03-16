@@ -73,6 +73,10 @@
     <div class="glass-panel p-6 mb-6">
         <h2 class="section-title mb-4">Evidence Details</h2>
         <div class="detail-fields">
+            <div class="detail-field mb-5">
+                <h3 class="field-label">Full Description</h3>
+                <p class="field-value whitespace-pre-wrap" th:text="${evidence.description()}">Detailed description of the work...</p>
+            </div>
             <div class="detail-field mb-4">
                 <h3 class="field-label">Impact</h3>
                 <p class="field-value" th:text="${evidence.impact()}">Description of impact...</p>

@@ -48,6 +48,21 @@
                 <p class="form-hint">A concise title summarising the piece of work or achievement.</p>
             </div>
 
+            <!-- Description -->
+            <div class="form-group mb-5">
+                <label for="description" class="form-label">
+                    Full Description <span class="required-star">*</span>
+                </label>
+                <textarea id="description"
+                          name="description"
+                          class="form-control"
+                          rows="4"
+                          required
+                          placeholder="Provide a detailed free-form description of the work performed..."
+                          th:text="${evidence?.description()}"></textarea>
+                <p class="form-hint">Detailed explanation of the task, context, and execution.</p>
+            </div>
+
             <!-- Impact -->
             <div class="form-group mb-5">
                 <label for="impact" class="form-label">Impact</label>

@@ -8,7 +8,6 @@ import org.acmebank.people.domain.port.EvidenceRepository;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,9 +24,10 @@ public class EvidenceService {
                 UUID.randomUUID(),
                 userId,
                 title,
-                "",
-                "",
-                "",
+                "", // description
+                "", // impact
+                "", // complexity
+                "", // contribution
                 Collections.emptyMap(),
                 Collections.emptyList(),
                 Collections.emptyList(),
@@ -49,6 +49,7 @@ public class EvidenceService {
                 evidence.id(),
                 evidence.userId(),
                 evidence.title(),
+                evidence.description(),
                 evidence.impact(),
                 evidence.complexity(),
                 evidence.contribution(),
@@ -62,7 +63,7 @@ public class EvidenceService {
         return evidenceRepository.save(submittedEvidence);
     }
 
-    public Evidence updateEvidence(UUID evidenceId, String title, String impact, String complexity, String contribution,
+    public Evidence updateEvidence(UUID evidenceId, String title, String description, String impact, String complexity, String contribution,
             Map<Pillar, Score> selfAssessment) {
         Evidence evidence = evidenceRepository.findById(evidenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Evidence not found with ID: " + evidenceId));
@@ -75,6 +76,7 @@ public class EvidenceService {
                 evidence.id(),
                 evidence.userId(),
                 title,
+                description,
                 impact,
                 complexity,
                 contribution,

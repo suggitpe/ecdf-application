@@ -52,6 +52,7 @@ class EvidenceServiceTest {
             evidenceId, 
             UUID.randomUUID(), 
             "Test", 
+            "Description",
             "Impact", 
             "Complexity", 
             "Contribution", 
@@ -81,6 +82,7 @@ class EvidenceServiceTest {
             evidenceId, 
             UUID.randomUUID(), 
             "Test", 
+            "Description",
             "Impact", 
             "Complexity", 
             "Contribution", 
@@ -111,6 +113,7 @@ class EvidenceServiceTest {
             evidenceId, 
             UUID.randomUUID(), 
             "Test", 
+            "Description",
             "Impact", 
             "Complexity", 
             "Contribution", 
@@ -126,7 +129,7 @@ class EvidenceServiceTest {
 
         // When & Then
         val exception = shouldThrow<IllegalStateException> {
-            evidenceService.updateEvidence(evidenceId, "New Title", "New Impact", "New Complexity", "New Contribution", mapOf(Pillar.THINKS to Score(4)))
+            evidenceService.updateEvidence(evidenceId, "New Title", "New Description", "New Impact", "New Complexity", "New Contribution", mapOf(Pillar.THINKS to Score(4)))
         }
         exception.message shouldBe "Cannot modify evidence that is already SUBMITTED or ASSESSED."
     }
@@ -139,6 +142,7 @@ class EvidenceServiceTest {
             evidenceId, 
             UUID.randomUUID(), 
             "Old Title", 
+            "Old Description",
             "Old Impact", 
             "Old Complexity", 
             "Old Contribution", 
@@ -155,7 +159,7 @@ class EvidenceServiceTest {
 
         // When
         val newAssessment = mapOf(Pillar.THINKS to Score(4))
-        val result = evidenceService.updateEvidence(evidenceId, "New Title", "New Impact", "New Complexity", "New Contribution", newAssessment)
+        val result = evidenceService.updateEvidence(evidenceId, "New Title", "New Description", "New Impact", "New Complexity", "New Contribution", newAssessment)
 
         // Then
         result.title shouldBe "New Title"

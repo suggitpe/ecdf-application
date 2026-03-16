@@ -91,6 +91,7 @@ public class AssessmentService {
                 evidence.id(),
                 evidence.userId(),
                 evidence.title(),
+                evidence.description(),
                 evidence.impact(),
                 evidence.complexity(),
                 evidence.contribution(),

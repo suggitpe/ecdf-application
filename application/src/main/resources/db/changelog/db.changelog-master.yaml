@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/05-evidence-version.yaml
   - include:
       file: db/changelog/06-demo-data.yaml
+  - include:
+      file: db/changelog/07-evidence-description.yaml

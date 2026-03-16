@@ -27,6 +27,9 @@ public class EvidenceEntity {
     private String title;
 
     @Column(nullable = false, length = 4000)
+    private String description;
+
+    @Column(nullable = false, length = 4000)
     private String impact;
 
     @Column(nullable = false, length = 4000)

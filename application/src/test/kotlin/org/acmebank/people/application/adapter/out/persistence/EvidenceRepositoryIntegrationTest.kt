@@ -50,6 +50,7 @@ class EvidenceRepositoryIntegrationTest {
             id = java.util.UUID.randomUUID()
             this.user = savedUser
             title = "Delivered Project X"
+            description = "Detailed description of project X"
             impact = "High impact on business revenue"
             complexity = "Complex architecture changes"
             contribution = "Led the backend implementation"

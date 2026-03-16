@@ -176,7 +176,7 @@ class CheckInServiceTest {
 
     private fun createEvidence(userId: UUID, evidenceId: UUID, createdDate: LocalDate): Evidence {
         return Evidence(
-            evidenceId, userId, "Title", "Impact", "Complexity", "Contribution",
+            evidenceId, userId, "Title", "Description", "Impact", "Complexity", "Contribution",
             emptyMap(), emptyList(), emptyList(), EvidenceStatus.ASSESSED, createdDate, createdDate
         )
     }

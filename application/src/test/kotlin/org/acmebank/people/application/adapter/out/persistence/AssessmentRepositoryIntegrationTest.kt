@@ -63,6 +63,7 @@ class AssessmentRepositoryIntegrationTest {
             id = java.util.UUID.randomUUID()
             this.user = savedDev
             title = "Project Y Refactoring"
+            description = "Detailed description of project Y"
             impact = "Reduced tech debt"
             complexity = "Medium"
             contribution = "Sole contributor"
