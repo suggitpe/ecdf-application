@@ -2,6 +2,7 @@ package org.acmebank.people.web;
 
 import org.acmebank.people.domain.Assessment;
 import org.acmebank.people.domain.Evidence;
+import org.acmebank.people.domain.EvidenceStatus;
 import org.acmebank.people.domain.Pillar;
 import org.acmebank.people.domain.Score;
 import org.acmebank.people.domain.User;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/assessment")
@@ -73,9 +75,41 @@ public class AssessmentController {
 
     @GetMapping("/queue")
     public String showQueue(Principal principal, Model model) {
-        User assessor = resolveUser(principal);
-        List<Assessment> assessments = assessmentRepository.findByAssessorId(assessor.id());
-        model.addAttribute("assessments", assessments);
+        User user = resolveUser(principal);
+        
+        // 1. Evidence from direct reports that needs review
+        List<User> reports = userRepository.findByManagerId(user.id());
+        List<Evidence> teamEvidence = new ArrayList<>();
+        for (User report : reports) {
+            teamEvidence.addAll(evidenceRepository.findByUserIdAndStatus(report.id(), EvidenceStatus.SUBMITTED));
+        }
+        
+        // 2. Assessments explicitly assigned to this user (as Manager or ITA)
+        List<Assessment> pendingAssessments = assessmentRepository.findByAssessorId(user.id())
+                .stream()
+                .filter(a -> a.assessedScores() == null)
+                .collect(Collectors.toList());
+
+        Map<UUID, String> userNames = new HashMap<>();
+        for (Evidence evidence : teamEvidence) {
+            userRepository.findById(evidence.userId()).ifPresent(u -> userNames.put(u.id(), u.fullName()));
+        }
+        Map<UUID, String> evidenceTitles = new HashMap<>();
+        for (Evidence evidence : teamEvidence) {
+            evidenceTitles.put(evidence.id(), evidence.title());
+        }
+        for (Assessment assessment : pendingAssessments) {
+            evidenceRepository.findById(assessment.evidenceId()).ifPresent(evidence -> {
+                evidenceTitles.put(assessment.id(), evidence.title());
+                userRepository.findById(evidence.userId()).ifPresent(userReport -> userNames.put(assessment.id(), userReport.fullName()));
+            });
+        }
+
+        model.addAttribute("teamEvidence", teamEvidence);
+        model.addAttribute("pendingAssessments", pendingAssessments);
+        model.addAttribute("userNames", userNames);
+        model.addAttribute("evidenceTitles", evidenceTitles);
+        
         return "assessor-queue";
     }
 

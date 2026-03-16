@@ -108,13 +108,23 @@ class AssessmentControllerTest {
 
     @Test
     @WithMockUser(username = "mgr@example.com")
-    fun `should show assessor queue view`() {
+    fun `should show assessor queue view with reports and assignments`() {
+        val reporterId = UUID.randomUUID()
+        val reporter = User(reporterId, "dev@example.com", "Reporter", null, null, false)
+        val teamEvidence = Evidence(
+            UUID.randomUUID(), reporterId, "Team Project", "Impact", "Complex", "Contrib",
+            emptyMap(), emptyList(), emptyList(), EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
+        )
+
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockAssessor))
+        `when`(userRepository.findByManagerId(assessorId)).thenReturn(listOf(reporter))
+        `when`(evidenceRepository.findByUserIdAndStatus(reporterId, EvidenceStatus.SUBMITTED)).thenReturn(listOf(teamEvidence))
         `when`(assessmentRepository.findByAssessorId(assessorId)).thenReturn(emptyList())
 
         mockMvc.perform(get("/assessment/queue"))
             .andExpect(status().isOk)
             .andExpect(view().name("assessor-queue"))
-            .andExpect(model().attributeExists("assessments"))
+            .andExpect(model().attributeExists("teamEvidence"))
+            .andExpect(model().attributeExists("pendingAssessments"))
     }
 }
