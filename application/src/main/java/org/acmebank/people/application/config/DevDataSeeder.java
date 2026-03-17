@@ -78,32 +78,42 @@ public class DevDataSeeder {
 
                 // Only seed evidence if they don't have any
                 if (evidenceRepository.findByUserId(engineer.id()).isEmpty()) {
-                    int count = 3 + random.nextInt(3);
-                    for (int i = 1; i <= count; i++) {
+                    int count = 4; // Use a fixed count to ensure we cover all pillars
+                    for (int i = 0; i < count; i++) {
                         Map<Pillar, Score> selfScores = new EnumMap<>(Pillar.class);
                         Map<Pillar, Score> mgrScores = new EnumMap<>(Pillar.class);
                         
-                        for (int pIdx = 0; pIdx < 4; pIdx++) {
-                            Pillar p = Pillar.values()[pIdx % Pillar.values().length];
+                        // Distribute pillars: each evidence covers a subset of pillars
+                        // With 4 evidences and 9 pillars, we can do 2-3 pillars per evidence
+                        int pillarsPerEvidence = 3;
+                        for (int j = 0; j < pillarsPerEvidence; j++) {
+                            int pillarIdx = (i * pillarsPerEvidence + j) % Pillar.values().length;
+                            Pillar p = Pillar.values()[pillarIdx];
                             int scoreVal = 2 + random.nextInt(3);
                             selfScores.put(p, new Score(scoreVal));
                             mgrScores.put(p, new Score(scoreVal));
                         }
 
+                        // Make the first evidence SUBMITTED (Draft state for assessment)
+                        EvidenceStatus status = (i == 0) ? EvidenceStatus.SUBMITTED : EvidenceStatus.MANAGER_ASSESSED;
+
                         Evidence evidence = evidenceRepository.save(new Evidence(
                             null, engineer.id(), 
-                            "Project " + (char)('A' + i) + " Implementation",
+                            "Project " + (char)('A' + i + 1) + " Implementation",
                             loremIpsum, loremIpsum, loremIpsum, loremIpsum,
                             selfScores, Collections.emptyList(), Collections.emptyList(),
-                            EvidenceStatus.MANAGER_ASSESSED,
-                            LocalDate.now().minusMonths(i), LocalDate.now().minusMonths(i)
+                            status,
+                            LocalDate.now().minusMonths(i + 1), LocalDate.now().minusMonths(i + 1)
                         ));
 
-                        assessmentRepository.save(new Assessment(
-                            null, evidence.id(), manager.id(),
-                            mgrScores, "Assessed based on project outcomes.",
-                            false, LocalDate.now().minusMonths(i)
-                        ));
+                        // Only save assessment if status is MANAGER_ASSESSED
+                        if (status == EvidenceStatus.MANAGER_ASSESSED) {
+                            assessmentRepository.save(new Assessment(
+                                null, evidence.id(), manager.id(),
+                                mgrScores, "Assessed based on project outcomes.",
+                                false, LocalDate.now().minusMonths(i + 1)
+                            ));
+                        }
                     }
                 }
 
