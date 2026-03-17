@@ -7,6 +7,7 @@ import org.acmebank.people.application.adapter.out.persistence.repository.GradeJ
 import org.acmebank.people.domain.Grade;
 import org.acmebank.people.domain.port.GradeRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class JpaGradeRepositoryAdapter implements GradeRepository {
 
     private final GradeJpaRepository gradeJpaRepository;
@@ -27,18 +29,21 @@ public class JpaGradeRepositoryAdapter implements GradeRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Grade> findById(UUID id) {
         return gradeJpaRepository.findById(id)
                 .map(DomainPersistenceMapper::toDomainGrade);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Grade> findByNameAndRole(String name, String role) {
         return gradeJpaRepository.findByNameAndRole(name, role)
                 .map(DomainPersistenceMapper::toDomainGrade);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Grade> findAll() {
         return gradeJpaRepository.findAll().stream()
                 .map(DomainPersistenceMapper::toDomainGrade)

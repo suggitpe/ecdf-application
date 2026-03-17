@@ -9,13 +9,15 @@ import org.acmebank.people.domain.port.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Collections;
 import java.util.Random;
+import java.util.UUID;
+import java.util.function.Supplier;
 import org.acmebank.people.domain.Assessment;
 import org.acmebank.people.domain.CheckIn;
 import org.acmebank.people.domain.CheckInStatus;
@@ -29,6 +31,7 @@ import org.acmebank.people.domain.port.EvidenceRepository;
 public class DevDataSeeder {
 
     @Bean
+    @Transactional
     public CommandLineRunner seedData(
             UserRepository userRepository, 
             GradeRepository gradeRepository, 
@@ -39,21 +42,29 @@ public class DevDataSeeder {
             Random random = new Random();
             String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-            // Ensure Grades exist
-            Map<Pillar, Score> expectations = new EnumMap<>(Pillar.class);
+            // Define expectations (demonstrating individual pillar levels)
+            Map<Pillar, Score> vpExpectations = new EnumMap<>(Pillar.class);
+            Map<Pillar, Score> directorExpectations = new EnumMap<>(Pillar.class);
+            
+            // Default baseline scores
             for (Pillar p : Pillar.values()) {
-                expectations.put(p, new Score(3));
+                vpExpectations.put(p, new Score(3));
+                directorExpectations.put(p, new Score(4));
             }
 
-            Grade managerGrade = gradeRepository.findByNameAndRole("Director", "Management")
-                    .orElseGet(() -> gradeRepository.save(new Grade(null, "Director", "Management", expectations)));
+            // Example of setting individual pillar levels (e.g. higher expectations for some technical/behavioral aspects)
+            // vpExpectations.put(Pillar.DELIVERS, new Score(4)); 
+            // directorExpectations.put(Pillar.INFLUENCES, new Score(5));
 
-            Grade engineerGrade = gradeRepository.findByNameAndRole("Vice President", "Engineering")
-                    .orElseGet(() -> gradeRepository.save(new Grade(null, "Vice President", "Engineering", expectations)));
+            Grade managerGrade = ensureGrade(gradeRepository, "Director", "Management", directorExpectations);
+            Grade engineerGrade = ensureGrade(gradeRepository, "Vice President", "Engineering", vpExpectations);
 
-            // Ensure Manager exists (manager@example.com is Mary in Liquibase, we'll keep it as the primary manager)
-            User manager = userRepository.findByEmail("manager@example.com")
-                    .orElseGet(() -> userRepository.save(new User(null, "manager@example.com", "Manager Mary", managerGrade, null, true)));
+            User manager = userRepository.findByEmail("manager@example.com").orElse(null);
+            if (manager == null) {
+                manager = userRepository.save(new User(null, "manager@example.com", "Manager Mary", managerGrade, null, true));
+            } else if (manager.grade() == null) {
+                manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managerGrade, manager.managerId(), manager.isIta()));
+            }
 
             // Define our target engineers
             Map<String, String> targetEngineers = Map.of(
@@ -70,9 +81,21 @@ public class DevDataSeeder {
                 if (engineer == null) {
                     engineer = userRepository.save(new User(null, email, name, engineerGrade, manager.id(), false));
                 } else {
-                    // Update manager association if missing
-                    if (engineer.managerId() == null) {
-                        engineer = userRepository.save(new User(engineer.id(), engineer.email(), engineer.fullName(), engineer.grade(), manager.id(), engineer.isIta()));
+                    boolean needsUpdate = false;
+                    Grade currentGrade = engineer.grade();
+                    UUID currentManagerId = engineer.managerId();
+                    
+                    if (currentGrade == null) {
+                        currentGrade = engineerGrade;
+                        needsUpdate = true;
+                    }
+                    if (currentManagerId == null) {
+                        currentManagerId = manager.id();
+                        needsUpdate = true;
+                    }
+                    
+                    if (needsUpdate) {
+                        engineer = userRepository.save(new User(engineer.id(), engineer.email(), engineer.fullName(), currentGrade, currentManagerId, engineer.isIta()));
                     }
                 }
 
@@ -122,6 +145,10 @@ public class DevDataSeeder {
                     CheckInStatus status = email.equals("charlie@example.com") ? CheckInStatus.READY_FOR_PROMOTION : 
                                          (email.equals("user@example.com") ? CheckInStatus.UNDERPERFORMING : CheckInStatus.ON_TRACK);
                     
+                    checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(), 
+                        LocalDate.now().minusMonths(3), LocalDate.now(), 
+                        vpExpectations, "Quarterly review summary for " + engineer.fullName(), 
+                        status, LocalDate.now()));
                 }
             }
 
@@ -157,5 +184,16 @@ public class DevDataSeeder {
                 }
             }
         };
+    }
+
+    private Grade ensureGrade(GradeRepository repository, String name, String role, Map<Pillar, Score> expectations) {
+        return repository.findByNameAndRole(name, role)
+                .map(existing -> {
+                    if (!existing.expectations().equals(expectations)) {
+                        return repository.save(new Grade(existing.id(), name, role, expectations));
+                    }
+                    return existing;
+                })
+                .orElseGet(() -> repository.save(new Grade(null, name, role, expectations)));
     }
 }

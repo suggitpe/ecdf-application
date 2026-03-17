@@ -9,6 +9,7 @@ import org.acmebank.people.application.adapter.out.persistence.repository.UserJp
 import org.acmebank.people.domain.User;
 import org.acmebank.people.domain.port.UserRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class JpaUserRepositoryAdapter implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
@@ -40,18 +42,21 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findById(UUID id) {
         return userJpaRepository.findById(id)
                 .map(DomainPersistenceMapper::toDomainUser);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userJpaRepository.findByEmail(email)
                 .map(DomainPersistenceMapper::toDomainUser);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findByManagerId(UUID managerId) {
         return userJpaRepository.findByManagerId(managerId).stream()
                 .map(DomainPersistenceMapper::toDomainUser)
@@ -59,6 +64,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findItas() {
         return userJpaRepository.findByIsItaTrue().stream()
                 .map(DomainPersistenceMapper::toDomainUser)
@@ -66,6 +72,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     }
  
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         return userJpaRepository.findAll().stream()
                 .map(DomainPersistenceMapper::toDomainUser)

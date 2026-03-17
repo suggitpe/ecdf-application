@@ -92,7 +92,7 @@ public class AssessmentController {
 
         Map<UUID, String> userNames = new HashMap<>();
         for (Evidence evidence : teamEvidence) {
-            userRepository.findById(evidence.userId()).ifPresent(u -> userNames.put(u.id(), u.fullName()));
+            userRepository.findById(evidence.userId()).ifPresent(u -> userNames.put(evidence.id(), u.fullName()));
         }
         Map<UUID, String> evidenceTitles = new HashMap<>();
         for (Evidence evidence : teamEvidence) {
