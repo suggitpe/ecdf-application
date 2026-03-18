@@ -54,7 +54,7 @@ class AssessmentControllerTest {
 
     private val mockEvidence = Evidence(
         evidenceId, userId, "Project X Refactor", "Description", "Impact X", "Complexity Y", "Contribution Z",
-        mapOf(Pillar.DEFINES to Score(3)), emptyList(), emptyList(), 
+        mapOf(Pillar.DESIGNS to Score(3)), emptyList(), emptyList(), 
         EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
     )
 
@@ -81,8 +81,8 @@ class AssessmentControllerTest {
         mockMvc.perform(
             post("/assessment/$evidenceId")
                 .param("reviewSummary", "Great work on the refactor!")
-                .param("pillars", "DEFINES")
-                .param("scores[DEFINES]", "4")
+                .param("pillars", "DESIGNS")
+                .param("scores[DESIGNS]", "4")
                 .with(csrf())
         )
             .andExpect(status().is3xxRedirection)

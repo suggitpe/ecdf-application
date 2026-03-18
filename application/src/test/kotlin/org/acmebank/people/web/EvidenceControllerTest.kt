@@ -80,7 +80,7 @@ class EvidenceControllerTest {
 
     private val mockEvidence = Evidence(
         evidenceId, userId, "Project X Refactor", "Description of refactor", "High Impact", "Complex", "Led effort",
-        mapOf(Pillar.DEFINES to Score(3), Pillar.DELIVERS to Score(4)),
+        mapOf(Pillar.DESIGNS to Score(3), Pillar.DELIVERS to Score(4)),
         emptyList(), emptyList(), EvidenceStatus.DRAFT, LocalDate.now(), LocalDate.now()
     )
 
@@ -143,8 +143,8 @@ class EvidenceControllerTest {
                 .param("impact", "High Impact")
                 .param("complexity", "Complex")
                 .param("contribution", "Led effort")
-                .param("pillars", "DEFINES", "DELIVERS")
-                .param("scores[DEFINES]", "3")
+                .param("pillars", "DESIGNS", "DELIVERS")
+                .param("scores[DESIGNS]", "3")
                 .param("scores[DELIVERS]", "4")
                 .with(csrf())
         )
@@ -237,7 +237,7 @@ class EvidenceControllerTest {
     fun `should redirect when trying to edit non-DRAFT evidence`() {
         val submittedEvidence = Evidence(
             evidenceId, userId, "Project X Refactor", "Description", "High Impact", "Complex", "Led effort",
-            mapOf(Pillar.DEFINES to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.DESIGNS to Score(3)), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
         `when`(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(mockUser))
@@ -272,8 +272,8 @@ class EvidenceControllerTest {
                 .param("impact", "Updated Impact")
                 .param("complexity", "Low")
                 .param("contribution", "Pair programmed")
-                .param("pillars", "DEFINES")
-                .param("scores[DEFINES]", "2")
+                .param("pillars", "DESIGNS")
+                .param("scores[DESIGNS]", "2")
                 .with(csrf())
         )
             .andExpect(status().is3xxRedirection)

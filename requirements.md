@@ -4,11 +4,11 @@ This document outlines the business requirements for the Engineer Career Develop
 
 ## 1. Domain Context: The ECDF Framework
 - **ECDF**: Engineer Career Development Framework.
-- **Pillars**: 9 total.
+- **Pillars**: 8 total.
   - *Behavioral (4)*: Thinks, Engages, Influences, Achieves.
-  - *Technical (5)*: Defines, Designs, Delivers, Controls, Operates.
+  - *Technical (4)*: Designs, Delivers, Controls, Operates.
 - **Scoring**: 1 to 5 scale for each pillar, based on the **Dreyfus model of skill acquisition** (1=Novice, 2=Advanced Beginner, 3=Competent, 4=Proficient, 5=Expert).
-- **Roles, Grades & Expectations**: Different roles and grade levels will have different expected baseline scores for each of the 9 pillars.
+- **Roles, Grades & Expectations**: Different roles and grade levels will have different expected baseline scores for each of the 8 pillars.
   - *Example Baseline*: A "Vice President" role defaults to an expectation of Level 3 across all pillars. A "Director" role defaults to an expectation of Level 4 across all pillars.
 
 ## 2. Evidence Submission
@@ -17,7 +17,7 @@ This document outlines the business requirements for the Engineer Career Develop
   1. **Impact to the firm**
   2. **Complexity to achieve**
   3. **Personal contribution**
-- When submitting evidence, employees select the specific pillars they believe are applicable to the work (typically 2 to 4), NEVER all 9.
+- When submitting evidence, employees select the specific pillars they believe are applicable to the work (typically 2 to 4), NEVER all 8.
 - **Iterative Creation**: The creation of evidence can happen over a period of time, allowing a manager to coach the outcomes before it is finalized.
 - Once finalized and assessed, evidence is captured as an immutable historical fact.
 - Employees **MUST** rate themselves on these selected pillars during submission.

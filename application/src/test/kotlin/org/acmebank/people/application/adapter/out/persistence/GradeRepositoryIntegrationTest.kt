@@ -36,7 +36,7 @@ class GradeRepositoryIntegrationTest {
         
         val savedGrade = gradeRepository.save(grade)
         
-        expectation.id = GradeExpectationId(savedGrade.id, Pillar.DEFINES.name)
+        expectation.id = GradeExpectationId(savedGrade.id, Pillar.DESIGNS.name)
         savedGrade.expectations.add(expectation)
         val finalGrade = gradeRepository.save(savedGrade)
 
@@ -48,7 +48,7 @@ class GradeRepositoryIntegrationTest {
         foundGrade.get().name shouldBe "Senior"
         foundGrade.get().expectations shouldHaveSize 1
         foundGrade.get().expectations[0].expectedScore shouldBe 3
-        foundGrade.get().expectations[0].id.pillar shouldBe Pillar.DEFINES.name
+        foundGrade.get().expectations[0].id.pillar shouldBe Pillar.DESIGNS.name
     }
 
     @Test

@@ -7,7 +7,6 @@ public enum Pillar {
     INFLUENCES,
     ACHIEVES,
     // Technical
-    DEFINES,
     DESIGNS,
     DELIVERS,
     CONTROLS,

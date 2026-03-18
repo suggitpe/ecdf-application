@@ -144,9 +144,10 @@
                                     class="dreyfus-select form-control-sm"
                                     th:id="${'score-' + pillar.name()}"
                                     th:title="|Dreyfus score for ${pillar.name()}|">
+                                <option value="" disabled th:selected="${evidence == null or !evidence.selfAssessment().containsKey(pillar)}">Select...</option>
                                 <option value="1" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 1}">1 — Novice</option>
                                 <option value="2" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 2}">2 — Advanced Beginner</option>
-                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}" selected="selected">3 — Competent</option>
+                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}">3 — Competent</option>
                                 <option value="4" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 4}">4 — Proficient</option>
                                 <option value="5" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 5}">5 — Expert</option>
                             </select>
@@ -157,7 +158,7 @@
                 <h3 class="pillar-category-title mt-6 mb-3">Technical Pillars</h3>
                 <div class="pillar-assessment-grid">
                     <div class="pillar-assessment-card" th:each="pillar : ${pillars}"
-                         th:if="${pillar.name() == 'DEFINES' or pillar.name() == 'DESIGNS' or pillar.name() == 'DELIVERS' or pillar.name() == 'CONTROLS' or pillar.name() == 'OPERATES'}">
+                         th:if="${pillar.name() == 'DESIGNS' or pillar.name() == 'DELIVERS' or pillar.name() == 'CONTROLS' or pillar.name() == 'OPERATES'}">
 
                         <div class="pillar-checkbox-row">
                             <input type="checkbox"
@@ -185,9 +186,10 @@
                                     class="dreyfus-select form-control-sm"
                                     th:id="${'score-' + pillar.name()}"
                                     th:title="|Dreyfus score for ${pillar.name()}|">
+                                <option value="" disabled th:selected="${evidence == null or !evidence.selfAssessment().containsKey(pillar)}">Select...</option>
                                 <option value="1" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 1}">1 — Novice</option>
                                 <option value="2" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 2}">2 — Advanced Beginner</option>
-                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}" selected="selected">3 — Competent</option>
+                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}">3 — Competent</option>
                                 <option value="4" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 4}">4 — Proficient</option>
                                 <option value="5" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 5}">5 — Expert</option>
                             </select>
