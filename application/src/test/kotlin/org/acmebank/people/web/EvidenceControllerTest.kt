@@ -112,10 +112,12 @@ class EvidenceControllerTest {
     @Test
     @WithMockUser(username = "user@example.com")
     fun `should show create evidence form with pillars in model`() {
+        `when`(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(mockUser))
+
         mockMvc.perform(get("/evidence/new"))
             .andExpect(status().isOk)
             .andExpect(view().name("evidence-form"))
-            .andExpect(model().attributeExists("pillars"))
+            .andExpect(model().attributeExists("pillars", "currentUser"))
     }
 
     // -------------------------------------------------------------------------

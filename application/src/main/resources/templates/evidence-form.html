@@ -134,7 +134,12 @@
                         <!-- Dreyfus score selector (1-5) — only active when pillar is checked -->
                         <div class="dreyfus-selector"
                              th:id="${'score-group-' + pillar.name()}">
-                            <label class="dreyfus-label-small">Dreyfus Level</label>
+                            <label class="dreyfus-label-small">
+                                Dreyfus Level
+                                <span th:if="${currentUser != null}" 
+                                      class="text-xs text-blue-300 ml-1 font-normal"
+                                      th:text="'(Expected: ' + ${currentUser.getExpectedPillarLevel(pillar).value()} + ')'"></span>
+                            </label>
                             <select th:name="${'scores[' + pillar.name() + ']'}"
                                     class="dreyfus-select form-control-sm"
                                     th:id="${'score-' + pillar.name()}"
@@ -170,7 +175,12 @@
 
                         <div class="dreyfus-selector"
                              th:id="${'score-group-' + pillar.name()}">
-                            <label class="dreyfus-label-small">Dreyfus Level</label>
+                            <label class="dreyfus-label-small">
+                                Dreyfus Level
+                                <span th:if="${currentUser != null}" 
+                                      class="text-xs text-blue-300 ml-1 font-normal"
+                                      th:text="'(Expected: ' + ${currentUser.getExpectedPillarLevel(pillar).value()} + ')'"></span>
+                            </label>
                             <select th:name="${'scores[' + pillar.name() + ']'}"
                                     class="dreyfus-select form-control-sm"
                                     th:id="${'score-' + pillar.name()}"

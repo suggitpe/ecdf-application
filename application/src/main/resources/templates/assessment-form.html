@@ -103,7 +103,12 @@
 
                                 <div class="dreyfus-selector" th:id="${'score-group-' + pillar.name()}">
                                     <div class="flex justify-between items-center mb-1">
-                                        <label class="dreyfus-label-small">Assessor Score</label>
+                                        <label class="dreyfus-label-small">
+                                            Assessor Score
+                                            <span th:if="${developer != null}" 
+                                                  class="text-xs text-blue-300 ml-1 font-normal"
+                                                  th:text="'(Expected: ' + ${developer.getExpectedPillarLevel(pillar).value()} + ')'"></span>
+                                        </label>
                                         <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
                                               class="text-xs opacity-60" 
                                               th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).value()}">Self: 3</span>
@@ -143,7 +148,12 @@
 
                                 <div class="dreyfus-selector" th:id="${'score-group-' + pillar.name()}">
                                     <div class="flex justify-between items-center mb-1">
-                                        <label class="dreyfus-label-small">Assessor Score</label>
+                                        <label class="dreyfus-label-small">
+                                            Assessor Score
+                                            <span th:if="${developer != null}" 
+                                                  class="text-xs text-blue-300 ml-1 font-normal"
+                                                  th:text="'(Expected: ' + ${developer.getExpectedPillarLevel(pillar).value()} + ')'"></span>
+                                        </label>
                                         <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
                                               class="text-xs opacity-60" 
                                               th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).value()}">Self: 3</span>

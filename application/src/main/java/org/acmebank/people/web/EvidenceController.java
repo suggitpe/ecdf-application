@@ -71,8 +71,9 @@ public class EvidenceController {
     // GET /evidence/new — show create form
     // -------------------------------------------------------------------------
     @GetMapping("/new")
-    public String newEvidenceForm(Model model) {
+    public String newEvidenceForm(Principal principal, Model model) {
         model.addAttribute("pillars", Pillar.values());
+        model.addAttribute("currentUser", resolveUser(principal));
         return "evidence-form";
     }
 
@@ -93,7 +94,9 @@ public class EvidenceController {
             Model model) {
 
         if (title == null || title.isBlank() || description == null || description.isBlank()) {
+            User user = resolveUser(principal);
             model.addAttribute("pillars", Pillar.values());
+            model.addAttribute("currentUser", user);
             model.addAttribute("error", "Complete Title and Description are required.");
             return "evidence-form";
         }
@@ -187,6 +190,7 @@ public class EvidenceController {
 
         model.addAttribute("evidence", evidence);
         model.addAttribute("pillars", Pillar.values());
+        model.addAttribute("currentUser", user);
         return "evidence-form";
     }
 
@@ -218,6 +222,7 @@ public class EvidenceController {
         if (title == null || title.isBlank() || description == null || description.isBlank()) {
             model.addAttribute("evidence", evidence);
             model.addAttribute("pillars", Pillar.values());
+            model.addAttribute("currentUser", user);
             model.addAttribute("error", "Complete Title and Description are required.");
             return "evidence-form";
         }
