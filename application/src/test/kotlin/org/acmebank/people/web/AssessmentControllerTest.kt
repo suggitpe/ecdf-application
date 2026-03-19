@@ -119,7 +119,7 @@ class AssessmentControllerTest {
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockAssessor))
         `when`(userRepository.findByManagerId(assessorId)).thenReturn(listOf(reporter))
         `when`(evidenceRepository.findByUserIdAndStatus(reporterId, EvidenceStatus.SUBMITTED)).thenReturn(listOf(teamEvidence))
-        `when`(assessmentRepository.findByAssessorId(assessorId)).thenReturn(emptyList())
+        `when`(assessmentService.getPendingAssessmentsForITA(assessorId)).thenReturn(emptyList())
 
         mockMvc.perform(get("/assessment/queue"))
             .andExpect(status().isOk)
