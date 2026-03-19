@@ -22,7 +22,7 @@
 - [x] Task: Create Thymeleaf view `assessor-queue.html`
     - [x] Write Tests: Verify view rendering (if applicable)
     - [x] Implement Feature: Build HTML template with Vanilla CSS
-- [~] Task: Create Thymeleaf view `assessment-form.html`
-    - [ ] Write Tests: Verify form binding and validation
-    - [ ] Implement Feature: Build HTML template with blank disabled `<option>` placeholders
+- [x] Task: Create Thymeleaf view `assessment-form.html`
+    - [x] Write Tests: Verify form binding and validation
+    - [x] Implement Feature: Build HTML template with blank disabled `<option>` placeholders
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Web Layer (Controllers and Views)' (Protocol in workflow.md)
