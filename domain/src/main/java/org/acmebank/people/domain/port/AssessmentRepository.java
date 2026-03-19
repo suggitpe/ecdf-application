@@ -13,4 +13,6 @@ public interface AssessmentRepository {
     Optional<Assessment> findByEvidenceId(UUID evidenceId);
 
     List<Assessment> findByAssessorId(UUID assessorId);
+
+    List<Assessment> findPendingByAssessorId(UUID assessorId);
 }

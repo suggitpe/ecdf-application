@@ -3,6 +3,7 @@ package org.acmebank.people.domain.service
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.collections.shouldHaveSize
 import org.acmebank.people.domain.*
 import org.acmebank.people.domain.port.AssessmentRepository
 import org.acmebank.people.domain.port.EvidenceRepository
@@ -233,5 +234,23 @@ class AssessmentServiceTest {
             assessmentService.submitAssessment(evidenceId, assessorId, mapOf(Pillar.THINKS to Score(4)), "Summary")
         }
         exception.message shouldBe "Can only assess evidence that is in SUBMITTED state."
+    }
+
+    @Test
+    fun `should return pending assessments for ITA`() {
+        // Given
+        val itaId = UUID.randomUUID()
+        val pending1 = Assessment(UUID.randomUUID(), UUID.randomUUID(), itaId, null, null, true, null)
+        val pending2 = Assessment(UUID.randomUUID(), UUID.randomUUID(), itaId, null, null, true, null)
+
+        `when`(assessmentRepository.findPendingByAssessorId(itaId)).thenReturn(listOf(pending1, pending2))
+
+        // When
+        val result = assessmentService.getPendingAssessmentsForITA(itaId)
+
+        // Then
+        result shouldHaveSize 2
+        result[0].id shouldBe pending1.id
+        result[1].id shouldBe pending2.id
     }
 }
