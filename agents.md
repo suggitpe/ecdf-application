@@ -23,6 +23,10 @@ This document provides core steering instructions for AI Assistants working on t
 - **Framework**: Spring Boot 3.4.x (Web, Data JPA, Security, Validation, Thymeleaf)
 - **Frontend**: Thymeleaf templates (Server-Side Rendering).
 - **Styling**: Vanilla CSS. Must use a Premium Dark Mode aesthetic with glassmorphism elements and modern typography. No Tailwind.
+- **Frontend Guidelines**: 
+  - When rendering form `<select>` elements for scoring (e.g., 1-5 Dreyfus scale), the default selection for both employees and assessors MUST be a blank disabled `<option>` placeholder, never a predetermined integer.
+  - The employee dashboard must always render a list of the employee's historical check-in records.
+- **Domain Constraints**: The ECDF framework strictly defines **8 pillars**. You must never introduce a 9th pillar (e.g., do not include the deprecated "DEFINES" pillar).
 - **Database**: H2 in-memory database (schema managed via Liquibase).
   - *Critical*: Always initialize an empty master changelog file at `src/main/resources/db/changelog/db.changelog-master.yaml` to prevent Liquibase from failing application startup.
 - **Testing**: Strict Test-Driven Development (TDD). JUnit 5, Mockito, `@WebMvcTest`, and **Testcontainers** for DB integration tests. **JaCoCo** is used for test coverage metrics and is included in the default Gradle task (`.\gradlew`).

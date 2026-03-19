@@ -20,7 +20,7 @@ This document outlines the business requirements for the Engineer Career Develop
 - When submitting evidence, employees select the specific pillars they believe are applicable to the work (typically 2 to 4), NEVER all 8.
 - **Iterative Creation**: The creation of evidence can happen over a period of time, allowing a manager to coach the outcomes before it is finalized.
 - Once finalized and assessed, evidence is captured as an immutable historical fact.
-- Employees **MUST** rate themselves on these selected pillars during submission.
+- Employees **MUST** rate themselves on these selected pillars during submission. The dropdown inputs for these scores must default to a blank unselected state rather than a predefined score.
 - Once submitted, the manager must independently rate the evidence against those pillars.
 - Evidence can include URLs to external resources or file attachments (e.g., PDF reports) as proof.
 
@@ -50,7 +50,7 @@ This document outlines the business requirements for the Engineer Career Develop
 - For an employee who wants to progress beyond their current role, targeted pillars are specifically associated with their PDP to guide their development to the next level on those pillars.
 
 ## 6. Workflows & Permissions
-- **All Users**: Default to seeing their own "Employee Record" on the Dashboard (holistic rating, target expectations, and recent evidence).
+- **All Users**: Default to seeing their own "Employee Record" on the Dashboard (holistic rating, target expectations, recent evidence, and a full chronological history of past check-ins).
 - **Engineers**: Submit evidence, view their own assessments and Check-ins.
 - **Managers**: 
   - Review direct reports' evidence and perform assessments.

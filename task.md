@@ -48,6 +48,7 @@
 - [x] Dashboard View (Default for all roles):
   - [x] Write Controller tests and implement `DashboardController` logic
   - [x] Implement `dashboard.html` template showing holistic score radar chart (using Chart.js) and recent evidence
+  - [x] Display a full historical log of all past Check-Ins on the standard Dashboard.
 - [x] Manager Team/Org View:
   - [x] Write Controller tests and implement `TeamController` logic
   - [x] Implement `team.html` template viewing full reporting hierarchy, grades, and latest Check-In outcomes
@@ -56,6 +57,7 @@
   - [x] Write Controller tests (including multipart file uploads) and implement `EvidenceController`
   - [x] Implement `evidence-list.html`
   - [x] Implement `evidence-form.html` (Engineers select applicable pillars and self-rate; provide Impact, Complexity, Contribution)
+  - [x] Dynamically default employee rating dropdowns to a blank placeholder
   - [x] Implement secure file download endpoint for attachments
 - [x] Evidence Assessment & 3rd-Party Workflow:
   - [x] Write Controller tests and implement `AssessmentController`
