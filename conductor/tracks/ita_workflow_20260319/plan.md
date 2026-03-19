@@ -15,7 +15,7 @@
     - [x] Implement Feature: Add `getPendingAssessmentsForITA` and `submitITAAssessment` methods
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Application Service Layer' (Protocol in workflow.md)
 
-## Phase 3: Web Layer (Controllers and Views)
+## Phase 3: Web Layer (Controllers and Views) [checkpoint: 89ca055]
 - [x] Task: Implement `AssessorController` for viewing the queue and submitting reviews 18fcc74
     - [x] Write Tests: Add `@WebMvcTest` for `AssessorController`
     - [x] Implement Feature: Create controller endpoints
@@ -25,4 +25,4 @@
 - [x] Task: Create Thymeleaf view `assessment-form.html`
     - [x] Write Tests: Verify form binding and validation
     - [x] Implement Feature: Build HTML template with blank disabled `<option>` placeholders
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Web Layer (Controllers and Views)' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Web Layer (Controllers and Views)' (Protocol in workflow.md)
