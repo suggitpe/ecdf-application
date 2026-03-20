@@ -35,13 +35,23 @@ public class CheckInController {
     }
 
     @GetMapping("/user/{userId}")
-    public String checkInHistory(@PathVariable UUID userId, Model model) {
+    public String checkInHistory(@PathVariable UUID userId, Model model, Authentication authentication) {
         User developer = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
         List<CheckIn> checkins = checkInRepository.findByUserId(userId);
 
+        // Determine if the currently logged-in user is the manager (not the employee themselves)
+        boolean isManager = false;
+        if (authentication != null) {
+            User caller = userRepository.findByEmail(authentication.getName()).orElse(null);
+            if (caller != null && !caller.id().equals(userId)) {
+                isManager = true;
+            }
+        }
+
         model.addAttribute("developer", developer);
         model.addAttribute("checkins", checkins);
+        model.addAttribute("isManager", isManager);
         return "checkin-list";
     }
 
