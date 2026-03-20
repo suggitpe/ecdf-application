@@ -98,20 +98,25 @@
                     <div th:if="${checkIn.holisticScores != null and !checkIn.holisticScores.isEmpty()}">
                         <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">ECDF Holistic Scores</h4>
                         <div class="pillar-assessment-grid">
-                            <div class="pillar-score-card" th:each="scoreEntry : ${checkIn.holisticScores}">
-                                <div class="pillar-name" th:text="${scoreEntry.key.name()}">THINKS</div>
-                                <div class="dreyfus-score">
+                            <div class="pillar-score-card" th:each="pillar : ${pillars}">
+                                <div class="pillar-name" th:text="${pillar.name()}">THINKS</div>
+                                <div class="dreyfus-score" th:if="${checkIn.holisticScores != null and checkIn.holisticScores.containsKey(pillar)}">
                                     <div class="score-display">
-                                        <span class="score-value" th:text="${scoreEntry.value.value()}">3</span>
+                                        <span class="score-value" th:text="${checkIn.holisticScores.get(pillar).value()}">3</span>
                                         <span class="score-max">/5</span>
                                     </div>
                                     <div class="score-dots">
                                         <span th:each="i : ${#numbers.sequence(1, 5)}"
                                               class="score-dot"
-                                              th:classappend="${i <= scoreEntry.value.value()} ? ' filled' : ''"></span>
+                                              th:classappend="${i <= checkIn.holisticScores.get(pillar).value()} ? ' filled' : ''"></span>
                                     </div>
                                 </div>
-                                <div class="dreyfus-label" th:switch="${scoreEntry.value.value()}">
+                                <div class="dreyfus-score" th:unless="${checkIn.holisticScores != null and checkIn.holisticScores.containsKey(pillar)}">
+                                    <div class="score-display">
+                                        <span class="score-value">N/A</span>
+                                    </div>
+                                </div>
+                                <div class="dreyfus-label" th:if="${checkIn.holisticScores != null and checkIn.holisticScores.containsKey(pillar)}" th:switch="${checkIn.holisticScores.get(pillar).value()}">
                                     <span th:case="1">Novice</span>
                                     <span th:case="2">Adv. Beginner</span>
                                     <span th:case="3">Competent</span>

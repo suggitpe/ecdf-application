@@ -13,6 +13,7 @@ import org.acmebank.people.domain.port.CheckInRepository;
 import org.acmebank.people.domain.port.EvidenceRepository;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +107,8 @@ public class CheckInService {
         List<Evidence> assessedEvidence = new java.util.ArrayList<>(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED));
         assessedEvidence.addAll(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED));
 
+        assessedEvidence.sort(Comparator.comparing(Evidence::createdDate).reversed());
+
         Map<Pillar, Score> aggregatedScores = new EnumMap<>(Pillar.class);
 
         for (Evidence evidence : assessedEvidence) {
@@ -125,9 +128,8 @@ public class CheckInService {
                     for (Map.Entry<Pillar, Score> entry : assessment.assessedScores().entrySet()) {
                         Pillar pillar = entry.getKey();
                         Score currentScore = entry.getValue();
-                        Score existingScore = aggregatedScores.get(pillar);
 
-                        if (existingScore == null || currentScore.value() > existingScore.value()) {
+                        if (!aggregatedScores.containsKey(pillar)) {
                             aggregatedScores.put(pillar, currentScore);
                         }
                     }

@@ -59,15 +59,21 @@ public class DashboardController {
         model.addAttribute("latestCheckIn", latestCheckIn);
         model.addAttribute("historicalCheckIns", sortedCheckIns);
         model.addAttribute("recentEvidence", recentEvidence);
+        model.addAttribute("pillars", Pillar.values());
 
         List<String> radarLabels = new ArrayList<>();
         List<Integer> radarData = new ArrayList<>();
 
-        if (latestCheckIn != null && latestCheckIn.holisticScores() != null) {
-            for (Map.Entry<Pillar, Score> entry : latestCheckIn.holisticScores().entrySet()) {
-                radarLabels.add(entry.getKey().name());
-                radarData.add(entry.getValue().value());
+        for (Pillar pillar : Pillar.values()) {
+            radarLabels.add(pillar.name());
+            int scoreValue = 0;
+            if (latestCheckIn != null && latestCheckIn.holisticScores() != null) {
+                Score score = latestCheckIn.holisticScores().get(pillar);
+                if (score != null) {
+                    scoreValue = score.value();
+                }
             }
+            radarData.add(scoreValue);
         }
 
         model.addAttribute("radarLabels", radarLabels);

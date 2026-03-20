@@ -49,6 +49,23 @@
         </div>
 
         <div class="space-y-6">
+            <div class="card glassmorphism p-6 bg-primary/5">
+                <h3 class="text-lg font-semibold mb-3 text-glow">Captured Score Profile</h3>
+                <p class="text-xs text-muted mb-4 italic">These scores are frozen in this draft.</p>
+                <div class="w-full flex justify-center mb-4">
+                    <canvas id="scoreRadarChart" style="max-height: 250px;"></canvas>
+                </div>
+                <div class="grid grid-cols-1 gap-2">
+                    <div th:each="pillar : ${pillars}" class="flex justify-between items-center text-sm p-2 rounded-md border border-gray-700/50 bg-gray-800/20">
+                        <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
+                        <div class="flex gap-4">
+                             <span class="text-blue-400" title="Expected level based on current grade">Target: <span class="font-bold" th:text="${developer.getExpectedPillarLevel(pillar).value()}">N/A</span></span>
+                             <span class="text-primary" title="Highest assessor score in last 3 years">Actual: <span class="font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 'N/A'}">N/A</span></span>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card glassmorphism p-6 border-l-4 border-info bg-info/5">
                 <h3 class="text-lg font-semibold mb-2 text-info flex items-center gap-2">
                     <span class="material-icons text-sm">info</span>

@@ -220,7 +220,7 @@ class CheckInServiceTest {
     }
 
     @Test
-    fun `should aggregate highest most recent assessments for each pillar`() {
+    fun `should aggregate most recent assessments for each pillar`() {
         // Given
         val userId = UUID.randomUUID()
         val managerId = UUID.randomUUID()
@@ -230,13 +230,12 @@ class CheckInServiceTest {
 
         val evidence1Id = UUID.randomUUID()
         val evidence1 = createEvidence(userId, evidence1Id, LocalDate.now().minusDays(10))
-        val assessment1 = createAssessment(evidence1Id, mapOf(Pillar.THINKS to Score(3)), false)
+        val assessment1 = createAssessment(evidence1Id, mapOf(Pillar.THINKS to Score(4)), false)
 
         val evidence2Id = UUID.randomUUID()
         val evidence2 = createEvidence(userId, evidence2Id, LocalDate.now().minusDays(5))
-        // This assessment has a lower score but is more recent? We should aggregate the HIGHLIGHT of the best valid evidence.
-        // Actually, typical ECDF aggregates the best valid score they've achieved within the window.
-        val assessment2 = createAssessment(evidence2Id, mapOf(Pillar.THINKS to Score(4)), false)
+        // This assessment has a lower score but is more recent. It should take this one.
+        val assessment2 = createAssessment(evidence2Id, mapOf(Pillar.THINKS to Score(3)), false)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(evidence1, evidence2))
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
@@ -248,7 +247,7 @@ class CheckInServiceTest {
         val checkIn = checkInService.createCheckIn(userId, managerId, "Notes", targetGrade, false)
 
         // Then
-        checkIn.holisticScores[Pillar.THINKS] shouldBe Score(4) // It should take the max valid score
+        checkIn.holisticScores[Pillar.THINKS] shouldBe Score(3) // It should take the MOST RECENT score
     }
 
     @Test

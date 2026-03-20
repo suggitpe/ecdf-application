@@ -73,6 +73,8 @@
   - [x] Implement `checkin-edit.html` (Editing support for DRAFT check-ins)
   - [x] Implement `checkin-form.html` for Managers to capture review notes and support Save-as-Draft or Finalize
   - [x] Refined `CheckIn` to a point-in-time assessment model (Removed period dates)
+  - [x] Updated pillar calculation to use the **most recent** assessment for each pillar
+  - [x] Enhanced UI to display **N/A** for unrated pillars across dashboard, check-in details, and forms
   - [x] Surface Grade expectations, full pillar names, and actual scores visually within the Check-In UI
 - [x] Infrastructure & CI/CD:
   - [x] Provision GCP Infrastructure using Terraform (Cloud Run, Artifact Registry, GCS Bucket)

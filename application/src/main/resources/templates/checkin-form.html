@@ -56,7 +56,7 @@
                         <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
                         <div class="flex space-x-4 text-xs">
                             <span class="text-blue-400" title="Expected level based on current grade">Target: <span class="font-bold" th:text="${developer.getExpectedPillarLevel(pillar).value()}">N/A</span></span>
-                            <span class="text-primary" title="Highest assessor score in last 3 years">Actual: <span class="font-bold" th:text="${actualScores.containsKey(pillar) ? actualScores.get(pillar).value() : 0}">0</span></span>
+                            <span class="text-primary" title="Highest assessor score in last 3 years">Actual: <span class="font-bold" th:text="${actualScores.containsKey(pillar) ? actualScores.get(pillar).value() : 'N/A'}">N/A</span></span>
                         </div>
                     </div>
                 </div>

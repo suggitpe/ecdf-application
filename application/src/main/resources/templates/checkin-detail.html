@@ -45,7 +45,7 @@
                 <div class="grid grid-cols-1 gap-2">
                     <div th:each="pillar : ${pillars}" class="flex justify-between items-center text-sm p-2 rounded-md border border-gray-700/50 bg-gray-800/20">
                         <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
-                        <span class="text-primary font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 0}">0</span>
+                        <span class="text-primary font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 'N/A'}">N/A</span>
                     </div>
                 </div>
             </div>
