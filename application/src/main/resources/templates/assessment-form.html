@@ -111,18 +111,18 @@
                                         </label>
                                         <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
                                               class="text-xs opacity-60" 
-                                              th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).value()}">Self: 3</span>
+                                              th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
                                     </div>
                                     <select th:name="${'scores[' + pillar.name() + ']'}"
                                             class="dreyfus-select form-control-sm"
                                             th:id="${'score-' + pillar.name()}"
                                             th:title="|Assessment score for ${pillar.name()}|">
                                         <option value="" disabled th:selected="${!evidence.selfAssessment().containsKey(pillar)}">Select...</option>
-                                        <option value="1" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 1}">1 — Novice</option>
-                                        <option value="2" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 2}">2 — Advanced Beginner</option>
-                                        <option value="3" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}">3 — Competent</option>
-                                        <option value="4" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 4}">4 — Proficient</option>
-                                        <option value="5" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 5}">5 — Expert</option>
+                                        <option value="1" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 1}">1 — Novice</option>
+                                        <option value="2" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 2}">2 — Advanced Beginner</option>
+                                        <option value="3" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 3}">3 — Competent</option>
+                                        <option value="4" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 4}">4 — Proficient</option>
+                                        <option value="5" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 5}">5 — Expert</option>
                                     </select>
                                 </div>
                             </div>
@@ -157,18 +157,18 @@
                                         </label>
                                         <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
                                               class="text-xs opacity-60" 
-                                              th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).value()}">Self: 3</span>
+                                              th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
                                     </div>
                                     <select th:name="${'scores[' + pillar.name() + ']'}"
                                             class="dreyfus-select form-control-sm"
                                             th:id="${'score-' + pillar.name()}"
                                             th:title="|Assessment score for ${pillar.name()}|">
                                         <option value="" disabled th:selected="${!evidence.selfAssessment().containsKey(pillar)}">Select...</option>
-                                        <option value="1" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 1}">1 — Novice</option>
-                                        <option value="2" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 2}">2 — Advanced Beginner</option>
-                                        <option value="3" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}">3 — Competent</option>
-                                        <option value="4" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 4}">4 — Proficient</option>
-                                        <option value="5" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 5}">5 — Expert</option>
+                                        <option value="1" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 1}">1 — Novice</option>
+                                        <option value="2" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 2}">2 — Advanced Beginner</option>
+                                        <option value="3" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 3}">3 — Competent</option>
+                                        <option value="4" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 4}">4 — Proficient</option>
+                                        <option value="5" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 5}">5 — Expert</option>
                                     </select>
                                 </div>
                             </div>

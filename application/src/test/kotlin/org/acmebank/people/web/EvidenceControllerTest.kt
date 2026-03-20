@@ -6,6 +6,7 @@ import org.acmebank.people.domain.Evidence
 import org.acmebank.people.domain.EvidenceStatus
 import org.acmebank.people.domain.Pillar
 import org.acmebank.people.domain.Score
+import org.acmebank.people.domain.EvidenceRating
 import org.acmebank.people.domain.User
 import org.acmebank.people.domain.Grade
 import org.acmebank.people.domain.port.UserRepository
@@ -80,7 +81,7 @@ class EvidenceControllerTest {
 
     private val mockEvidence = Evidence(
         evidenceId, userId, "Project X Refactor", "Description of refactor", "High Impact", "Complex", "Led effort",
-        mapOf(Pillar.DESIGNS to Score(3), Pillar.DELIVERS to Score(4)),
+        mapOf(Pillar.DESIGNS to EvidenceRating(Score(3), ""), Pillar.DELIVERS to EvidenceRating(Score(4), "")),
         emptyList(), emptyList(), EvidenceStatus.DRAFT, LocalDate.now(), LocalDate.now()
     )
 
@@ -237,7 +238,7 @@ class EvidenceControllerTest {
     fun `should redirect when trying to edit non-DRAFT evidence`() {
         val submittedEvidence = Evidence(
             evidenceId, userId, "Project X Refactor", "Description", "High Impact", "Complex", "Led effort",
-            mapOf(Pillar.DESIGNS to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.DESIGNS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
         `when`(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(mockUser))

@@ -64,10 +64,10 @@ public class DomainPersistenceMapper {
     public static Evidence toDomainEvidence(EvidenceEntity entity) {
         if (entity == null)
             return null;
-        Map<Pillar, Score> selfAssessments = entity.getSelfAssessments().stream()
+        Map<Pillar, EvidenceRating> selfAssessments = entity.getSelfAssessments().stream()
                 .collect(Collectors.toMap(
                         sa -> Pillar.valueOf(sa.getId().getPillar()),
-                        sa -> new Score(sa.getScore())));
+                        sa -> new EvidenceRating(new Score(sa.getScore()), sa.getRationale() == null ? "" : sa.getRationale())));
         return new Evidence(
                 entity.getId(),
                 entity.getUser().getId(),
@@ -121,10 +121,11 @@ public class DomainPersistenceMapper {
         // Update self-assessments - we clear and rebuild to maintain consistency with the map
         entity.getSelfAssessments().clear();
         if (domain.selfAssessment() != null) {
-            domain.selfAssessment().forEach((pillar, score) -> {
+            domain.selfAssessment().forEach((pillar, rating) -> {
                 EvidenceSelfAssessmentEntity sa = new EvidenceSelfAssessmentEntity();
                 sa.setId(new EvidenceSelfAssessmentId(domain.id(), pillar.name()));
-                sa.setScore(score.value());
+                sa.setScore(rating.score().value());
+                sa.setRationale(rating.rationale());
                 sa.setEvidence(entity);
                 entity.getSelfAssessments().add(sa);
             });

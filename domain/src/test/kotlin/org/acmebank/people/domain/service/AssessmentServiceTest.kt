@@ -37,7 +37,7 @@ class AssessmentServiceTest {
         val assessorId = UUID.randomUUID()
         val evidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
-            mapOf(Pillar.THINKS to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 
@@ -95,7 +95,7 @@ class AssessmentServiceTest {
         
         val evidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
-            mapOf(Pillar.THINKS to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 
@@ -136,7 +136,7 @@ class AssessmentServiceTest {
         
         val evidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
-            mapOf(Pillar.THINKS to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 
@@ -181,7 +181,7 @@ class AssessmentServiceTest {
         
         val evidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
-            mapOf(Pillar.THINKS to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 
@@ -202,7 +202,7 @@ class AssessmentServiceTest {
         
         val evidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
-            mapOf(Pillar.THINKS to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 
@@ -223,7 +223,7 @@ class AssessmentServiceTest {
         
         val assessedEvidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
-            mapOf(Pillar.THINKS to Score(3)), emptyList(), emptyList(),
+            mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
             EvidenceStatus.MANAGER_ASSESSED, LocalDate.now(), LocalDate.now()
         )
 

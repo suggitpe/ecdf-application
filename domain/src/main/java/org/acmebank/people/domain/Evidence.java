@@ -13,7 +13,7 @@ public record Evidence(
         String impact,
         String complexity,
         String contribution,
-        Map<Pillar, Score> selfAssessment,
+        Map<Pillar, EvidenceRating> selfAssessment,
         List<String> links,
         List<String> attachmentPaths,
         EvidenceStatus status,

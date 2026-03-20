@@ -18,6 +18,9 @@ public class EvidenceSelfAssessmentEntity {
     @Column(nullable = false)
     private int score;
 
+    @Column(length = 4000)
+    private String rationale;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("evidenceId")
     @JoinColumn(name = "evidence_id")

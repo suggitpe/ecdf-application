@@ -21,6 +21,7 @@ This document outlines the business requirements for the Engineer Career Develop
 - **Iterative Creation**: The creation of evidence can happen over a period of time, allowing a manager to coach the outcomes before it is finalized.
 - Once finalized and assessed, evidence is captured as an immutable historical fact.
 - Employees **MUST** rate themselves on these selected pillars during submission. The dropdown inputs for these scores must default to a blank unselected state rather than a predefined score.
+- **Rationale**: When a user selects a pillar rating (employee or assessor), they **MUST** also provide a short description/rationale (minimum length recommended) of why they have selected that specific rating.
 - Once submitted, the manager must independently rate the evidence against those pillars.
 - Evidence can include URLs to external resources or file attachments (e.g., PDF reports) as proof.
 
@@ -69,7 +70,12 @@ This document outlines the business requirements for the Engineer Career Develop
 - Built-in data visualization (e.g., radar charts) to compare holistic scores against grade expectations.
 
 ## 8. Development & Sample Data
-- All pre-seeded sample data used for testing and demonstrations must represent a realistic functional history.
-- The dates for seeded evidence must range sequentially over a **two year** period.
-- Pre-seeded check-in records must also span that same two-year periodic history.
 - All seeded sample data (evidence, check-ins, assessments) must be **at least three months old** relative to the date of execution to validate historical and aging logic.
+
+## 9. Infrastructure & Deployment
+- **Cloud Provider**: Google Cloud Platform (GCP).
+- **Compute**: The application is deployed on **Google Cloud Run** (v2) in the `europe-west2` (London) region for serverless scalability.
+- **Registry**: Container images are stored in **Google Artifact Registry**.
+- **Persistence**: While the database is currently H2 in-memory, persistent evidence attachments are stored in a **Google Cloud Storage (GCS)** bucket, which is mounted to the container's `/data/storage` path using **GCS FUSE**.
+- **CI/CD**: Fully automated building, testing, and delivery pipeline using **GitHub Actions**.
+

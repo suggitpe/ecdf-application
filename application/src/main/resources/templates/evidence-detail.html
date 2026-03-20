@@ -110,21 +110,25 @@
                 <div class="pillar-name" th:text="${entry.key.name()}">DEFINES</div>
                 <div class="dreyfus-score">
                     <div class="score-display">
-                        <span class="score-value" th:text="${entry.value.value()}">3</span>
+                        <span class="score-value" th:text="${entry.value.score().value()}">3</span>
                         <span class="score-max">/5</span>
                     </div>
                     <div class="score-dots">
                         <span th:each="i : ${#numbers.sequence(1, 5)}"
                               class="score-dot"
-                              th:classappend="${i <= entry.value.value()} ? ' filled' : ''"></span>
+                              th:classappend="${i <= entry.value.score().value()} ? ' filled' : ''"></span>
                     </div>
                 </div>
-                <div class="dreyfus-label" th:switch="${entry.value.value()}">
+                <div class="dreyfus-label" th:switch="${entry.value.score().value()}">
                     <span th:case="1">Novice</span>
                     <span th:case="2">Advanced Beginner</span>
                     <span th:case="3">Competent</span>
                     <span th:case="4">Proficient</span>
                     <span th:case="5">Expert</span>
+                </div>
+                <div th:if="${entry.value.rationale() != null and !entry.value.rationale().isBlank()}" class="rationale-text mt-2">
+                    <span class="field-label">Rationale:</span>
+                    <p class="field-value" th:text="${entry.value.rationale()}">Employee's rationale...</p>
                 </div>
             </div>
         </div>

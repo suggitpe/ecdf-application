@@ -59,7 +59,7 @@ class EvidenceServiceTest {
         result.userId shouldBe userId
         result.title shouldBe title
         result.status shouldBe EvidenceStatus.DRAFT
-        result.selfAssessment shouldBe emptyMap<Pillar, Score>()
+        result.selfAssessment shouldBe emptyMap<Pillar, EvidenceRating>()
         result.id shouldNotBe null
         
         verify(evidenceRepository).save(any(Evidence::class.java))
@@ -98,7 +98,7 @@ class EvidenceServiceTest {
     fun `should successfully submit evidence`() {
         // Given
         val evidenceId = UUID.randomUUID()
-        val selfAssessment = mapOf(Pillar.THINKS to Score(3), Pillar.DELIVERS to Score(4))
+        val selfAssessment = mapOf(Pillar.THINKS to EvidenceRating(Score(3), "Reason 1"), Pillar.DELIVERS to EvidenceRating(Score(4), "Reason 2"))
         val draftEvidence = Evidence(
             evidenceId, 
             UUID.randomUUID(), 
@@ -138,7 +138,7 @@ class EvidenceServiceTest {
             "Impact", 
             "Complexity", 
             "Contribution", 
-            mapOf(Pillar.THINKS to Score(3)), 
+            mapOf(Pillar.THINKS to EvidenceRating(Score(3), "testing")), 
             emptyList(), 
             emptyList(), 
             EvidenceStatus.SUBMITTED, 
@@ -150,7 +150,7 @@ class EvidenceServiceTest {
 
         // When & Then
         val exception = shouldThrow<IllegalStateException> {
-            evidenceService.updateEvidence(evidenceId, "New Title", "New Description", "New Impact", "New Complexity", "New Contribution", mapOf(Pillar.THINKS to Score(4)))
+            evidenceService.updateEvidence(evidenceId, "New Title", "New Description", "New Impact", "New Complexity", "New Contribution", mapOf(Pillar.THINKS to EvidenceRating(Score(4), "testing")))
         }
         exception.message shouldBe "Cannot modify evidence that is already SUBMITTED, MANAGER_ASSESSED, or ASSESSED."
     }
@@ -179,7 +179,7 @@ class EvidenceServiceTest {
         `when`(evidenceRepository.save(any(Evidence::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val newAssessment = mapOf(Pillar.THINKS to Score(4))
+        val newAssessment = mapOf(Pillar.THINKS to EvidenceRating(Score(4), "new testing"))
         val result = evidenceService.updateEvidence(evidenceId, "New Title", "New Description", "New Impact", "New Complexity", "New Contribution", newAssessment)
 
         // Then

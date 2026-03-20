@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-evidence-rationale
+      author: antigravity
+      changes:
+        - addColumn:
+            tableName: evidence_self_assessment
+            columns:
+              - column:
+                  name: rationale
+                  type: varchar(4000)
+                  defaultValue: ''
+                  constraints:
+                    nullable: true

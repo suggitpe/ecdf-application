@@ -3,7 +3,7 @@ package org.acmebank.people.domain.service;
 import org.acmebank.people.domain.Evidence;
 import org.acmebank.people.domain.EvidenceStatus;
 import org.acmebank.people.domain.Pillar;
-import org.acmebank.people.domain.Score;
+import org.acmebank.people.domain.EvidenceRating;
 import org.acmebank.people.domain.port.EvidenceRepository;
 
 import java.time.LocalDate;
@@ -64,7 +64,7 @@ public class EvidenceService {
     }
 
     public Evidence updateEvidence(UUID evidenceId, String title, String description, String impact, String complexity, String contribution,
-            Map<Pillar, Score> selfAssessment) {
+            Map<Pillar, EvidenceRating> selfAssessment) {
         Evidence evidence = evidenceRepository.findById(evidenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Evidence not found with ID: " + evidenceId));
 

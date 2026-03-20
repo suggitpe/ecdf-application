@@ -3,6 +3,7 @@ package org.acmebank.people.application.config;
 import org.acmebank.people.domain.Grade;
 import org.acmebank.people.domain.Pillar;
 import org.acmebank.people.domain.Score;
+import org.acmebank.people.domain.EvidenceRating;
 import org.acmebank.people.domain.User;
 import org.acmebank.people.domain.port.GradeRepository;
 import org.acmebank.people.domain.port.UserRepository;
@@ -103,7 +104,7 @@ public class DevDataSeeder {
                 if (evidenceRepository.findByUserId(engineer.id()).isEmpty()) {
                     int count = 4; // Use a fixed count to ensure we cover all pillars
                     for (int i = 0; i < count; i++) {
-                        Map<Pillar, Score> selfScores = new EnumMap<>(Pillar.class);
+                        Map<Pillar, EvidenceRating> selfScores = new EnumMap<>(Pillar.class);
                         Map<Pillar, Score> mgrScores = new EnumMap<>(Pillar.class);
                         
                         // Distribute pillars: each evidence covers a subset of pillars
@@ -113,7 +114,7 @@ public class DevDataSeeder {
                             int pillarIdx = (i * pillarsPerEvidence + j) % Pillar.values().length;
                             Pillar p = Pillar.values()[pillarIdx];
                             int scoreVal = 2 + random.nextInt(3);
-                            selfScores.put(p, new Score(scoreVal));
+                            selfScores.put(p, new EvidenceRating(new Score(scoreVal), "Demonstrated skills for " + p.name()));
                             mgrScores.put(p, new Score(scoreVal));
                         }
 
@@ -162,7 +163,7 @@ public class DevDataSeeder {
             // Seed evidence for the manager persona
             if (evidenceRepository.findByUserId(manager.id()).isEmpty()) {
                 for (int i = 0; i < 2; i++) {
-                    Map<Pillar, Score> selfScores = new EnumMap<>(Pillar.class);
+                    Map<Pillar, EvidenceRating> selfScores = new EnumMap<>(Pillar.class);
                     Map<Pillar, Score> mgrScores = new EnumMap<>(Pillar.class);
 
                     // Assign some pillars for manager evidence (covering different pillars than engineers)
@@ -170,7 +171,7 @@ public class DevDataSeeder {
                     for (int j = 0; j < 3; j++) {
                         Pillar p = Pillar.values()[(startPillar + j) % Pillar.values().length];
                         int scoreVal = 4 + random.nextInt(2); // Managers usually have higher scores (4-5)
-                        selfScores.put(p, new Score(scoreVal));
+                        selfScores.put(p, new EvidenceRating(new Score(scoreVal), "Excellent operational leadership on " + p.name()));
                         mgrScores.put(p, new Score(scoreVal));
                     }
                     

@@ -14,7 +14,8 @@
             <h1 class="text-3xl font-bold mb-1" th:text="${'Welcome, ' + user.fullName}">Welcome, User</h1>
             <p class="text-muted" th:text="${user.grade.name}">Grade</p>
         </div>
-        <div>
+        <div class="flex gap-3">
+            <a th:href="@{/checkins/user/{id}(id=${user.id})}" class="btn btn-secondary">My Check-In History</a>
             <a href="/evidence/new" class="btn btn-primary shadow-sm glow-effect">Add Evidence</a>
         </div>
     </div>
@@ -57,36 +58,75 @@
                 <a href="/evidence" class="text-sm text-primary hover:underline glow-text">View all evidence &rarr;</a>
             </div>
         </div>
-        </div>
     </div>
 
     <!-- Historical Check-Ins -->
     <div class="mt-8 mb-6">
-        <div class="card glassmorphism p-6 flex flex-col">
+        <div class="card glassmorphism p-6">
             <h2 class="text-xl font-semibold mb-4 text-glow">Check-In History</h2>
-            
+
             <div th:if="${#lists.isEmpty(historicalCheckIns)}" class="text-center p-8 text-muted">
                 <p>No formal check-ins have been recorded yet.</p>
             </div>
 
-            <div th:unless="${#lists.isEmpty(historicalCheckIns)}" class="flex flex-col gap-4">
-                <div th:each="checkIn : ${historicalCheckIns}" class="p-5 rounded-md border border-gray-700 hover:border-gray-500 transition-colors bg-darker shadow-inner flex flex-col md:flex-row justify-between md:items-center gap-4">
-                    <div class="flex-grow">
-                        <div class="flex items-center gap-3 mb-2">
+            <div th:unless="${#lists.isEmpty(historicalCheckIns)}" class="flex flex-col gap-6">
+                <div th:each="checkIn : ${historicalCheckIns}"
+                     class="p-5 rounded-md border border-gray-700 hover:border-gray-500 transition-colors bg-darker shadow-inner">
+
+                    <!-- Header row: period, status, date -->
+                    <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 mb-4">
+                        <div class="flex items-center gap-3">
                             <h3 class="font-medium text-lg text-white">
-                                <span th:text="${#temporals.format(checkIn.periodStartDate, 'MMM yyyy')}">Start</span> 
-                                &rarr; 
+                                <span th:text="${#temporals.format(checkIn.periodStartDate, 'MMM yyyy')}">Start</span>
+                                &rarr;
                                 <span th:text="${#temporals.format(checkIn.periodEndDate, 'MMM yyyy')}">End</span>
                             </h3>
-                            <span class="badge" th:classappend="${checkIn.status.name() == 'UNDERPERFORMING' ? 'badge-error' : (checkIn.status.name() == 'OVER_PERFORMING' ? 'badge-success' : 'badge-info')}" th:text="${checkIn.status}">STATUS</span>
+                            <span class="badge"
+                                  th:classappend="${checkIn.status.name() == 'UNDERPERFORMING' ? 'badge-error' :
+                                                  (checkIn.status.name() == 'OVER_PERFORMING' || checkIn.status.name() == 'READY_FOR_PROMOTION' ? 'badge-success' : 'badge-info')}"
+                                  th:text="${checkIn.status}">STATUS</span>
                         </div>
-                        <p class="text-sm text-gray-400" th:text="${checkIn.managerNotes}">Manager's summary notes...</p>
+                        <div class="text-left md:text-right shrink-0">
+                            <div class="text-xs text-gray-500">Recorded on</div>
+                            <div class="text-sm font-medium"
+                                 th:text="${#temporals.format(checkIn.checkInDate, 'dd MMM yyyy')}">Date</div>
+                        </div>
                     </div>
-                    <div class="text-left md:text-right shrink-0">
-                        <div class="text-xs text-gray-500">Recorded on</div>
-                        <div class="text-sm font-medium" th:text="${#temporals.format(checkIn.checkInDate, 'dd MMM yyyy')}">Date</div>
+
+                    <!-- Manager notes -->
+                    <p class="text-sm text-gray-400 mb-4" th:text="${checkIn.managerNotes}">Manager's summary notes...</p>
+
+                    <!-- Holistic ECDF pillar scores -->
+                    <div th:if="${checkIn.holisticScores != null and !checkIn.holisticScores.isEmpty()}">
+                        <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">ECDF Holistic Scores</h4>
+                        <div class="pillar-assessment-grid">
+                            <div class="pillar-score-card" th:each="scoreEntry : ${checkIn.holisticScores}">
+                                <div class="pillar-name" th:text="${scoreEntry.key.name()}">THINKS</div>
+                                <div class="dreyfus-score">
+                                    <div class="score-display">
+                                        <span class="score-value" th:text="${scoreEntry.value.value()}">3</span>
+                                        <span class="score-max">/5</span>
+                                    </div>
+                                    <div class="score-dots">
+                                        <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                              class="score-dot"
+                                              th:classappend="${i <= scoreEntry.value.value()} ? ' filled' : ''"></span>
+                                    </div>
+                                </div>
+                                <div class="dreyfus-label" th:switch="${scoreEntry.value.value()}">
+                                    <span th:case="1">Novice</span>
+                                    <span th:case="2">Adv. Beginner</span>
+                                    <span th:case="3">Competent</span>
+                                    <span th:case="4">Proficient</span>
+                                    <span th:case="5">Expert</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="mt-4 text-right" th:unless="${#lists.isEmpty(historicalCheckIns)}">
+                <a th:href="@{/checkins/user/{id}(id=${user.id})}" class="text-sm text-primary hover:underline glow-text">View full check-in history &rarr;</a>
             </div>
         </div>
     </div>

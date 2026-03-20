@@ -36,7 +36,7 @@
                     <td>
                         <div class="tag-group">
                             <span class="tag" th:each="entry : ${evidence.selfAssessment()}" 
-                                  th:text="${entry.key.name()} + ' (' + ${entry.value.value()} + ')'">
+                                  th:text="${entry.key.name()} + ' (' + ${entry.value.score().value()} + ')'">
                                 SECURES (4)
                             </span>
                         </div>

@@ -141,16 +141,25 @@
                                       th:text="'(Expected: ' + ${currentUser.getExpectedPillarLevel(pillar).value()} + ')'"></span>
                             </label>
                             <select th:name="${'scores[' + pillar.name() + ']'}"
-                                    class="dreyfus-select form-control-sm"
+                                    class="dreyfus-select form-control-sm mb-2"
                                     th:id="${'score-' + pillar.name()}"
                                     th:title="|Dreyfus score for ${pillar.name()}|">
                                 <option value="" disabled th:selected="${evidence == null or !evidence.selfAssessment().containsKey(pillar)}">Select...</option>
-                                <option value="1" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 1}">1 — Novice</option>
-                                <option value="2" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 2}">2 — Advanced Beginner</option>
-                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}">3 — Competent</option>
-                                <option value="4" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 4}">4 — Proficient</option>
-                                <option value="5" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 5}">5 — Expert</option>
+                                <option value="1" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 1}">1 — Novice</option>
+                                <option value="2" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 2}">2 — Advanced Beginner</option>
+                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 3}">3 — Competent</option>
+                                <option value="4" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 4}">4 — Proficient</option>
+                                <option value="5" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 5}">5 — Expert</option>
                             </select>
+                            
+                            <!-- Rationale field -->
+                            <label class="dreyfus-label-small mt-2" th:for="${'rationale-' + pillar.name()}">Rating Rationale <span class="required-star">*</span></label>
+                            <textarea th:name="${'rationales[' + pillar.name() + ']'}"
+                                      th:id="${'rationale-' + pillar.name()}"
+                                      class="form-control"
+                                      rows="2"
+                                      placeholder="Why did you choose this rating?"
+                                      th:text="${evidence != null and evidence.selfAssessment().containsKey(pillar) ? evidence.selfAssessment().get(pillar).rationale() : ''}"></textarea>
                         </div>
                     </div>
                 </div>
@@ -183,16 +192,25 @@
                                       th:text="'(Expected: ' + ${currentUser.getExpectedPillarLevel(pillar).value()} + ')'"></span>
                             </label>
                             <select th:name="${'scores[' + pillar.name() + ']'}"
-                                    class="dreyfus-select form-control-sm"
+                                    class="dreyfus-select form-control-sm mb-2"
                                     th:id="${'score-' + pillar.name()}"
                                     th:title="|Dreyfus score for ${pillar.name()}|">
                                 <option value="" disabled th:selected="${evidence == null or !evidence.selfAssessment().containsKey(pillar)}">Select...</option>
-                                <option value="1" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 1}">1 — Novice</option>
-                                <option value="2" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 2}">2 — Advanced Beginner</option>
-                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 3}">3 — Competent</option>
-                                <option value="4" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 4}">4 — Proficient</option>
-                                <option value="5" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).value() == 5}">5 — Expert</option>
+                                <option value="1" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 1}">1 — Novice</option>
+                                <option value="2" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 2}">2 — Advanced Beginner</option>
+                                <option value="3" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 3}">3 — Competent</option>
+                                <option value="4" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 4}">4 — Proficient</option>
+                                <option value="5" th:selected="${evidence != null and evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 5}">5 — Expert</option>
                             </select>
+
+                            <!-- Rationale field -->
+                            <label class="dreyfus-label-small mt-2" th:for="${'rationale-' + pillar.name()}">Rating Rationale <span class="required-star">*</span></label>
+                            <textarea th:name="${'rationales[' + pillar.name() + ']'}"
+                                      th:id="${'rationale-' + pillar.name()}"
+                                      class="form-control"
+                                      rows="2"
+                                      placeholder="Why did you choose this rating?"
+                                      th:text="${evidence != null and evidence.selfAssessment().containsKey(pillar) ? evidence.selfAssessment().get(pillar).rationale() : ''}"></textarea>
                         </div>
                     </div>
                 </div>

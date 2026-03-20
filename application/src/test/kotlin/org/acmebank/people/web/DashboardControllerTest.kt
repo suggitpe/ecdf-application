@@ -9,6 +9,7 @@ import org.acmebank.people.domain.EvidenceStatus
 import org.acmebank.people.domain.Grade
 import org.acmebank.people.domain.Pillar
 import org.acmebank.people.domain.Score
+import org.acmebank.people.domain.EvidenceRating
 import org.acmebank.people.domain.User
 import org.acmebank.people.domain.port.CheckInRepository
 import org.acmebank.people.domain.port.EvidenceRepository
@@ -61,7 +62,7 @@ class DashboardControllerTest {
         )
         val mockEvidence = Evidence(
             UUID.randomUUID(), userId, "Refactored Core System", "Description of work done", "High impact", "Complex", "Led the effort",
-            mapOf(Pillar.DESIGNS to Score(3)),
+            mapOf(Pillar.DESIGNS to EvidenceRating(Score(3), "")),
             emptyList(), emptyList(), EvidenceStatus.DRAFT, LocalDate.now(), LocalDate.now()
         )
 

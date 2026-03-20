@@ -4,6 +4,7 @@ import org.acmebank.people.domain.Evidence;
 import org.acmebank.people.domain.EvidenceStatus;
 import org.acmebank.people.domain.Pillar;
 import org.acmebank.people.domain.Score;
+import org.acmebank.people.domain.EvidenceRating;
 import org.acmebank.people.domain.User;
 import org.acmebank.people.domain.port.EvidenceRepository;
 import org.acmebank.people.domain.port.UserRepository;
@@ -104,7 +105,7 @@ public class EvidenceController {
         User user = resolveUser(principal);
         
         // Build self-assessment map from submitted scores
-        Map<Pillar, Score> selfAssessment = buildSelfAssessment(selectedPillars, request);
+        Map<Pillar, EvidenceRating> selfAssessment = buildSelfAssessment(selectedPillars, request);
 
         // Perform creation in a single logical step if possible, 
         // but since EvidenceService is structured this way, we'll follow its pattern 
@@ -227,7 +228,7 @@ public class EvidenceController {
             return "evidence-form";
         }
 
-        Map<Pillar, Score> selfAssessment = buildSelfAssessment(selectedPillars, request);
+        Map<Pillar, EvidenceRating> selfAssessment = buildSelfAssessment(selectedPillars, request);
         Evidence updated = evidenceService.updateEvidence(id, title, description, impact, complexity, contribution, selfAssessment);
 
         if (attachment != null && !attachment.isEmpty()) {
@@ -334,19 +335,22 @@ public class EvidenceController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
-    private Map<Pillar, Score> buildSelfAssessment(List<String> selectedPillars, HttpServletRequest request) {
+    private Map<Pillar, EvidenceRating> buildSelfAssessment(List<String> selectedPillars, HttpServletRequest request) {
         if (selectedPillars == null || selectedPillars.isEmpty()) {
             return Collections.emptyMap();
         }
-        Map<Pillar, Score> result = new HashMap<>();
+        Map<Pillar, EvidenceRating> result = new HashMap<>();
         for (String pillarName : selectedPillars) {
             try {
                 Pillar pillar = Pillar.valueOf(pillarName.toUpperCase());
                 String scoreKey = "scores[" + pillarName + "]";
+                String rationaleKey = "rationales[" + pillarName + "]";
                 String scoreStr = request.getParameter(scoreKey);
+                String rationaleStr = request.getParameter(rationaleKey);
+                
                 if (scoreStr != null && !scoreStr.isBlank()) {
                     int scoreVal = Integer.parseInt(scoreStr);
-                    result.put(pillar, new Score(scoreVal));
+                    result.put(pillar, new EvidenceRating(new Score(scoreVal), rationaleStr == null ? "" : rationaleStr));
                 }
             } catch (IllegalArgumentException ignored) {
                 // skip invalid pillar names or out-of-range scores

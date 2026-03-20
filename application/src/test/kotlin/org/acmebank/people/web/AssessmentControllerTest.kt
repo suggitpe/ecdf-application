@@ -54,7 +54,7 @@ class AssessmentControllerTest {
 
     private val mockEvidence = Evidence(
         evidenceId, userId, "Project X Refactor", "Description", "Impact X", "Complexity Y", "Contribution Z",
-        mapOf(Pillar.DESIGNS to Score(3)), emptyList(), emptyList(), 
+        mapOf(Pillar.DESIGNS to EvidenceRating(Score(3), "")), emptyList(), emptyList(), 
         EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
     )
 
