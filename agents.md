@@ -26,11 +26,17 @@ This document provides core steering instructions for AI Assistants working on t
 - **Frontend Guidelines**: 
   - When rendering form `<select>` elements for scoring (e.g., 1-5 Dreyfus scale), the default selection for both employees and assessors MUST be a blank disabled `<option>` placeholder, never a predetermined integer.
   - The employee dashboard must always render a list of the employee's historical check-in records.
+  - When completing a piece of evidence and the user selects a pillar rating, they MUST also add a description (rationale) of why they have selected that rating.
 - **Domain Constraints**: The ECDF framework strictly defines **8 pillars**. You must never introduce a 9th pillar (e.g., do not include the deprecated "DEFINES" pillar).
 - **Database**: H2 in-memory database (schema managed via Liquibase).
   - *Critical*: Always initialize an empty master changelog file at `src/main/resources/db/changelog/db.changelog-master.yaml` to prevent Liquibase from failing application startup.
 - **Testing**: Strict Test-Driven Development (TDD). JUnit 5, Mockito, `@WebMvcTest`, and **Testcontainers** for DB integration tests. **JaCoCo** is used for test coverage metrics and is included in the default Gradle task (`.\gradlew`).
 - **Environment**: 12-Factor App design. Configuration externalized via environment variables. Containerized using Azul Zulu JRE 21 via standard `Dockerfile`/`Containerfile` and `docker-compose.yml`. *Note*: The `Dockerfile` should act as a runtime wrapper; the application `.jar` must be built on the host machine before building the container image.
+- **GCP Infrastructure**: Target environment is **Google Cloud Platform (GCP)**.
+  - **Compute**: Google Cloud Run (v2) in `europe-west2` (London).
+  - **Persistence**: Google Cloud Storage (GCS) bucket mounted via GCS FUSE to `/data/storage` for persistent evidence attachments.
+  - **Registry**: Google Artifact Registry for container image storage.
+  - **CI/CD**: GitHub Actions for automated building, testing, and deployment to GCP.
 
 ## 3. Workday Integration Strategy (Ports & Adapters)
 
