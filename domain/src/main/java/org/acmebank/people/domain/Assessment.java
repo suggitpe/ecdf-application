@@ -12,4 +12,15 @@ public record Assessment(
         String reviewSummary,
         boolean isThirdParty,
         LocalDate assessmentDate) {
+
+    public Assessment {
+        if (assessmentDate != null) {
+            if (assessedScores == null || assessedScores.isEmpty()) {
+                throw new IllegalArgumentException("Assessed scores must not be empty");
+            }
+            if (reviewSummary == null || reviewSummary.trim().isEmpty()) {
+                throw new IllegalArgumentException("Review summary must not be blank");
+            }
+        }
+    }
 }

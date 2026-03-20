@@ -13,4 +13,6 @@ public interface AssessmentJpaRepository extends JpaRepository<AssessmentEntity,
     Optional<AssessmentEntity> findByEvidenceId(UUID evidenceId);
 
     List<AssessmentEntity> findByAssessorId(UUID assessorId);
+    
+    List<AssessmentEntity> findByAssessorIdAndAssessmentDateIsNull(UUID assessorId);
 }

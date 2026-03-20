@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 13-make-assessment-fields-nullable
+      author: ai-assistant
+      changes:
+        - dropNotNullConstraint:
+            tableName: assessments
+            columnDataType: varchar(4000)
+            columnName: review_summary
+        - dropNotNullConstraint:
+            tableName: assessments
+            columnDataType: date
+            columnName: assessment_date

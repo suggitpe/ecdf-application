@@ -15,3 +15,5 @@ databaseChangeLog:
       file: db/changelog/07-evidence-description.yaml
   - include:
       file: db/changelog/08-evidence-rationale.yaml
+  - include:
+      file: db/changelog/09-ita-nullable.yaml

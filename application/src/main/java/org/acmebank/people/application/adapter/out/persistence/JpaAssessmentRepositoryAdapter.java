@@ -70,4 +70,11 @@ public class JpaAssessmentRepositoryAdapter implements AssessmentRepository {
                 .map(DomainPersistenceMapper::toDomainAssessment)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Assessment> findPendingByAssessorId(UUID assessorId) {
+        return assessmentJpaRepository.findByAssessorIdAndAssessmentDateIsNull(assessorId).stream()
+                .map(DomainPersistenceMapper::toDomainAssessment)
+                .collect(Collectors.toList());
+    }
 }

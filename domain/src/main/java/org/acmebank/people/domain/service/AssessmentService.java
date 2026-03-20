@@ -106,4 +106,8 @@ public class AssessmentService {
 
         return savedAssessment;
     }
+
+    public java.util.List<Assessment> getPendingAssessmentsForITA(UUID itaId) {
+        return assessmentRepository.findPendingByAssessorId(itaId);
+    }
 }

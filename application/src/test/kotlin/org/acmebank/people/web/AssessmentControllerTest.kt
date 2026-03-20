@@ -76,7 +76,7 @@ class AssessmentControllerTest {
     fun `should submit assessment and redirect to queue`() {
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockAssessor))
         `when`(assessmentService.submitAssessment(any(), any(), any(), any()))
-            .thenReturn(Assessment(UUID.randomUUID(), evidenceId, assessorId, emptyMap(), "Good", false, LocalDate.now()))
+            .thenReturn(Assessment(UUID.randomUUID(), evidenceId, assessorId, mapOf(Pillar.DESIGNS to Score(4)), "Good", false, LocalDate.now()))
 
         mockMvc.perform(
             post("/assessment/$evidenceId")
@@ -119,7 +119,7 @@ class AssessmentControllerTest {
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockAssessor))
         `when`(userRepository.findByManagerId(assessorId)).thenReturn(listOf(reporter))
         `when`(evidenceRepository.findByUserIdAndStatus(reporterId, EvidenceStatus.SUBMITTED)).thenReturn(listOf(teamEvidence))
-        `when`(assessmentRepository.findByAssessorId(assessorId)).thenReturn(emptyList())
+        `when`(assessmentService.getPendingAssessmentsForITA(assessorId)).thenReturn(emptyList())
 
         mockMvc.perform(get("/assessment/queue"))
             .andExpect(status().isOk)

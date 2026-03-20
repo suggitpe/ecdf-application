@@ -85,10 +85,7 @@ public class AssessmentController {
         }
         
         // 2. Assessments explicitly assigned to this user (as Manager or ITA)
-        List<Assessment> pendingAssessments = assessmentRepository.findByAssessorId(user.id())
-                .stream()
-                .filter(a -> a.assessedScores() == null)
-                .collect(Collectors.toList());
+        List<Assessment> pendingAssessments = assessmentService.getPendingAssessmentsForITA(user.id());
 
         Map<UUID, String> userNames = new HashMap<>();
         for (Evidence evidence : teamEvidence) {

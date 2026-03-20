@@ -28,13 +28,13 @@ public class AssessmentEntity {
     @JoinColumn(name = "assessor_id", nullable = false)
     private UserEntity assessor;
 
-    @Column(name = "review_summary", nullable = false, length = 4000)
+    @Column(name = "review_summary", length = 4000)
     private String reviewSummary;
 
     @Column(name = "is_third_party", nullable = false)
     private boolean isThirdParty;
 
-    @Column(name = "assessment_date", nullable = false)
+    @Column(name = "assessment_date")
     private LocalDate assessmentDate;
 
     @ElementCollection(fetch = FetchType.LAZY)

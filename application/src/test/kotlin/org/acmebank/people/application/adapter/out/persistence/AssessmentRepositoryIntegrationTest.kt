@@ -90,4 +90,59 @@ class AssessmentRepositoryIntegrationTest {
         foundAssessment.get().reviewSummary shouldBe "Great work!"
         foundAssessment.get().assessor.email shouldBe "mgr@acmebank.com"
     }
+
+    @Test
+    fun `should find pending assessments by assessor id`() {
+        // Given
+        val grade = GradeEntity().apply {
+            name = "VP"
+            role = "Manager"
+        }
+        val savedGrade = gradeRepository.save(grade)
+
+        val dev = UserEntity().apply {
+            email = "dev2@acmebank.com"
+            fullName = "John Dev"
+            isIta = false
+            this.grade = savedGrade
+        }
+        val savedDev = userRepository.save(dev)
+
+        val ita = UserEntity().apply {
+            email = "ita@acmebank.com"
+            fullName = "Alice Assessor"
+            isIta = true
+            this.grade = savedGrade
+        }
+        val savedIta = userRepository.save(ita)
+
+        val evidence = EvidenceEntity().apply {
+            this.user = savedDev
+            title = "Project Z"
+            description = "Some description"
+            impact = "High"
+            complexity = "High"
+            contribution = "Lead"
+            status = "SUBMITTED"
+            createdDate = LocalDate.now()
+            lastModifiedDate = LocalDate.now()
+        }
+        val savedEvidence = evidenceRepository.save(evidence)
+
+        val pendingAssessment = AssessmentEntity().apply {
+            this.evidence = savedEvidence
+            this.assessor = savedIta
+            isThirdParty = true
+            // assessmentDate and reviewSummary left null
+        }
+        assessmentRepository.save(pendingAssessment)
+
+        // When
+        val pendingAssessments = assessmentRepository.findByAssessorIdAndAssessmentDateIsNull(savedIta.id)
+
+        // Then
+        pendingAssessments shouldHaveSize 1
+        pendingAssessments[0].assessor.id shouldBe savedIta.id
+        pendingAssessments[0].assessmentDate shouldBe null
+    }
 }
