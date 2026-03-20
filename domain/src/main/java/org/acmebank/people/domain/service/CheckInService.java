@@ -48,8 +48,6 @@ public class CheckInService {
                 null,
                 userId,
                 managerId,
-                now.minusMonths(3), // Example period start
-                now, // Example period end
                 aggregatedScores,
                 managerNotes,
                 status,
@@ -77,8 +75,6 @@ public class CheckInService {
                 existing.id(),
                 existing.userId(),
                 existing.managerId(),
-                existing.periodStartDate(),
-                existing.periodEndDate(),
                 existing.holisticScores(),
                 managerNotes,
                 newStatus,

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base.html}">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${'Check-In Detail - ' + developer.fullName}">Check-In Detail</title>
 </head>
 <body>
@@ -30,20 +32,6 @@
                 <h2 class="text-xl font-semibold text-glow">Manager Notes</h2>
                 <div class="prose prose-invert max-w-none">
                     <p class="whitespace-pre-wrap text-gray-300" th:text="${checkIn.managerNotes}">Notes content...</p>
-                </div>
-            </div>
-            
-            <div class="card glassmorphism p-6">
-                <h2 class="text-xl font-semibold text-glow mb-4">Period Details</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-xs text-muted uppercase tracking-wider">Period Start</p>
-                        <p class="text-gray-200" th:text="${#temporals.format(checkIn.periodStartDate, 'dd MMM yyyy')}">Start</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-muted uppercase tracking-wider">Period End</p>
-                        <p class="text-gray-200" th:text="${#temporals.format(checkIn.periodEndDate, 'dd MMM yyyy')}">End</p>
-                    </div>
                 </div>
             </div>
         </div>

@@ -55,7 +55,6 @@ class TeamControllerTest {
 
         val mockCheckIn = CheckIn(
             UUID.randomUUID(), teamMemberId, managerId,
-            LocalDate.now().minusMonths(3), LocalDate.now(),
             emptyMap(),
             "Good progress", CheckInStatus.ON_TRACK, LocalDate.now()
         )

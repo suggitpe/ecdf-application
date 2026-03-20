@@ -59,8 +59,6 @@ class PdpItemRepositoryIntegrationTest {
         val checkIn = CheckInEntity().apply {
             this.user = savedUser
             this.manager = savedManager
-            periodStartDate = LocalDate.of(2023, 1, 1)
-            periodEndDate = LocalDate.of(2023, 3, 31)
             managerNotes = "Needs improvement in Leadership."
             status = "COMPLETED"
             checkInDate = LocalDate.now()

@@ -89,7 +89,7 @@ class CheckInControllerTest {
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockManager))
         `when`(gradeRepository.findById(targetGradeId)).thenReturn(Optional.of(targetGrade))
         `when`(checkInService.createCheckIn(eq(userId), eq(managerId), anyString(), eq(targetGrade), anyBoolean()))
-            .thenReturn(CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Good", CheckInStatus.ON_TRACK, LocalDate.now()))
+            .thenReturn(CheckIn(checkInId, userId, managerId, emptyMap(), "Good", CheckInStatus.ON_TRACK, LocalDate.now()))
 
         mockMvc.perform(
             post("/checkins/new/$userId")
@@ -105,7 +105,7 @@ class CheckInControllerTest {
     @Test
     @WithMockUser(username = "mgr@example.com")
     fun `should show check-in detail`() {
-        val checkIn = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Good", CheckInStatus.ON_TRACK, LocalDate.now())
+        val checkIn = CheckIn(checkInId, userId, managerId, emptyMap(), "Good", CheckInStatus.ON_TRACK, LocalDate.now())
         `when`(checkInRepository.findById(checkInId)).thenReturn(Optional.of(checkIn))
         `when`(userRepository.findById(userId)).thenReturn(Optional.of(mockUser))
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockManager))
@@ -119,7 +119,7 @@ class CheckInControllerTest {
     @Test
     @WithMockUser(username = "mgr@example.com")
     fun `should show check-in edit form for draft`() {
-        val checkIn = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Good", CheckInStatus.DRAFT, LocalDate.now())
+        val checkIn = CheckIn(checkInId, userId, managerId, emptyMap(), "Good", CheckInStatus.DRAFT, LocalDate.now())
         `when`(checkInRepository.findById(checkInId)).thenReturn(Optional.of(checkIn))
         `when`(userRepository.findById(userId)).thenReturn(Optional.of(mockUser))
         `when`(gradeRepository.findAll()).thenReturn(emptyList())
@@ -134,7 +134,7 @@ class CheckInControllerTest {
     fun `should update and finalize check-in`() {
         val targetGradeId = UUID.randomUUID()
         val targetGrade = Grade(targetGradeId, "Staff Engineer", "Engineering", emptyMap())
-        val updated = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Final", CheckInStatus.ON_TRACK, LocalDate.now())
+        val updated = CheckIn(checkInId, userId, managerId, emptyMap(), "Final", CheckInStatus.ON_TRACK, LocalDate.now())
 
         `when`(gradeRepository.findById(targetGradeId)).thenReturn(Optional.of(targetGrade))
         `when`(checkInService.updateCheckIn(eq(checkInId), any(), eq(targetGrade), eq(true))).thenReturn(updated)

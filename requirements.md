@@ -31,7 +31,8 @@ This document outlines the business requirements for the Engineer Career Develop
   - During assessment, the UI must default the assessor's scoring inputs to the exact rating submitted by the employee. If the employee did not select/rate a pillar, the default value must be a blank unselected entry.
 - Assessors must provide a Review Summary/feedback for the evidence submission.
 
-## 4. Quarterly Check-ins & Holistic Rating
+## 4. Check-ins & Holistic Rating
+- **Point-in-Time Assessment**: Check-ins represent a specific point-in-time assessment of performance rather than a date range.
 - The manager adds formal review notes during the Check-in.
 - **Draft & Finalize**: Managers can save a check-in as a **Draft** to capture notes and snapshots without concluding the review. Draft check-ins can be edited and resumed later. Once a check-in is **Finalized**, it becomes an immutable historical record with a calculated outcome status.
 - The aggregated rating is compared against the target grade expectations.

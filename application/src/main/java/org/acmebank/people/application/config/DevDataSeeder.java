@@ -152,8 +152,6 @@ public class DevDataSeeder {
                                              (email.equals("user@example.com") ? CheckInStatus.UNDERPERFORMING : CheckInStatus.ON_TRACK);
                         
                         checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(), 
-                            LocalDate.now().minusMonths(monthsAgo + 3), // period start
-                            LocalDate.now().minusMonths(monthsAgo), // period end
                             vpExpectations, "Quarterly review summary for " + engineer.fullName(), 
                             status, LocalDate.now().minusMonths(monthsAgo))); // check-in date
                     }
@@ -161,8 +159,6 @@ public class DevDataSeeder {
                     // Seed one DRAFT check-in for user@example.com
                     if (email.equals("user@example.com")) {
                         checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(),
-                            LocalDate.now().minusMonths(1),
-                            LocalDate.now(),
                             vpExpectations, "This is a draft check-in notes.",
                             CheckInStatus.DRAFT, LocalDate.now()));
                     }

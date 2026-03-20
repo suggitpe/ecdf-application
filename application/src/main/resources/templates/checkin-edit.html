@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base.html}">
 <head>
-    <title th:text="${'Edit Check-In - ' + developer.fullName}">Edit Check-In</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${'Edit Draft Check-In - ' + developer.fullName}">Edit Draft Check-In</title>
 </head>
 <body>
 
 <main layout:fragment="content">
     <div class="mb-6">
+        <div class="flex items-center gap-2 text-yellow-500 mb-1">
+            <span class="material-icons text-sm">edit_note</span>
+            <span class="text-xs font-bold uppercase tracking-wider">Draft Mode</span>
+        </div>
         <h1 class="text-3xl font-bold mb-1" th:text="${'Edit Check-In: ' + developer.fullName}">Edit Check-In</h1>
         <p class="text-muted" th:text="${developer.grade.name}">Current Grade</p>
     </div>
@@ -22,43 +28,35 @@
                     <label for="targetGradeId" class="block text-sm font-medium text-gray-300 mb-2">Target Grade</label>
                     <select id="targetGradeId" name="targetGradeId" class="form-control w-full p-2.5 rounded-md border border-gray-700 bg-darker text-gray-200 focus:border-primary shadow-inner" required>
                         <option value="" disabled>Select the grade to evaluate against...</option>
-                        <option th:each="grade : ${grades}" th:value="${grade.id}" th:text="${grade.name}" 
-                                th:selected="${developer.grade.id == grade.id}">Grade Name</option>
+                        <option th:each="grade : ${grades}" th:value="${grade.id}" th:text="${grade.name}">Grade Name</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
                     <label for="managerNotes" class="block text-sm font-medium text-gray-300 mb-2">Manager Review Summary</label>
                     <textarea id="managerNotes" name="managerNotes" rows="10" 
-                              class="form-control w-full p-2.5 rounded-md border border-gray-700 bg-darker text-gray-200 focus:border-primary shadow-inner" required 
-                              th:text="${checkIn.managerNotes}"></textarea>
+                              th:text="${checkIn.managerNotes}"
+                              class="form-control w-full p-2.5 rounded-md border border-gray-700 bg-darker text-gray-200 focus:border-primary shadow-inner" required></textarea>
                 </div>
             </div>
 
             <input type="hidden" name="action" id="checkinAction" value="finalize">
             <div class="flex justify-end gap-3 mt-4">
                 <a th:href="@{/checkins/user/{userId}(userId=${developer.id})}" class="btn btn-secondary shadow-sm">Cancel</a>
-                <button type="submit" onclick="document.getElementById('checkinAction').value='draft'" class="btn btn-secondary shadow-sm">Save as Draft</button>
+                <button type="submit" onclick="document.getElementById('checkinAction').value='draft'" class="btn btn-secondary shadow-sm">Update Draft</button>
                 <button type="submit" onclick="document.getElementById('checkinAction').value='finalize'" class="btn btn-primary glow-effect shadow-md">Complete Check-In</button>
             </div>
         </div>
 
         <div class="space-y-6">
-            <div class="card glassmorphism p-6 bg-primary/5">
-                <h3 class="text-lg font-semibold mb-3 text-glow">Draft Score Profile</h3>
-                <p class="text-xs text-muted mb-4 italic">Scores captured when the draft was started.</p>
-                <div class="w-full flex justify-center mb-4">
-                    <canvas id="scoreRadarChart" style="max-height: 250px;"></canvas>
-                </div>
-                <div class="grid grid-cols-1 gap-2">
-                    <div th:each="pillar : ${pillars}" class="flex justify-between items-center text-sm p-2 rounded-md border border-gray-700/50 bg-gray-800/20">
-                        <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
-                        <div class="flex space-x-4 text-xs">
-                            <span class="text-blue-400">Target: <span class="font-bold" th:text="${developer.getExpectedPillarLevel(pillar).value()}">N/A</span></span>
-                            <span class="text-primary">Actual: <span class="font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 0}">0</span></span>
-                        </div>
-                    </div>
-                </div>
+            <div class="card glassmorphism p-6 border-l-4 border-info bg-info/5">
+                <h3 class="text-lg font-semibold mb-2 text-info flex items-center gap-2">
+                    <span class="material-icons text-sm">info</span>
+                    <span>Note on Freezing</span>
+                </h3>
+                <p class="text-sm text-gray-400">
+                    Completing this check-in will "freeze" the current scores. This creates a permanent point-in-time snapshot.
+                </p>
             </div>
         </div>
     </form>

@@ -25,12 +25,6 @@ public class CheckInEntity {
     @JoinColumn(name = "manager_id", nullable = false)
     private UserEntity manager;
 
-    @Column(name = "period_start_date", nullable = false)
-    private LocalDate periodStartDate;
-
-    @Column(name = "period_end_date", nullable = false)
-    private LocalDate periodEndDate;
-
     @Column(name = "manager_notes", nullable = false, length = 4000)
     private String managerNotes;
 

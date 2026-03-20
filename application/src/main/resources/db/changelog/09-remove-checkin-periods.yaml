@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20-remove-checkin-periods
+      author: ai-assistant
+      changes:
+        - dropColumn:
+            tableName: check_ins
+            columnName: period_start_date
+        - dropColumn:
+            tableName: check_ins
+            columnName: period_end_date

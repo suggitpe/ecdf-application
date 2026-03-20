@@ -64,7 +64,7 @@ class PdpServiceTest {
         )
 
         val checkIn = CheckIn(
-            checkInId, userId, UUID.randomUUID(), LocalDate.now().minusMonths(3), LocalDate.now(),
+            checkInId, userId, UUID.randomUUID(), 
             checkInScores, "Notes", CheckInStatus.UNDERPERFORMING, LocalDate.now()
         )
 

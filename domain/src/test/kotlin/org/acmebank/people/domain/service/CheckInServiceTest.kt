@@ -276,7 +276,7 @@ class CheckInServiceTest {
         val checkInId = UUID.randomUUID()
         val targetGrade = Grade(UUID.randomUUID(), "Senior", "Developer", mapOf(Pillar.THINKS to Score(3)))
         
-        val draft = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), 
+        val draft = CheckIn(checkInId, userId, managerId, 
             mapOf(Pillar.THINKS to Score(4)), "Initial notes", CheckInStatus.DRAFT, LocalDate.now())
 
         `when`(checkInRepository.findById(checkInId)).thenReturn(Optional.of(draft))

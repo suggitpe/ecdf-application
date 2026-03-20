@@ -25,8 +25,9 @@ This document provides core steering instructions for AI Assistants working on t
 - **Styling**: Vanilla CSS. Must use a Premium Dark Mode aesthetic with glassmorphism elements and modern typography. No Tailwind.
 - **Frontend Guidelines**: 
   - When rendering form `<select>` elements for scoring (e.g., 1-5 Dreyfus scale), the default selection for both employees and assessors MUST be a blank disabled `<option>` placeholder, never a predetermined integer.
-  - The employee dashboard must always render a list of the employee's historical check-in records.
+  - The employee dashboard must always render a list of the employee's historical check-in records, sorted by date (most recent first).
   - Check-in Lifecycle: Managers must be able to save check-ins as **DRAFT** to iterate on notes. Draft check-ins are editable. Once finalized, they receive a performance status and become read-only.
+  - Check-in Model: Check-ins represent a point-in-time assessment rather than a date range. Captured as a single `checkInDate`.
   - When completing a piece of evidence and the user selects a pillar rating, they MUST also add a description (rationale) of why they have selected that rating.
 - **Domain Constraints**: The ECDF framework strictly defines **8 pillars**. You must never introduce a 9th pillar (e.g., do not include the deprecated "DEFINES" pillar).
 - **Database**: H2 in-memory database (schema managed via Liquibase).

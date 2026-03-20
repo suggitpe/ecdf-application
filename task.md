@@ -66,12 +66,13 @@
   - [x] Dynamically default assessor rating dropdowns to the developer's self-assessed rating
   - [x] Implement UI flow for Manager to assign evidence to an Independent Technical Assessor (ITA)
   - [x] Implement `assessor-queue.html` listing evidence assigned to the current user
-- [x] Check-In & Period Review (Quarterly):
+- [x] Check-In & Period Review:
   - [x] Write Controller tests and implement `CheckInController`
   - [x] Implement `checkin-list.html` (Sorted most recent first)
   - [x] Implement `checkin-detail.html` (Read-only view for finalized/draft check-ins)
   - [x] Implement `checkin-edit.html` (Editing support for DRAFT check-ins)
   - [x] Implement `checkin-form.html` for Managers to capture review notes and support Save-as-Draft or Finalize
+  - [x] Refined `CheckIn` to a point-in-time assessment model (Removed period dates)
   - [x] Surface Grade expectations, full pillar names, and actual scores visually within the Check-In UI
 - [x] Infrastructure & CI/CD:
   - [x] Provision GCP Infrastructure using Terraform (Cloud Run, Artifact Registry, GCS Bucket)

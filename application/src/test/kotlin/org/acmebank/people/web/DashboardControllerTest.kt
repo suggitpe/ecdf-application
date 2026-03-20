@@ -56,7 +56,6 @@ class DashboardControllerTest {
         )
         val mockCheckIn = CheckIn(
             UUID.randomUUID(), userId, UUID.randomUUID(),
-            LocalDate.now().minusDays(10), LocalDate.now(),
             mapOf(Pillar.DESIGNS to Score(3)),
             "Good progress", CheckInStatus.ON_TRACK, LocalDate.now()
         )

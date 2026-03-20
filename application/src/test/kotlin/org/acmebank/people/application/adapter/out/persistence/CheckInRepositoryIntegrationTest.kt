@@ -56,8 +56,6 @@ class CheckInRepositoryIntegrationTest {
         val checkIn = CheckInEntity().apply {
             this.user = savedUser
             this.manager = savedManager
-            periodStartDate = LocalDate.of(2023, 1, 1)
-            periodEndDate = LocalDate.of(2023, 3, 31)
             managerNotes = "Good progress this quarter."
             status = "DRAFT"
             checkInDate = LocalDate.now()
@@ -71,6 +69,6 @@ class CheckInRepositoryIntegrationTest {
         savedCheckIn.id shouldNotBe null
         foundCheckIns shouldHaveSize 1
         foundCheckIns[0].managerNotes shouldBe "Good progress this quarter."
-        foundCheckIns[0].periodStartDate shouldBe LocalDate.of(2023, 1, 1)
+        foundCheckIns[0].status shouldBe "DRAFT"
     }
 }

@@ -77,9 +77,7 @@
                     <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 mb-4">
                         <div class="flex items-center gap-3">
                             <h3 class="font-medium text-lg text-white">
-                                <span th:text="${#temporals.format(checkIn.periodStartDate, 'MMM yyyy')}">Start</span>
-                                &rarr;
-                                <span th:text="${#temporals.format(checkIn.periodEndDate, 'MMM yyyy')}">End</span>
+                                <span>Assessment Date</span>
                             </h3>
                             <span class="badge"
                                   th:classappend="${checkIn.status.name() == 'UNDERPERFORMING' ? 'badge-error' :

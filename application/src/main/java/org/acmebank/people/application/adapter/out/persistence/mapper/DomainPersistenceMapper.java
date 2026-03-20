@@ -189,8 +189,6 @@ public class DomainPersistenceMapper {
                 entity.getId(),
                 entity.getUser().getId(),
                 entity.getManager().getId(),
-                entity.getPeriodStartDate(),
-                entity.getPeriodEndDate(),
                 scores,
                 entity.getManagerNotes(),
                 CheckInStatus.valueOf(entity.getStatus()),
@@ -204,8 +202,6 @@ public class DomainPersistenceMapper {
         entity.setId(domain.id());
         entity.setUser(userEntity);
         entity.setManager(managerEntity);
-        entity.setPeriodStartDate(domain.periodStartDate());
-        entity.setPeriodEndDate(domain.periodEndDate());
         entity.setManagerNotes(domain.managerNotes());
         entity.setStatus(domain.status().name());
         entity.setCheckInDate(domain.checkInDate());

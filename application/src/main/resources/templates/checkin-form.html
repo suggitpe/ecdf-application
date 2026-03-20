@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base.html}">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${'New Check-In - ' + developer.fullName}">New Check-In</title>
 </head>
 <body>
@@ -66,7 +68,7 @@
                     <span>Note on Freezing</span>
                 </h3>
                 <p class="text-sm text-gray-400">
-                    Completing this check-in will "freeze" the current aggregated scores for this specific review period. This creates a permanent point-in-time snapshot.
+                    Completing this check-in will "freeze" the current aggregated scores. This creates a permanent point-in-time snapshot.
                 </p>
             </div>
         </div>
