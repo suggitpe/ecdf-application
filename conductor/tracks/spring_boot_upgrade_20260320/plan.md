@@ -12,4 +12,4 @@
 - [x] Task: Run the application locally and verify successful startup 4ff6b7d
 - [x] Task: Identify deprecated usages in the codebase resulting from the upgrade and log them as new Conductor tracks/tasks for future work c41e6b9
 - [x] Task: Ensure JaCoCo coverage remains above the 80% threshold (`./gradlew jacocoTestReport`) 77dc58b
-- [ ] Task: Conductor - User Manual Verification 'Resolve Breaking Changes & Verification' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Resolve Breaking Changes & Verification' (Protocol in workflow.md)
