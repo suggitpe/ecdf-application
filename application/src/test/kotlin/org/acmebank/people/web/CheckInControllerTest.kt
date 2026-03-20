@@ -8,8 +8,7 @@ import org.acmebank.people.domain.port.UserRepository
 import org.acmebank.people.domain.service.CheckInService
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.any
-import org.mockito.ArgumentMatchers.eq
+import org.mockito.ArgumentMatchers.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.security.test.context.support.WithMockUser
@@ -89,13 +88,62 @@ class CheckInControllerTest {
 
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockManager))
         `when`(gradeRepository.findById(targetGradeId)).thenReturn(Optional.of(targetGrade))
-        `when`(checkInService.createCheckIn(eq(userId), eq(managerId), any(), eq(targetGrade)))
+        `when`(checkInService.createCheckIn(eq(userId), eq(managerId), anyString(), eq(targetGrade), anyBoolean()))
             .thenReturn(CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Good", CheckInStatus.ON_TRACK, LocalDate.now()))
 
         mockMvc.perform(
             post("/checkins/new/$userId")
                 .param("targetGradeId", targetGradeId.toString())
                 .param("managerNotes", "Excellent progress this quarter.")
+                .param("action", "finalize")
+                .with(csrf())
+        )
+            .andExpect(status().is3xxRedirection)
+            .andExpect(redirectedUrl("/checkins/user/$userId"))
+    }
+
+    @Test
+    @WithMockUser(username = "mgr@example.com")
+    fun `should show check-in detail`() {
+        val checkIn = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Good", CheckInStatus.ON_TRACK, LocalDate.now())
+        `when`(checkInRepository.findById(checkInId)).thenReturn(Optional.of(checkIn))
+        `when`(userRepository.findById(userId)).thenReturn(Optional.of(mockUser))
+        `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockManager))
+
+        mockMvc.perform(get("/checkins/$checkInId"))
+            .andExpect(status().isOk)
+            .andExpect(view().name("checkin-detail"))
+            .andExpect(model().attributeExists("checkIn", "developer", "isManager", "pillars"))
+    }
+
+    @Test
+    @WithMockUser(username = "mgr@example.com")
+    fun `should show check-in edit form for draft`() {
+        val checkIn = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Good", CheckInStatus.DRAFT, LocalDate.now())
+        `when`(checkInRepository.findById(checkInId)).thenReturn(Optional.of(checkIn))
+        `when`(userRepository.findById(userId)).thenReturn(Optional.of(mockUser))
+        `when`(gradeRepository.findAll()).thenReturn(emptyList())
+
+        mockMvc.perform(get("/checkins/$checkInId/edit"))
+            .andExpect(status().isOk)
+            .andExpect(view().name("checkin-edit"))
+    }
+
+    @Test
+    @WithMockUser(username = "mgr@example.com")
+    fun `should update and finalize check-in`() {
+        val targetGradeId = UUID.randomUUID()
+        val targetGrade = Grade(targetGradeId, "Staff Engineer", "Engineering", emptyMap())
+        val updated = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), emptyMap(), "Final", CheckInStatus.ON_TRACK, LocalDate.now())
+
+        `when`(gradeRepository.findById(targetGradeId)).thenReturn(Optional.of(targetGrade))
+        `when`(checkInService.updateCheckIn(eq(checkInId), any(), eq(targetGrade), eq(true))).thenReturn(updated)
+
+        mockMvc.perform(
+            post("/checkins/$checkInId/update")
+                .param("targetGradeId", targetGradeId.toString())
+                .param("managerNotes", "Final notes")
+                .param("action", "finalize")
                 .with(csrf())
         )
             .andExpect(status().is3xxRedirection)

@@ -32,10 +32,12 @@
                 </thead>
                 <tbody class="divide-y divide-gray-700">
                     <tr th:each="checkin : ${checkins}" class="hover:bg-gray-800/30 transition-colors">
-                        <td class="p-4" th:text="${#temporals.format(checkin.checkInDate, 'dd MMM yyyy')}">Date</td>
+                        <td class="p-4">
+                            <a th:href="@{/checkins/{id}(id=${checkin.id})}" class="text-primary hover:text-white font-medium transition-colors" th:text="${#temporals.format(checkin.checkInDate, 'dd MMM yyyy')}">Date</a>
+                        </td>
                         <td class="p-4">
                             <span class="badge" 
-                                  th:classappend="${checkin.status.name() == 'UNDERPERFORMING' ? 'badge-danger' : (checkin.status.name() == 'READY_FOR_PROMOTION' ? 'badge-success' : 'badge-info')}"
+                                  th:classappend="${checkin.status.name() == 'UNDERPERFORMING' ? 'badge-danger' : (checkin.status.name() == 'READY_FOR_PROMOTION' ? 'badge-success' : (checkin.status.name() == 'DRAFT' ? 'badge-warning' : 'badge-info'))}"
                                   th:text="${checkin.status}">STATUS</span>
                         </td>
                         <td class="p-4">

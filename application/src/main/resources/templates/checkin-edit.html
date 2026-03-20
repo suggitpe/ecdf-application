@@ -3,17 +3,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base.html}">
 <head>
-    <title th:text="${'New Check-In - ' + developer.fullName}">New Check-In</title>
+    <title th:text="${'Edit Check-In - ' + developer.fullName}">Edit Check-In</title>
 </head>
 <body>
 
 <main layout:fragment="content">
     <div class="mb-6">
-        <h1 class="text-3xl font-bold mb-1" th:text="${'New Check-In: ' + developer.fullName}">New Check-In</h1>
+        <h1 class="text-3xl font-bold mb-1" th:text="${'Edit Check-In: ' + developer.fullName}">Edit Check-In</h1>
         <p class="text-muted" th:text="${developer.grade.name}">Current Grade</p>
     </div>
 
-    <form th:action="@{/checkins/new/{userId}(userId=${developer.id})}" method="post" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <form th:action="@{/checkins/{id}/update(id=${checkIn.id})}" method="post" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 space-y-6">
             <div class="card glassmorphism p-6 space-y-4">
                 <h2 class="text-xl font-semibold text-glow">Review Details</h2>
@@ -21,15 +21,17 @@
                 <div class="mb-4">
                     <label for="targetGradeId" class="block text-sm font-medium text-gray-300 mb-2">Target Grade</label>
                     <select id="targetGradeId" name="targetGradeId" class="form-control w-full p-2.5 rounded-md border border-gray-700 bg-darker text-gray-200 focus:border-primary shadow-inner" required>
-                        <option value="" disabled selected>Select the grade to evaluate against...</option>
-                        <option th:each="grade : ${grades}" th:value="${grade.id}" th:text="${grade.name}">Grade Name</option>
+                        <option value="" disabled>Select the grade to evaluate against...</option>
+                        <option th:each="grade : ${grades}" th:value="${grade.id}" th:text="${grade.name}" 
+                                th:selected="${developer.grade.id == grade.id}">Grade Name</option>
                     </select>
                 </div>
 
                 <div class="mb-4">
                     <label for="managerNotes" class="block text-sm font-medium text-gray-300 mb-2">Manager Review Summary</label>
-                    <textarea id="managerNotes" name="managerNotes" rows="10" placeholder="Capture key outcomes, focus areas for the next quarter, and justifications for the suggested status..." 
-                              class="form-control w-full p-2.5 rounded-md border border-gray-700 bg-darker text-gray-200 focus:border-primary shadow-inner" required></textarea>
+                    <textarea id="managerNotes" name="managerNotes" rows="10" 
+                              class="form-control w-full p-2.5 rounded-md border border-gray-700 bg-darker text-gray-200 focus:border-primary shadow-inner" required 
+                              th:text="${checkIn.managerNotes}"></textarea>
                 </div>
             </div>
 
@@ -43,36 +45,24 @@
 
         <div class="space-y-6">
             <div class="card glassmorphism p-6 bg-primary/5">
-                <h3 class="text-lg font-semibold mb-3 text-glow">Holistic Score Profile</h3>
-                <p class="text-xs text-muted mb-4 italic">Aggregated from manager-assessed evidence within the last 3 years.</p>
+                <h3 class="text-lg font-semibold mb-3 text-glow">Draft Score Profile</h3>
+                <p class="text-xs text-muted mb-4 italic">Scores captured when the draft was started.</p>
                 <div class="w-full flex justify-center mb-4">
                     <canvas id="scoreRadarChart" style="max-height: 250px;"></canvas>
                 </div>
-                <!-- Mini Score Legend -->
                 <div class="grid grid-cols-1 gap-2">
                     <div th:each="pillar : ${pillars}" class="flex justify-between items-center text-sm p-2 rounded-md border border-gray-700/50 bg-gray-800/20">
                         <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
                         <div class="flex space-x-4 text-xs">
-                            <span class="text-blue-400" title="Expected level based on current grade">Target: <span class="font-bold" th:text="${developer.getExpectedPillarLevel(pillar).value()}">N/A</span></span>
-                            <span class="text-primary" title="Highest assessor score in last 3 years">Actual: <span class="font-bold" th:text="${actualScores.containsKey(pillar) ? actualScores.get(pillar).value() : 0}">0</span></span>
+                            <span class="text-blue-400">Target: <span class="font-bold" th:text="${developer.getExpectedPillarLevel(pillar).value()}">N/A</span></span>
+                            <span class="text-primary">Actual: <span class="font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 0}">0</span></span>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="card glassmorphism p-6 border-l-4 border-info bg-info/5">
-                <h3 class="text-lg font-semibold mb-2 text-info flex items-center gap-2">
-                    <span class="material-icons text-sm">info</span>
-                    <span>Note on Freezing</span>
-                </h3>
-                <p class="text-sm text-gray-400">
-                    Completing this check-in will "freeze" the current aggregated scores for this specific review period. This creates a permanent point-in-time snapshot.
-                </p>
-            </div>
         </div>
     </form>
 
-    <!-- Chart.js configuration script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -80,18 +70,15 @@
             const ctx = document.getElementById('scoreRadarChart');
             if(ctx) {
                 const labels = /*[[${pillars}]]*/ [];
-                const actualScores = /*[[${actualScores}]]*/ {};
+                const actualScores = /*[[${checkIn.holisticScores}]]*/ {};
                 
                 const data = labels.map(p => {
                     const scoreObj = actualScores[p];
                     return scoreObj ? scoreObj.value : 0;
                 });
                 
-                // Format label names
                 const formattedLabels = labels.map(label => {
-                    return label.split('_')
-                                .map(word => word.charAt(0) + word.slice(1).toLowerCase())
-                                .join(' ');
+                    return label.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
                 });
 
                 new Chart(ctx, {
@@ -99,7 +86,7 @@
                     data: {
                         labels: formattedLabels,
                         datasets: [{
-                            label: 'Aggregated Scores',
+                            label: 'Captured Scores',
                             data: data,
                             backgroundColor: 'rgba(124, 58, 237, 0.2)',
                             borderColor: 'rgba(124, 58, 237, 0.8)',
@@ -113,25 +100,12 @@
                         maintainAspectRatio: false,
                         scales: {
                             r: {
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.1)'
-                                },
-                                pointLabels: {
-                                    color: 'rgba(255, 255, 255, 0.7)',
-                                    font: { size: 10 }
-                                },
-                                ticks: {
-                                    min: 0,
-                                    max: 5,
-                                    stepSize: 1,
-                                    color: 'rgba(255, 255, 255, 0.5)',
-                                    backdropColor: 'transparent',
-                                }
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                pointLabels: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 10 } },
+                                ticks: { min: 0, max: 5, stepSize: 1, color: 'rgba(255, 255, 255, 0.5)', backdropColor: 'transparent' }
                             }
                         },
-                        plugins: {
-                            legend: { display: false }
-                        }
+                        plugins: { legend: { display: false } }
                     }
                 });
             }

@@ -77,6 +77,7 @@ public class CheckInController {
             @PathVariable UUID userId,
             @RequestParam UUID targetGradeId,
             @RequestParam String managerNotes,
+            @RequestParam(value = "action", defaultValue = "finalize") String action,
             Authentication authentication) {
 
         User manager = userRepository.findByEmail(authentication.getName())
@@ -85,8 +86,69 @@ public class CheckInController {
         Grade targetGrade = gradeRepository.findById(targetGradeId)
                 .orElseThrow(() -> new IllegalArgumentException("Target grade not found: " + targetGradeId));
 
-        checkInService.createCheckIn(userId, manager.id(), managerNotes, targetGrade);
+        boolean isDraft = action.equals("draft");
+        checkInService.createCheckIn(userId, manager.id(), managerNotes, targetGrade, isDraft);
 
         return "redirect:/checkins/user/" + userId;
+    }
+
+    @GetMapping("/{id}")
+    public String viewCheckIn(@PathVariable UUID id, Model model, Authentication authentication) {
+        CheckIn checkIn = checkInRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("CheckIn not found: " + id));
+        
+        User developer = userRepository.findById(checkIn.userId())
+                .orElseThrow(() -> new IllegalArgumentException("Developer not found"));
+
+        boolean isManager = false;
+        if (authentication != null) {
+            User caller = userRepository.findByEmail(authentication.getName()).orElse(null);
+            if (caller != null && !caller.id().equals(checkIn.userId())) {
+                isManager = true;
+            }
+        }
+
+        model.addAttribute("checkIn", checkIn);
+        model.addAttribute("developer", developer);
+        model.addAttribute("isManager", isManager);
+        model.addAttribute("pillars", Pillar.values());
+        
+        return "checkin-detail";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editCheckIn(@PathVariable UUID id, Model model, Authentication authentication) {
+        CheckIn checkIn = checkInRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("CheckIn not found: " + id));
+        
+        if (checkIn.status() != CheckInStatus.DRAFT) {
+            return "redirect:/checkins/" + id;
+        }
+
+        User developer = userRepository.findById(checkIn.userId())
+                .orElseThrow(() -> new IllegalArgumentException("Developer not found"));
+
+        model.addAttribute("checkIn", checkIn);
+        model.addAttribute("developer", developer);
+        model.addAttribute("pillars", Pillar.values());
+        model.addAttribute("grades", gradeRepository.findAll());
+        
+        return "checkin-edit";
+    }
+
+    @PostMapping("/{id}/update")
+    public String updateCheckIn(
+            @PathVariable UUID id,
+            @RequestParam UUID targetGradeId,
+            @RequestParam String managerNotes,
+            @RequestParam(value = "action", defaultValue = "finalize") String action) {
+
+        Grade targetGrade = gradeRepository.findById(targetGradeId)
+                .orElseThrow(() -> new IllegalArgumentException("Target grade not found: " + targetGradeId));
+
+        boolean finalize = action.equals("finalize");
+        CheckIn updated = checkInService.updateCheckIn(id, managerNotes, targetGrade, finalize);
+
+        return "redirect:/checkins/user/" + updated.userId();
     }
 }

@@ -157,6 +157,15 @@ public class DevDataSeeder {
                             vpExpectations, "Quarterly review summary for " + engineer.fullName(), 
                             status, LocalDate.now().minusMonths(monthsAgo))); // check-in date
                     }
+
+                    // Seed one DRAFT check-in for user@example.com
+                    if (email.equals("user@example.com")) {
+                        checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(),
+                            LocalDate.now().minusMonths(1),
+                            LocalDate.now(),
+                            vpExpectations, "This is a draft check-in notes.",
+                            CheckInStatus.DRAFT, LocalDate.now()));
+                    }
                 }
             }
 

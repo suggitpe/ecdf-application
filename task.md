@@ -69,7 +69,9 @@
 - [x] Check-In & Period Review (Quarterly):
   - [x] Write Controller tests and implement `CheckInController`
   - [x] Implement `checkin-list.html` (Sorted most recent first)
-  - [x] Implement `checkin-form.html` for Managers to capture review notes and freeze the point-in-time aggregated scores
+  - [x] Implement `checkin-detail.html` (Read-only view for finalized/draft check-ins)
+  - [x] Implement `checkin-edit.html` (Editing support for DRAFT check-ins)
+  - [x] Implement `checkin-form.html` for Managers to capture review notes and support Save-as-Draft or Finalize
   - [x] Surface Grade expectations, full pillar names, and actual scores visually within the Check-In UI
 - [x] Infrastructure & CI/CD:
   - [x] Provision GCP Infrastructure using Terraform (Cloud Run, Artifact Registry, GCS Bucket)

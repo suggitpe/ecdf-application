@@ -61,7 +61,7 @@ class CheckInServiceTest {
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val checkIn = checkInService.createCheckIn(userId, managerId, "Needs improvement", targetGrade)
+        val checkIn = checkInService.createCheckIn(userId, managerId, "Needs improvement", targetGrade, false)
 
         // Then
         checkIn.status shouldBe CheckInStatus.UNDERPERFORMING
@@ -93,7 +93,7 @@ class CheckInServiceTest {
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val checkIn = checkInService.createCheckIn(userId, managerId, "OK", targetGrade)
+        val checkIn = checkInService.createCheckIn(userId, managerId, "OK", targetGrade, false)
 
         // Then
         checkIn.status shouldBe CheckInStatus.ON_TRACK
@@ -127,7 +127,7 @@ class CheckInServiceTest {
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val checkIn = checkInService.createCheckIn(userId, managerId, "Great job", targetGrade)
+        val checkIn = checkInService.createCheckIn(userId, managerId, "Great job", targetGrade, false)
 
         // Then
         checkIn.status shouldBe CheckInStatus.OVER_PERFORMING
@@ -155,7 +155,7 @@ class CheckInServiceTest {
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val checkIn = checkInService.createCheckIn(userId, managerId, "Doing well", targetGrade)
+        val checkIn = checkInService.createCheckIn(userId, managerId, "Doing well", targetGrade, false)
 
         // Then
         checkIn.status shouldBe CheckInStatus.ON_TRACK
@@ -182,7 +182,7 @@ class CheckInServiceTest {
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val checkIn = checkInService.createCheckIn(userId, managerId, "Ready to go up", targetGrade)
+        val checkIn = checkInService.createCheckIn(userId, managerId, "Ready to go up", targetGrade, false)
 
         // Then
         checkIn.status shouldBe CheckInStatus.READY_FOR_PROMOTION
@@ -210,7 +210,7 @@ class CheckInServiceTest {
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val checkIn = checkInService.createCheckIn(userId, managerId, "Old evidence", targetGrade)
+        val checkIn = checkInService.createCheckIn(userId, managerId, "Old evidence", targetGrade, false)
 
         // Then
         // Without old evidence, they have 0 expectations met for THINKS, which is 1 missing pillar.
@@ -245,10 +245,50 @@ class CheckInServiceTest {
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
-        val checkIn = checkInService.createCheckIn(userId, managerId, "Notes", targetGrade)
+        val checkIn = checkInService.createCheckIn(userId, managerId, "Notes", targetGrade, false)
 
         // Then
         checkIn.holisticScores[Pillar.THINKS] shouldBe Score(4) // It should take the max valid score
+    }
+
+    @Test
+    fun `should create check-in with DRAFT status when isDraft is true`() {
+        // Given
+        val userId = UUID.randomUUID()
+        val managerId = UUID.randomUUID()
+        val targetGrade = Grade(UUID.randomUUID(), "Senior", "Developer", emptyMap())
+
+        `when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
+
+        // When
+        val checkIn = checkInService.createCheckIn(userId, managerId, "Draft notes", targetGrade, true)
+
+        // Then
+        checkIn.status shouldBe CheckInStatus.DRAFT
+        checkIn.managerNotes shouldBe "Draft notes"
+    }
+
+    @Test
+    fun `should finalize a draf check-in and evaluate status`() {
+        // Given
+        val userId = UUID.randomUUID()
+        val managerId = UUID.randomUUID()
+        val checkInId = UUID.randomUUID()
+        val targetGrade = Grade(UUID.randomUUID(), "Senior", "Developer", mapOf(Pillar.THINKS to Score(3)))
+        
+        val draft = CheckIn(checkInId, userId, managerId, LocalDate.now(), LocalDate.now(), 
+            mapOf(Pillar.THINKS to Score(4)), "Initial notes", CheckInStatus.DRAFT, LocalDate.now())
+
+        `when`(checkInRepository.findById(checkInId)).thenReturn(Optional.of(draft))
+        `when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
+        `when`(evidenceRepository.findByUserIdAndStatus(any(), any())).thenReturn(emptyList()) // Simple case for status eval
+
+        // When
+        val finalized = checkInService.updateCheckIn(checkInId, "Final notes", targetGrade, true)
+
+        // Then
+        finalized.status shouldBe CheckInStatus.ON_TRACK // Meets 1/1 pillars, not ITA, so ON_TRACK
+        finalized.managerNotes shouldBe "Final notes"
     }
 
     private fun createEvidence(userId: UUID, evidenceId: UUID, createdDate: LocalDate): Evidence {

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base.html}">
+<head>
+    <title th:text="${'Check-In Detail - ' + developer.fullName}">Check-In Detail</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+    <div class="mb-6 flex justify-between items-center">
+        <div>
+            <a th:href="@{/checkins/user/{userId}(userId=${developer.id})}" class="btn-link back-link">&larr; Back to History</a>
+            <h1 class="text-3xl font-bold mb-1 mt-2" th:text="${'Check-In: ' + #temporals.format(checkIn.checkInDate, 'dd MMM yyyy')}">Check-In Detail</h1>
+            <div class="flex items-center gap-3">
+                <span class="text-muted" th:text="${developer.fullName}">Developer Name</span>
+                <span class="badge" 
+                      th:classappend="${checkIn.status.name() == 'UNDERPERFORMING' ? 'badge-danger' : (checkIn.status.name() == 'READY_FOR_PROMOTION' ? 'badge-success' : (checkIn.status.name() == 'DRAFT' ? 'badge-warning' : 'badge-info'))}"
+                      th:text="${checkIn.status}">STATUS</span>
+            </div>
+        </div>
+        <div th:if="${isManager && checkIn.status.name() == 'DRAFT'}">
+            <a th:href="@{/checkins/{id}/edit(id=${checkIn.id})}" class="btn btn-primary glow-effect shadow-sm">Edit Draft</a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+            <div class="card glassmorphism p-6 space-y-4">
+                <h2 class="text-xl font-semibold text-glow">Manager Notes</h2>
+                <div class="prose prose-invert max-w-none">
+                    <p class="whitespace-pre-wrap text-gray-300" th:text="${checkIn.managerNotes}">Notes content...</p>
+                </div>
+            </div>
+            
+            <div class="card glassmorphism p-6">
+                <h2 class="text-xl font-semibold text-glow mb-4">Period Details</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-xs text-muted uppercase tracking-wider">Period Start</p>
+                        <p class="text-gray-200" th:text="${#temporals.format(checkIn.periodStartDate, 'dd MMM yyyy')}">Start</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-muted uppercase tracking-wider">Period End</p>
+                        <p class="text-gray-200" th:text="${#temporals.format(checkIn.periodEndDate, 'dd MMM yyyy')}">End</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="card glassmorphism p-6 bg-primary/5">
+                <h3 class="text-lg font-semibold mb-3 text-glow">Performance Snapshot</h3>
+                <div class="w-full flex justify-center mb-4">
+                    <canvas id="scoreRadarChart" style="max-height: 250px;"></canvas>
+                </div>
+                <div class="grid grid-cols-1 gap-2">
+                    <div th:each="pillar : ${pillars}" class="flex justify-between items-center text-sm p-2 rounded-md border border-gray-700/50 bg-gray-800/20">
+                        <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
+                        <span class="text-primary font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 0}">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('scoreRadarChart');
+            if(ctx) {
+                const labels = /*[[${pillars}]]*/ [];
+                const actualScores = /*[[${checkIn.holisticScores}]]*/ {};
+                
+                const data = labels.map(p => {
+                    const scoreObj = actualScores[p];
+                    return scoreObj ? scoreObj.value : 0;
+                });
+                
+                const formattedLabels = labels.map(label => {
+                    return label.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
+                });
+
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: formattedLabels,
+                        datasets: [{
+                            label: 'Frozen Scores',
+                            data: data,
+                            backgroundColor: 'rgba(124, 58, 237, 0.2)',
+                            borderColor: 'rgba(124, 58, 237, 0.8)',
+                            pointBackgroundColor: 'rgba(167, 139, 250, 1)',
+                            pointBorderColor: '#fff',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                pointLabels: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 10 } },
+                                ticks: { min: 0, max: 5, stepSize: 1, color: 'rgba(255, 255, 255, 0.5)', backdropColor: 'transparent' }
+                            }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+        });
+        /*]]>*/
+    </script>
+</main>
+
+</body>
+</html>

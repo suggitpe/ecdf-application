@@ -34,15 +34,15 @@ public class CheckInService {
         this.assessmentRepository = assessmentRepository;
     }
 
-    public CheckIn createCheckIn(UUID userId, UUID managerId, String managerNotes, Grade targetGrade) {
+    public CheckIn createCheckIn(UUID userId, UUID managerId, String managerNotes, Grade targetGrade, boolean isDraft) {
         LocalDate now = LocalDate.now();
-        
         Map<Pillar, Score> aggregatedScores = getAggregatedScores(userId);
         
-        // Note: hasItaAssessment check needs to be refactored or kept here
-        // For simplicity, let's keep the existing logic and just use it to evaluate status.
-        boolean hasItaAssessment = checkHasItaAssessment(userId);
-        CheckInStatus status = evaluateStatus(aggregatedScores, targetGrade, hasItaAssessment);
+        CheckInStatus status = CheckInStatus.DRAFT;
+        if (!isDraft) {
+            boolean hasItaAssessment = checkHasItaAssessment(userId);
+            status = evaluateStatus(aggregatedScores, targetGrade, hasItaAssessment);
+        }
 
         CheckIn checkIn = new CheckIn(
                 null,
@@ -57,6 +57,35 @@ public class CheckInService {
         );
 
         return checkInRepository.save(checkIn);
+    }
+
+    public CheckIn updateCheckIn(UUID checkInId, String managerNotes, Grade targetGrade, boolean finalize) {
+        CheckIn existing = checkInRepository.findById(checkInId)
+                .orElseThrow(() -> new IllegalArgumentException("CheckIn not found: " + checkInId));
+        
+        if (existing.status() != CheckInStatus.DRAFT && existing.status() != null && finalize) {
+            // Already finalized? usually shouldn't happen from UI logic but let's be safe
+        }
+
+        CheckInStatus newStatus = CheckInStatus.DRAFT;
+        if (finalize) {
+            boolean hasItaAssessment = checkHasItaAssessment(existing.userId());
+            newStatus = evaluateStatus(existing.holisticScores(), targetGrade, hasItaAssessment);
+        }
+
+        CheckIn updated = new CheckIn(
+                existing.id(),
+                existing.userId(),
+                existing.managerId(),
+                existing.periodStartDate(),
+                existing.periodEndDate(),
+                existing.holisticScores(),
+                managerNotes,
+                newStatus,
+                existing.checkInDate()
+        );
+
+        return checkInRepository.save(updated);
     }
 
     private boolean checkHasItaAssessment(UUID userId) {

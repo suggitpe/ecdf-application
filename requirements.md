@@ -32,10 +32,8 @@ This document outlines the business requirements for the Engineer Career Develop
 - Assessors must provide a Review Summary/feedback for the evidence submission.
 
 ## 4. Quarterly Check-ins & Holistic Rating
-- Check-ins happen on a periodic (e.g., quarterly) basis.
-- **Holistic Rating & Snapshots**: During a Check-in, the system acts as a **point-in-time snapshot** of all assessed evidence. This means the ECDF assessment used for a Q1 check-in is frozen for that period and could be different from the ECDF assessment used for the Q3 check-in, as evidence evolves.
-- **Evidence Aging**: Evidence has a rolling validity period (e.g., 3 years). Evidence older than this is excluded from the aggregated holistic rating.
 - The manager adds formal review notes during the Check-in.
+- **Draft & Finalize**: Managers can save a check-in as a **Draft** to capture notes and snapshots without concluding the review. Draft check-ins can be edited and resumed later. Once a check-in is **Finalized**, it becomes an immutable historical record with a calculated outcome status.
 - The aggregated rating is compared against the target grade expectations.
   - The check-in UI must explicitly display the full names of the pillars, the expected pillar grades, and the actual aggregated scores.
 - **Outcomes**: Based on the Check-in, the employee's status is categorized as:
