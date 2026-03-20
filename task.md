@@ -64,6 +64,8 @@
   - [x] Write Controller tests and implement `AssessmentController`
   - [x] Implement `assessment-form.html` (for Managers/ITAs) with independent pillar scoring and Review Summary
   - [x] Dynamically default assessor rating dropdowns to the developer's self-assessed rating
+  - [x] View Employee Evidence summary (Manager/ITA view)
+  - [x] Add Evidence button to direct reports on the Team page
   - [x] Implement UI flow for Manager to assign evidence to an Independent Technical Assessor (ITA)
   - [x] Implement `assessor-queue.html` listing evidence assigned to the current user
 - [x] Check-In & Period Review:

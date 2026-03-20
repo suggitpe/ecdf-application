@@ -5,6 +5,8 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import org.acmebank.people.domain.CheckIn
 import org.acmebank.people.domain.CheckInStatus
 import org.acmebank.people.domain.Grade
+import org.acmebank.people.domain.Pillar
+import org.acmebank.people.domain.Score
 import org.acmebank.people.domain.User
 import org.acmebank.people.domain.port.CheckInRepository
 import org.acmebank.people.domain.port.UserRepository
@@ -54,9 +56,13 @@ class TeamControllerTest {
         )
 
         val mockCheckIn = CheckIn(
-            UUID.randomUUID(), teamMemberId, managerId,
-            emptyMap(),
-            "Good progress", CheckInStatus.ON_TRACK, LocalDate.now()
+            UUID.randomUUID(),
+            teamMemberId,
+            UUID.randomUUID(),
+            mapOf(Pillar.DESIGNS to Score(3)),
+            "Good progress",
+            CheckInStatus.ON_TRACK,
+            LocalDate.now()
         )
 
         `when`(userRepository.findByEmail("manager@example.com")).thenReturn(Optional.of(mockManager))

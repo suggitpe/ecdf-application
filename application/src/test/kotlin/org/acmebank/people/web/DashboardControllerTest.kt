@@ -55,9 +55,13 @@ class DashboardControllerTest {
             null, false
         )
         val mockCheckIn = CheckIn(
-            UUID.randomUUID(), userId, UUID.randomUUID(),
+            UUID.randomUUID(),
+            userId,
+            UUID.randomUUID(),
             mapOf(Pillar.DESIGNS to Score(3)),
-            "Good progress", CheckInStatus.ON_TRACK, LocalDate.now()
+            "Good progress",
+            CheckInStatus.ON_TRACK,
+            LocalDate.now()
         )
         val mockEvidence = Evidence(
             UUID.randomUUID(), userId, "Refactored Core System", "Description of work done", "High impact", "Complex", "Led the effort",
@@ -72,7 +76,7 @@ class DashboardControllerTest {
         mockMvc.perform(get("/dashboard"))
             .andExpect(status().isOk)
             .andExpect(view().name("dashboard"))
-            .andExpect(model().attributeExists("user", "latestCheckIn", "historicalCheckIns", "recentEvidence", "radarLabels", "radarData"))
+            .andExpect(model().attributeExists("user", "latestCheckIn", "historicalCheckIns", "recentEvidence", "radarLabels", "radarData", "pillars"))
             .andDo { result ->
                 val modelAndView = result.modelAndView
                 modelAndView.shouldNotBeNull()

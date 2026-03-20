@@ -72,6 +72,33 @@ public class EvidenceController {
     }
 
     // -------------------------------------------------------------------------
+    // GET /evidence/user/{userId} — list evidence for a specific user (Manager/ITA view)
+    // -------------------------------------------------------------------------
+    @GetMapping("/user/{userId}")
+    public String listUserEvidence(@PathVariable UUID userId, Principal principal, Model model) {
+        User currentUser = resolveUser(principal);
+        User targetUser = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        User owner = userRepository.findById(targetUser.id()).get();
+        boolean isManager = currentUser.id().equals(owner.managerId());
+        boolean isIta = currentUser.isIta();
+
+        if (!isManager && !isIta && !currentUser.id().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        List<Evidence> evidenceList = evidenceRepository.findByUserId(userId).stream()
+                .sorted(Comparator.comparing(Evidence::createdDate).reversed())
+                .toList();
+
+        model.addAttribute("evidenceList", evidenceList);
+        model.addAttribute("targetUser", targetUser);
+        model.addAttribute("isManagerView", true);
+        return "evidence-list";
+    }
+
+    // -------------------------------------------------------------------------
     // GET /evidence/new — show create form
     // -------------------------------------------------------------------------
     @GetMapping("/new")

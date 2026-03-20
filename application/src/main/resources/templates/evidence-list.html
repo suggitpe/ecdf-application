@@ -9,8 +9,9 @@
 
 <section layout:fragment="content">
     <div class="evidence-header flex justify-between items-center mb-6">
-        <h1>My Evidence</h1>
-        <a href="/evidence/new" class="btn btn-primary">Create New Evidence</a>
+        <h1 th:if="${isManagerView}" th:text="'Evidence: ' + ${targetUser.fullName}">Evidence: User Name</h1>
+        <h1 th:if="${isManagerView == null || !isManagerView}">My Evidence</h1>
+        <a th:if="${isManagerView == null || !isManagerView}" href="/evidence/new" class="btn btn-primary">Create New Evidence</a>
     </div>
 
     <div class="evidence-list-container glass-panel">
