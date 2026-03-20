@@ -181,10 +181,10 @@ public class DomainPersistenceMapper {
     public static CheckIn toDomainCheckIn(CheckInEntity entity) {
         if (entity == null)
             return null;
-        Map<Pillar, Score> scores = entity.getHolisticScores().entrySet().stream()
+        Map<Pillar, PillarScoreInfo> scores = entity.getHolisticScores().entrySet().stream()
                 .collect(Collectors.toMap(
                         e -> Pillar.valueOf(e.getKey()),
-                        e -> new Score(e.getValue())));
+                        e -> new PillarScoreInfo(new Score(e.getValue().getScore()), e.getValue().getEvidenceId())));
         return new CheckIn(
                 entity.getId(),
                 entity.getUser().getId(),
@@ -207,8 +207,8 @@ public class DomainPersistenceMapper {
         entity.setCheckInDate(domain.checkInDate());
 
         if (domain.holisticScores() != null) {
-            domain.holisticScores().forEach((pillar, score) -> {
-                entity.getHolisticScores().put(pillar.name(), score.value());
+            domain.holisticScores().forEach((pillar, info) -> {
+                entity.getHolisticScores().put(pillar.name(), new CheckInEntity.PillarScoreValue(info.score().value(), info.evidenceId()));
             });
         }
         return entity;

@@ -45,7 +45,14 @@
                 <div class="grid grid-cols-1 gap-2">
                     <div th:each="pillar : ${pillars}" class="flex justify-between items-center text-sm p-2 rounded-md border border-gray-700/50 bg-gray-800/20">
                         <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
-                        <span class="text-primary font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 'N/A'}">N/A</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-primary font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).score().value() : 'N/A'}">N/A</span>
+                            <a th:if="${checkIn.holisticScores.containsKey(pillar) && checkIn.holisticScores.get(pillar).evidenceId() != null}"
+                               th:href="@{/evidence/{id}(id=${checkIn.holisticScores.get(pillar).evidenceId()})}"
+                               class="text-primary hover:text-white transition-colors p-1" title="View Source Evidence">
+                                <i class="fas fa-external-link-alt" style="font-size: 0.85rem;"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,7 +70,7 @@
                 
                 const data = labels.map(p => {
                     const scoreObj = actualScores[p];
-                    return scoreObj ? scoreObj.value : 0;
+                    return (scoreObj && scoreObj.score) ? scoreObj.score.value : 0;
                 });
                 
                 const formattedLabels = labels.map(label => {

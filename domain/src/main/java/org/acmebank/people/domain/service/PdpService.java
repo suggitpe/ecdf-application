@@ -44,7 +44,8 @@ public class PdpService {
         for (Map.Entry<Pillar, Score> entry : currentGrade.expectations().entrySet()) {
             Pillar pillar = entry.getKey();
             Score expected = entry.getValue();
-            Score actual = checkIn.holisticScores().get(pillar);
+            org.acmebank.people.domain.PillarScoreInfo actualInfo = checkIn.holisticScores().get(pillar);
+            Score actual = actualInfo != null ? actualInfo.score() : null;
 
             if (actual == null || actual.value() < expected.value()) {
                 int actualValue = (actual == null) ? 0 : actual.value();

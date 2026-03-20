@@ -1,13 +1,6 @@
 package org.acmebank.people.domain.service;
 
-import org.acmebank.people.domain.Assessment;
-import org.acmebank.people.domain.CheckIn;
-import org.acmebank.people.domain.CheckInStatus;
-import org.acmebank.people.domain.Evidence;
-import org.acmebank.people.domain.EvidenceStatus;
-import org.acmebank.people.domain.Grade;
-import org.acmebank.people.domain.Pillar;
-import org.acmebank.people.domain.Score;
+import org.acmebank.people.domain.*;
 import org.acmebank.people.domain.port.AssessmentRepository;
 import org.acmebank.people.domain.port.CheckInRepository;
 import org.acmebank.people.domain.port.EvidenceRepository;
@@ -37,7 +30,7 @@ public class CheckInService {
 
     public CheckIn createCheckIn(UUID userId, UUID managerId, String managerNotes, Grade targetGrade, boolean isDraft) {
         LocalDate now = LocalDate.now();
-        Map<Pillar, Score> aggregatedScores = getAggregatedScores(userId);
+        Map<Pillar, PillarScoreInfo> aggregatedScores = getAggregatedScores(userId);
         
         CheckInStatus status = CheckInStatus.DRAFT;
         if (!isDraft) {
@@ -102,14 +95,14 @@ public class CheckInService {
         return false;
     }
 
-    public Map<Pillar, Score> getAggregatedScores(UUID userId) {
+    public Map<Pillar, PillarScoreInfo> getAggregatedScores(UUID userId) {
         LocalDate threeYearsAgo = LocalDate.now().minusYears(3);
         List<Evidence> assessedEvidence = new java.util.ArrayList<>(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED));
         assessedEvidence.addAll(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED));
 
         assessedEvidence.sort(Comparator.comparing(Evidence::createdDate).reversed());
 
-        Map<Pillar, Score> aggregatedScores = new EnumMap<>(Pillar.class);
+        Map<Pillar, PillarScoreInfo> aggregatedScores = new EnumMap<>(Pillar.class);
 
         for (Evidence evidence : assessedEvidence) {
             if (evidence.createdDate().isBefore(threeYearsAgo)) {
@@ -130,7 +123,7 @@ public class CheckInService {
                         Score currentScore = entry.getValue();
 
                         if (!aggregatedScores.containsKey(pillar)) {
-                            aggregatedScores.put(pillar, currentScore);
+                            aggregatedScores.put(pillar, new PillarScoreInfo(currentScore, evidence.id()));
                         }
                     }
                 }
@@ -139,14 +132,15 @@ public class CheckInService {
         return aggregatedScores;
     }
 
-    private CheckInStatus evaluateStatus(Map<Pillar, Score> aggregatedScores, Grade targetGrade, boolean hasItaAssessment) {
+    private CheckInStatus evaluateStatus(Map<Pillar, PillarScoreInfo> aggregatedScores, Grade targetGrade, boolean hasItaAssessment) {
         int belowExpectationsCount = 0;
         int aboveExpectationsCount = 0;
 
         for (Map.Entry<Pillar, Score> entry : targetGrade.expectations().entrySet()) {
             Pillar pillar = entry.getKey();
             Score expected = entry.getValue();
-            Score actual = aggregatedScores.get(pillar);
+            PillarScoreInfo actualInfo = aggregatedScores.get(pillar);
+            Score actual = actualInfo != null ? actualInfo.score() : null;
 
             if (actual == null || actual.value() < expected.value()) {
                 belowExpectationsCount++;

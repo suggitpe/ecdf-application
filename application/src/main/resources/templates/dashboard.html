@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base.html}">
 <head>
@@ -101,14 +101,21 @@
                             <div class="pillar-score-card" th:each="pillar : ${pillars}">
                                 <div class="pillar-name" th:text="${pillar.name()}">THINKS</div>
                                 <div class="dreyfus-score" th:if="${checkIn.holisticScores != null and checkIn.holisticScores.containsKey(pillar)}">
-                                    <div class="score-display">
-                                        <span class="score-value" th:text="${checkIn.holisticScores.get(pillar).value()}">3</span>
+                                    <div class="score-display flex items-center justify-center">
+                                        <span class="score-value" th:text="${checkIn.holisticScores.get(pillar).score().value()}">3</span>
                                         <span class="score-max">/5</span>
+                                        <a th:if="${checkIn.holisticScores.get(pillar).evidenceId() != null}"
+                                           th:href="@{/evidence/{id}(id=${checkIn.holisticScores.get(pillar).evidenceId()})}"
+                                           class="ml-1 text-muted hover:text-primary transition-colors" title="View Source Evidence">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                        </a>
                                     </div>
                                     <div class="score-dots">
                                         <span th:each="i : ${#numbers.sequence(1, 5)}"
                                               class="score-dot"
-                                              th:classappend="${i <= checkIn.holisticScores.get(pillar).value()} ? ' filled' : ''"></span>
+                                              th:classappend="${i <= checkIn.holisticScores.get(pillar).score().value()} ? ' filled' : ''"></span>
                                     </div>
                                 </div>
                                 <div class="dreyfus-score" th:unless="${checkIn.holisticScores != null and checkIn.holisticScores.containsKey(pillar)}">
@@ -116,7 +123,7 @@
                                         <span class="score-value">N/A</span>
                                     </div>
                                 </div>
-                                <div class="dreyfus-label" th:if="${checkIn.holisticScores != null and checkIn.holisticScores.containsKey(pillar)}" th:switch="${checkIn.holisticScores.get(pillar).value()}">
+                                <div class="dreyfus-label" th:if="${checkIn.holisticScores != null and checkIn.holisticScores.containsKey(pillar)}" th:switch="${checkIn.holisticScores.get(pillar).score().value()}">
                                     <span th:case="1">Novice</span>
                                     <span th:case="2">Adv. Beginner</span>
                                     <span th:case="3">Competent</span>

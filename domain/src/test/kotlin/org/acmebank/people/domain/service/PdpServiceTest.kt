@@ -2,7 +2,10 @@ package org.acmebank.people.domain.service
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.collections.shouldHaveSize
 import org.acmebank.people.domain.*
+import org.acmebank.people.domain.PillarScoreInfo
 import org.acmebank.people.domain.port.PdpItemRepository
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -58,8 +61,8 @@ class PdpServiceTest {
         ))
 
         val checkInScores = mapOf(
-            Pillar.THINKS to Score(3),   // Underperforming (3 < 4)
-            Pillar.DELIVERS to Score(4)  // On Track (4 == 4)
+            Pillar.THINKS to PillarScoreInfo(Score(3), UUID.randomUUID()),   // Underperforming (3 < 4)
+            Pillar.DELIVERS to PillarScoreInfo(Score(4), UUID.randomUUID())  // On Track (4 == 4)
             // ENGAGES is missing, defaults to null, meaning underperforming
         )
 

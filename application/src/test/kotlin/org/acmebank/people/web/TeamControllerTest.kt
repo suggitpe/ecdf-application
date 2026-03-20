@@ -3,6 +3,7 @@ package org.acmebank.people.web
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.nulls.shouldNotBeNull
 import org.acmebank.people.domain.CheckIn
+import org.acmebank.people.domain.PillarScoreInfo
 import org.acmebank.people.domain.CheckInStatus
 import org.acmebank.people.domain.Grade
 import org.acmebank.people.domain.Pillar
@@ -59,7 +60,7 @@ class TeamControllerTest {
             UUID.randomUUID(),
             teamMemberId,
             UUID.randomUUID(),
-            mapOf(Pillar.DESIGNS to Score(3)),
+            mapOf(Pillar.DESIGNS to PillarScoreInfo(Score(3), UUID.randomUUID())),
             "Good progress",
             CheckInStatus.ON_TRACK,
             LocalDate.now()

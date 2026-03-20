@@ -8,7 +8,7 @@ public record CheckIn(
         UUID id,
         UUID userId,
         UUID managerId,
-        Map<Pillar, Score> holisticScores,
+        Map<Pillar, PillarScoreInfo> holisticScores,
         String managerNotes,
         CheckInStatus status,
         LocalDate checkInDate) {

@@ -3,7 +3,7 @@ package org.acmebank.people.web;
 import org.acmebank.people.domain.CheckIn;
 import org.acmebank.people.domain.Evidence;
 import org.acmebank.people.domain.Pillar;
-import org.acmebank.people.domain.Score;
+
 import org.acmebank.people.domain.User;
 import org.acmebank.people.domain.port.CheckInRepository;
 import org.acmebank.people.domain.port.EvidenceRepository;
@@ -18,8 +18,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
 
 @Controller
 public class DashboardController {
@@ -68,9 +67,9 @@ public class DashboardController {
             radarLabels.add(pillar.name());
             int scoreValue = 0;
             if (latestCheckIn != null && latestCheckIn.holisticScores() != null) {
-                Score score = latestCheckIn.holisticScores().get(pillar);
-                if (score != null) {
-                    scoreValue = score.value();
+                org.acmebank.people.domain.PillarScoreInfo info = latestCheckIn.holisticScores().get(pillar);
+                if (info != null && info.score() != null) {
+                    scoreValue = info.score().value();
                 }
             }
             radarData.add(scoreValue);

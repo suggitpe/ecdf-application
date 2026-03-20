@@ -60,7 +60,9 @@
                         <span th:text="${pillar.name()}" class="font-medium text-gray-300">PILLAR NAME</span>
                         <div class="flex gap-4">
                              <span class="text-blue-400" title="Expected level based on current grade">Target: <span class="font-bold" th:text="${developer.getExpectedPillarLevel(pillar).value()}">N/A</span></span>
-                             <span class="text-primary" title="Highest assessor score in last 3 years">Actual: <span class="font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).value() : 'N/A'}">N/A</span></span>
+                             <div class="flex items-center gap-1.5">
+                                 <span class="text-primary" title="Highest assessor score in last 3 years">Actual: <span class="font-bold" th:text="${checkIn.holisticScores.containsKey(pillar) ? checkIn.holisticScores.get(pillar).score().value() : 'N/A'}">N/A</span></span>
+                             </div>
                          </div>
                     </div>
                 </div>
@@ -89,7 +91,7 @@
                 
                 const data = labels.map(p => {
                     const scoreObj = actualScores[p];
-                    return scoreObj ? scoreObj.value : 0;
+                    return (scoreObj && scoreObj.score) ? scoreObj.score.value : 0;
                 });
                 
                 const formattedLabels = labels.map(label => {

@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.Map;
@@ -144,6 +146,12 @@ public class DevDataSeeder {
 
                 // Seed Check-Ins to show a history over the same two year period
                 if (checkInRepository.findByUserId(engineer.id()).isEmpty()) {
+                    List<Evidence> userEvidence = evidenceRepository.findByUserId(engineer.id());
+                    UUID latestEvidenceId = userEvidence.isEmpty() ? null : userEvidence.get(userEvidence.size() - 1).id();
+                    
+                    Map<Pillar, org.acmebank.people.domain.PillarScoreInfo> seededScores = vpExpectations.entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey, e -> new org.acmebank.people.domain.PillarScoreInfo(e.getValue(), latestEvidenceId)));
+
                     for (int i = 0; i < 4; i++) { // Generate 4 checkins
                         int monthsAgo = 3 + (i * 6); // 3, 9, 15, 21 months ago
                         
@@ -151,14 +159,14 @@ public class DevDataSeeder {
                                              (email.equals("user@example.com") ? CheckInStatus.UNDERPERFORMING : CheckInStatus.ON_TRACK);
                         
                         checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(), 
-                            vpExpectations, "Quarterly review summary for " + engineer.fullName(), 
+                            seededScores, "Quarterly review summary for " + engineer.fullName(), 
                             status, LocalDate.now().minusMonths(monthsAgo))); // check-in date
                     }
 
                     // Seed one DRAFT check-in for user@example.com
                     if (email.equals("user@example.com")) {
                         checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(),
-                            vpExpectations, "This is a draft check-in notes.",
+                            seededScores, "This is a draft check-in notes.",
                             CheckInStatus.DRAFT, LocalDate.now().minusDays(1)));
                     }
                 }

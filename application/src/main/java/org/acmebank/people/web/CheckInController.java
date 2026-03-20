@@ -63,7 +63,7 @@ public class CheckInController {
         User developer = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
-        Map<Pillar, Score> actualScores = checkInService.getAggregatedScores(userId);
+        Map<Pillar, PillarScoreInfo> actualScores = checkInService.getAggregatedScores(userId);
 
         model.addAttribute("developer", developer);
         model.addAttribute("grades", gradeRepository.findAll());

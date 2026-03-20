@@ -247,7 +247,8 @@ class CheckInServiceTest {
         val checkIn = checkInService.createCheckIn(userId, managerId, "Notes", targetGrade, false)
 
         // Then
-        checkIn.holisticScores[Pillar.THINKS] shouldBe Score(3) // It should take the MOST RECENT score
+        checkIn.holisticScores[Pillar.THINKS]?.score() shouldBe Score(3) // It should take the MOST RECENT score
+        checkIn.holisticScores[Pillar.THINKS]?.evidenceId() shouldBe evidence2Id
     }
 
     @Test
@@ -275,8 +276,9 @@ class CheckInServiceTest {
         val checkInId = UUID.randomUUID()
         val targetGrade = Grade(UUID.randomUUID(), "Senior", "Developer", mapOf(Pillar.THINKS to Score(3)))
         
+        val evidenceId = UUID.randomUUID()
         val draft = CheckIn(checkInId, userId, managerId, 
-            mapOf(Pillar.THINKS to Score(4)), "Initial notes", CheckInStatus.DRAFT, LocalDate.now())
+            mapOf(Pillar.THINKS to PillarScoreInfo(Score(4), evidenceId)), "Initial notes", CheckInStatus.DRAFT, LocalDate.now())
 
         `when`(checkInRepository.findById(checkInId)).thenReturn(Optional.of(draft))
         `when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }

@@ -37,6 +37,22 @@ public class CheckInEntity {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "check_in_holistic_scores", joinColumns = @JoinColumn(name = "check_in_id"))
     @MapKeyColumn(name = "pillar")
-    @Column(name = "score")
-    private java.util.Map<String, Integer> holisticScores = new java.util.HashMap<>();
+    private java.util.Map<String, PillarScoreValue> holisticScores = new java.util.HashMap<>();
+
+    @Embeddable
+    @Getter
+    @Setter
+    public static class PillarScoreValue {
+        @Column(name = "score")
+        private Integer score;
+        
+        @Column(name = "evidence_id")
+        private UUID evidenceId;
+
+        public PillarScoreValue() {}
+        public PillarScoreValue(Integer score, UUID evidenceId) {
+            this.score = score;
+            this.evidenceId = evidenceId;
+        }
+    }
 }

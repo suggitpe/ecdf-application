@@ -22,6 +22,7 @@ This document outlines the business requirements for the Engineer Career Develop
 - Once finalized and assessed, evidence is captured as an immutable historical fact.
 - Employees **MUST** rate themselves on these selected pillars during submission. The dropdown inputs for these scores must default to a blank unselected state rather than a predefined score.
 - **Rationale**: When a user selects a pillar rating (employee or assessor), they **MUST** also provide a short description/rationale (minimum length recommended) of why they have selected that specific rating.
+- **Evidence Traceability**: When rendering pillar scores in a Check-In record or the Employee Dashboard, the UI must include a direct hyperlink to the source evidence used to calculate that specific score.
 - Once submitted, the manager must independently rate the evidence against those pillars.
 - Evidence can include URLs to external resources or file attachments (e.g., PDF reports) as proof.
 
@@ -42,6 +43,8 @@ This document outlines the business requirements for the Engineer Career Develop
   - *Over Performing*: Triggered when the employee is assessing above their pillar expectations for **more than three** pillars.
   - *On Track*: Meeting expectations for the *current* grade, falling between under and over performing thresholds.
   - *Underperforming*: Triggered when the employee has **more than three** pillars not meeting the minimum threshold for their grade.
+- **Evidence Linking**: Every pillar score displayed in a check-in or on the dashboard MUST link directly to the specific piece of evidence that provided that rating, enabling full traceability.
+
 
 ## 5. Personal Development Plan (PDP)
 - Tied to a Check-in.

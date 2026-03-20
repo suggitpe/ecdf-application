@@ -17,3 +17,5 @@ databaseChangeLog:
       file: db/changelog/08-evidence-rationale.yaml
   - include:
       file: db/changelog/09-remove-checkin-periods.yaml
+  - include:
+      file: db/changelog/10-checkin-evidence-link.yaml

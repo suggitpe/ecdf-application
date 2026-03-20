@@ -3,6 +3,7 @@ package org.acmebank.people.web
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.nulls.shouldNotBeNull
 import org.acmebank.people.domain.CheckIn
+import org.acmebank.people.domain.PillarScoreInfo
 import org.acmebank.people.domain.CheckInStatus
 import org.acmebank.people.domain.Evidence
 import org.acmebank.people.domain.EvidenceStatus
@@ -57,8 +58,8 @@ class DashboardControllerTest {
         val mockCheckIn = CheckIn(
             UUID.randomUUID(),
             userId,
-            UUID.randomUUID(),
-            mapOf(Pillar.DESIGNS to Score(3)),
+            UUID.randomUUID(), // managerId
+            mapOf(Pillar.DESIGNS to PillarScoreInfo(Score(3), UUID.randomUUID())),
             "Good progress",
             CheckInStatus.ON_TRACK,
             LocalDate.now()

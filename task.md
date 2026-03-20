@@ -56,6 +56,8 @@
 - [x] Evidence Management:
   - [x] Write Controller tests (including multipart file uploads) and implement `EvidenceController`
   - [x] Implement `evidence-list.html` (Sorted most recent first)
+  - When completing a piece of evidence and the user selects a pillar rating, they MUST also add a description (rationale) of why they have selected that rating.
+  - **Evidence Traceability**: When rendering pillar scores in a Check-In record or the Employee Dashboard, the UI must include a direct hyperlink to the source evidence used to calculate that specific score.
   - [x] Implement `evidence-form.html` (Engineers select applicable pillars and self-rate; provide Impact, Complexity, Contribution)
   - [x] Mandatory Rationale: Require a description for each pillar rating provided.
   - [x] Dynamically default employee rating dropdowns to a blank placeholder
@@ -78,6 +80,9 @@
   - [x] Updated pillar calculation to use the **most recent** assessment for each pillar
   - [x] Enhanced UI to display **N/A** for unrated pillars across dashboard, check-in details, and forms
   - [x] Surface Grade expectations, full pillar names, and actual scores visually within the Check-In UI
+  - [x] Link pillar scores in Check-In and Dashboard UI to source evidence for full traceability
+  - [x] Update persistence layer (Liquibase and JPA) to store evidence IDs with pillar scores
+
 - [x] Infrastructure & CI/CD:
   - [x] Provision GCP Infrastructure using Terraform (Cloud Run, Artifact Registry, GCS Bucket)
   - [x] Configure GCS FUSE mount for persistent evidence storage

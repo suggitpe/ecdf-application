@@ -12,7 +12,7 @@
 <main layout:fragment="content">
     <div class="mb-6 flex justify-between items-center">
         <div>
-            <a th:if="${!isManager}" href="/dashboard" class="btn-link back-link">&larr; Back to Dashboard</a>
+            <a th:if="${!isManager}" href="/dashboard" class="btn-link back-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
             <h1 class="text-3xl font-bold mb-1 mt-2" th:text="${isManager ? 'Check-In History: ' + developer.fullName : 'My Check-In History'}">Check-In History</h1>
             <p class="text-muted" th:text="${developer.grade.name}">Grade</p>
         </div>
@@ -43,10 +43,10 @@
                                   th:text="${checkin.status}">STATUS</span>
                         </td>
                         <td class="p-4">
-                            <div class="flex flex-wrap gap-1">
-                                <span th:each="entry : ${checkin.holisticScores}" class="text-[10px] px-1.5 py-0.5 rounded bg-gray-700/50 text-gray-300 border border-gray-600">
-                                    <span th:text="${#strings.substring(entry.key, 0, 3)} + ': ' + ${entry.value.value}">KS: 3</span>
-                                </span>
+                             <div class="flex flex-wrap gap-1">
+                                <span th:each="entry : ${checkin.holisticScores}" class="text-[10px] px-1.5 py-0.5 rounded bg-gray-700/50 text-gray-300 border border-gray-600 flex items-center gap-1">
+                                    <span th:text="${#strings.substring(entry.key, 0, 3)} + ': ' + ${entry.value.score().value()}">KS: 3</span>
+                                 </span>
                             </div>
                         </td>
                         <td class="p-4">

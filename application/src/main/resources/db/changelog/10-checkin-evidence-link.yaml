@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20-add-evidence-id-to-holistic-scores
+      author: ai-assistant
+      changes:
+        - addColumn:
+            tableName: check_in_holistic_scores
+            columns:
+              - column:
+                  name: evidence_id
+                  type: uuid
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            baseTableName: check_in_holistic_scores
+            baseColumnNames: evidence_id
+            referencedTableName: evidence
+            referencedColumnNames: id
+            constraintName: fk_holisticscores_evidence
