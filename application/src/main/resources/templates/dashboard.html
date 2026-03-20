@@ -172,6 +172,8 @@
                         maintainAspectRatio: false,
                         scales: {
                             r: {
+                                min: 0,
+                                max: 5,
                                 angleLines: {
                                     color: 'rgba(255, 255, 255, 0.1)'
                                 },
@@ -186,8 +188,6 @@
                                     }
                                 },
                                 ticks: {
-                                    min: 0,
-                                    max: 5,
                                     stepSize: 1,
                                     color: 'rgba(255, 255, 255, 0.5)',
                                     backdropColor: 'transparent',

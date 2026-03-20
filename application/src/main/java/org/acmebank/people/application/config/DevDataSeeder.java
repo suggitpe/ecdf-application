@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Collections;
 import java.util.Random;
 import java.util.UUID;
-import java.util.function.Supplier;
 import org.acmebank.people.domain.Assessment;
 import org.acmebank.people.domain.CheckIn;
 import org.acmebank.people.domain.CheckInStatus;
@@ -160,7 +159,7 @@ public class DevDataSeeder {
                     if (email.equals("user@example.com")) {
                         checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(),
                             vpExpectations, "This is a draft check-in notes.",
-                            CheckInStatus.DRAFT, LocalDate.now()));
+                            CheckInStatus.DRAFT, LocalDate.now().minusDays(1)));
                     }
                 }
             }
