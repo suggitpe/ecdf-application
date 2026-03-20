@@ -9,7 +9,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Chore: Upgrade to Spring Boot to version 3.5.12. See https://github.com/spring-projects/spring-boot/releases/tag/v3.5.12**
+- [x] **Track: Chore: Upgrade to Spring Boot to version 3.5.12. See https://github.com/spring-projects/spring-boot/releases/tag/v3.5.12**
   *Link: [./tracks/spring_boot_upgrade_20260320/](./tracks/spring_boot_upgrade_20260320/)*
 
 ---
