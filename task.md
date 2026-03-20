@@ -48,15 +48,16 @@
 - [x] Dashboard View (Default for all roles):
   - [x] Write Controller tests and implement `DashboardController` logic
   - [x] Implement `dashboard.html` template showing holistic score radar chart (using Chart.js) and recent evidence
-  - [x] Display a full historical log of all past Check-Ins on the standard Dashboard.
+  - [x] Display a full historical log of all past Check-Ins on the standard Dashboard (Sorted most recent first).
 - [x] Manager Team/Org View:
   - [x] Write Controller tests and implement `TeamController` logic
   - [x] Implement `team.html` template viewing full reporting hierarchy, grades, and latest Check-In outcomes
   - [x] Add highlighting for staff with skill gaps and filters to identify "Ready for Promotion" employees
 - [x] Evidence Management:
   - [x] Write Controller tests (including multipart file uploads) and implement `EvidenceController`
-  - [x] Implement `evidence-list.html`
+  - [x] Implement `evidence-list.html` (Sorted most recent first)
   - [x] Implement `evidence-form.html` (Engineers select applicable pillars and self-rate; provide Impact, Complexity, Contribution)
+  - [x] Mandatory Rationale: Require a description for each pillar rating provided.
   - [x] Dynamically default employee rating dropdowns to a blank placeholder
   - [x] Implement secure file download endpoint for attachments
 - [x] Evidence Assessment & 3rd-Party Workflow:
@@ -67,8 +68,13 @@
   - [x] Implement `assessor-queue.html` listing evidence assigned to the current user
 - [x] Check-In & Period Review (Quarterly):
   - [x] Write Controller tests and implement `CheckInController`
+  - [x] Implement `checkin-list.html` (Sorted most recent first)
   - [x] Implement `checkin-form.html` for Managers to capture review notes and freeze the point-in-time aggregated scores
   - [x] Surface Grade expectations, full pillar names, and actual scores visually within the Check-In UI
+- [x] Infrastructure & CI/CD:
+  - [x] Provision GCP Infrastructure using Terraform (Cloud Run, Artifact Registry, GCS Bucket)
+  - [x] Configure GCS FUSE mount for persistent evidence storage
+  - [x] Implement GitHub Actions workflow for automated GCP deployment
 - [ ] Developer Pathways & PDP:
   - [ ] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
   - [ ] Write Controller tests and implement `PdpController`

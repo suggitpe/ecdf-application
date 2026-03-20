@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -38,7 +39,9 @@ public class CheckInController {
     public String checkInHistory(@PathVariable UUID userId, Model model, Authentication authentication) {
         User developer = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
-        List<CheckIn> checkins = checkInRepository.findByUserId(userId);
+        List<CheckIn> checkins = checkInRepository.findByUserId(userId).stream()
+                .sorted(Comparator.comparing(CheckIn::checkInDate).reversed())
+                .toList();
 
         // Determine if the currently logged-in user is the manager (not the employee themselves)
         boolean isManager = false;

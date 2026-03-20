@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,9 @@ public class EvidenceController {
     @GetMapping
     public String listEvidence(Principal principal, Model model) {
         User user = resolveUser(principal);
-        List<Evidence> evidenceList = evidenceRepository.findByUserId(user.id());
+        List<Evidence> evidenceList = evidenceRepository.findByUserId(user.id()).stream()
+                .sorted(Comparator.comparing(Evidence::createdDate).reversed())
+                .toList();
         model.addAttribute("evidenceList", evidenceList);
         return "evidence-list";
     }
