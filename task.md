@@ -93,7 +93,7 @@
   - [x] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
   - [x] Write Controller tests and implement `PdpController`
   - [x] Implement `pdp.html` connecting identified gaps to learning journeys
-  - [ ] Implement manual PDP creation endpoint and UI on Check-In detail page
+  - [x] Implement manual PDP creation endpoint and UI on Check-In detail page
 - [ ] Administrator Role & Framework Management:
   - [ ] Database Schema & Entities: Create Liquibase migrations, JPA Entities, and pure Java Domain models/ports for dynamic Framework Management (Pillars, Descriptions, Examples, Roles, Grades expectations)
   - [ ] Business Logic: Update `FrameworkService` (or equivalent) to transition from static definitions to database-backed data, allowing for updates
