@@ -89,10 +89,11 @@
   - [x] Provision GCP Infrastructure using Terraform (Cloud Run, Artifact Registry, GCS Bucket)
   - [x] Configure GCS FUSE mount for persistent evidence storage
   - [x] Implement GitHub Actions workflow for automated GCP deployment
-- [ ] Developer Pathways & PDP:
+- [x] Developer Pathways & PDP:
   - [x] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
-  - [ ] Write Controller tests and implement `PdpController`
-  - [ ] Implement `pdp.html` connecting identified gaps to learning journeys
+  - [x] Write Controller tests and implement `PdpController`
+  - [x] Implement `pdp.html` connecting identified gaps to learning journeys
+  - [ ] Implement manual PDP creation endpoint and UI on Check-In detail page
 - [ ] Administrator Role & Framework Management:
   - [ ] Database Schema & Entities: Create Liquibase migrations, JPA Entities, and pure Java Domain models/ports for dynamic Framework Management (Pillars, Descriptions, Examples, Roles, Grades expectations)
   - [ ] Business Logic: Update `FrameworkService` (or equivalent) to transition from static definitions to database-backed data, allowing for updates

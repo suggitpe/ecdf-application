@@ -56,6 +56,7 @@ This document outlines the business requirements for the Engineer Career Develop
 
 - Tied to a Check-in.
 - When an employee is underperforming against an expected pillar score, a PDP **must** be created.
+- **Manual Creation**: When a user or a manager is reviewing or viewing a Check-in, they must be able to manually create a PDP and associate it to specific pillars that need improvement.
 - The PDP must be connected to **learning journeys**. Actionable items should help the employee address the gap.
 - For an employee who wants to progress beyond their current role, targeted pillars are specifically associated with their PDP to guide their development to the next level on those pillars.
 

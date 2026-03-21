@@ -56,6 +56,38 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Manual PDP Creation Section -->
+            <div class="card glassmorphism p-6 mt-6">
+                <h3 class="text-lg font-semibold mb-3 text-glow">Create Learning Pathway (PDP)</h3>
+                <form th:action="@{/pdp/checkin/{id}/create(id=${checkIn.id})}" method="post" class="space-y-4">
+                    <input type="hidden" name="userId" th:value="${developer.id}" />
+                    
+                    <div>
+                        <label for="pillar" class="block text-sm font-medium text-gray-300 mb-1">Targeted Pillar</label>
+                        <select id="pillar" name="pillar" class="form-select text-sm w-full" required title="Targeted Pillar">
+                            <option value="" disabled selected>Select a pillar...</option>
+                            <option th:each="p : ${pillars}" th:value="${p.name()}" th:text="${p.name()}"></option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="gapDescription" class="block text-sm font-medium text-gray-300 mb-1">Gap Description</label>
+                        <textarea id="gapDescription" name="gapDescription" rows="2" class="form-textarea text-sm w-full" placeholder="e.g. Need more experience in system design" required></textarea>
+                    </div>
+
+                    <div>
+                        <label for="actionablePlan" class="block text-sm font-medium text-gray-300 mb-1">Actionable Plan</label>
+                        <textarea id="actionablePlan" name="actionablePlan" rows="2" class="form-textarea text-sm w-full" placeholder="e.g. Complete architecture pathway" required></textarea>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="btn btn-primary w-full shadow-sm text-sm">
+                            <i class="fas fa-plus text-xs mr-2"></i> Create PDP Item
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
