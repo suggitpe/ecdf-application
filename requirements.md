@@ -29,8 +29,9 @@ This document outlines the business requirements for the Engineer Career Develop
 ## 3. Assessments & Review
 - Managers or assigned Third-Party Assessors review submitted evidence.
 - Assessors score the evidence against the applicable pillars (1-5).
-  - During assessment, the UI must default the assessor's scoring inputs to the exact rating submitted by the employee. If the employee did not select/rate a pillar, the default value must be a blank unselected entry.
+  - During assessment, the UI MUST default the assessor's scoring inputs to a blank unselected entry. While the employee's self-assessed rating can be displayed for context, the assessor's input field MUST NOT be pre-populated with a predetermined integer, ensuring an independent assessment.
 - Assessors must provide a Review Summary/feedback for the evidence submission.
+- **Assessor Rationale**: When an assessor provides or alters a pillar rating, they **MUST** also provide a short description/rationale explaining their specific rating for that pillar.
 - **Sequential Assessment**: Evidence MUST first be assessed by a manager. Only once the manager has completed their assessment (`MANAGER_ASSESSED` status) can the evidence be assigned to an Independent Technical Assessor (ITA). Assigning an ITA transitions the status to `UNDER_INDEPENDENT_REVIEW`. Once an ITA completes their review, the status transitions to `INDEPENDENTLY_ASSESSED`.
 
 ## 4. Check-ins & Holistic Rating

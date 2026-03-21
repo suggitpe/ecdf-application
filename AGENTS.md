@@ -4,6 +4,11 @@ This document provides core steering instructions for AI Assistants working on t
 
 ## 1. Execution Workflow (CRITICAL)
 
+- **Handling New Requirements**:
+  - When the user asks for a new function or requirement, you MUST update `requirements.md` FIRST to reflect the business logic.
+  - You MUST then present the updated `requirements.md` and explicitly ask the user if they agree the requirement is correctly captured.
+  - ONLY after the user agrees should you update `task.md` with the actionable implementation tasks.
+  - Implementation code MUST NOT be written until both documents are updated and agreed upon.
 - **Task Boundaries & Human Approval**:
   - For **each** task in the checklist, you MUST explicitly ask for a human to strongly agree to start the next task.
   - Once a task has completed, you MUST ask a human to review what has been created before moving on.
@@ -23,7 +28,7 @@ This document provides core steering instructions for AI Assistants working on t
 - **Framework**: Spring Boot 3.4.x (Web, Data JPA, Security, Validation, Thymeleaf)
 - **Frontend**: Thymeleaf templates (Server-Side Rendering).
 - **Styling**: Vanilla CSS. Must use a Premium Dark Mode aesthetic with glassmorphism elements and modern typography. No Tailwind.
-- **Frontend Guidelines**: 
+- **Frontend Guidelines**:
   - When rendering form `<select>` elements for scoring (e.g., 1-5 Dreyfus scale), the default selection for both employees and assessors MUST be a blank disabled `<option>` placeholder, never a predetermined integer.
   - The employee dashboard must always render a list of the employee's historical check-in records, sorted by date (most recent first).
   - Check-in Lifecycle: Managers must be able to save check-ins as **DRAFT** to iterate on notes. Draft check-ins are editable. Once finalized, they receive a performance status and become read-only.

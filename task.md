@@ -65,7 +65,8 @@
 - [x] Evidence Assessment & 3rd-Party Workflow:
   - [x] Write Controller tests and implement `AssessmentController`
   - [x] Implement `assessment-form.html` (for Managers/ITAs) with independent pillar scoring and Review Summary
-  - [x] Dynamically default assessor rating dropdowns to the developer's self-assessed rating
+  - [ ] **Assessor Defaults**: Dynamically default assessor rating dropdowns to a blank placeholder (Removed employee-score defaulting to enforce independent assessment).
+  - [ ] **Assessor Rationale**: Require a mandatory rationale description from the assessor for each pillar rating provided.
   - [x] View Employee Evidence summary (Manager/ITA view)
   - [x] Add Evidence button to direct reports on the Team page
   - [x] Implement UI flow for Manager to assign evidence to an Independent Technical Assessor (ITA)
