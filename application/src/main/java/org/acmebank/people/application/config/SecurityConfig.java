@@ -49,7 +49,31 @@ public class SecurityConfig {
             .password("password")
             .roles("MANAGER")
             .build();
+
+        UserDetails charlie = User.withDefaultPasswordEncoder()
+            .username("charlie@example.com")
+            .password("password")
+            .roles("USER")
+            .build();
+
+        UserDetails bob = User.withDefaultPasswordEncoder()
+            .username("bob@example.com")
+            .password("password")
+            .roles("USER")
+            .build();
+
+        UserDetails ita = User.withDefaultPasswordEncoder()
+            .username("ita@example.com")
+            .password("password")
+            .roles("ITA")
+            .build();
+
+        UserDetails alice = User.withDefaultPasswordEncoder()
+            .username("alice@example.com")
+            .password("password")
+            .roles("ITA")
+            .build();
             
-        return new InMemoryUserDetailsManager(user, manager);
+        return new InMemoryUserDetailsManager(user, manager, charlie, bob, ita, alice);
     }
 }

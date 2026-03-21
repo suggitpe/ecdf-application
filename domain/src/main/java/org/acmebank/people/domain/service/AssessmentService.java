@@ -46,7 +46,26 @@ public class AssessmentService {
                 true,
                 null);
 
-        return assessmentRepository.save(pendingAssessment);
+        Assessment savedAssessment = assessmentRepository.save(pendingAssessment);
+
+        Evidence updatedEvidence = new Evidence(
+                evidence.id(),
+                evidence.userId(),
+                evidence.title(),
+                evidence.description(),
+                evidence.impact(),
+                evidence.complexity(),
+                evidence.contribution(),
+                evidence.selfAssessment(),
+                evidence.links(),
+                evidence.attachmentPaths(),
+                EvidenceStatus.UNDER_INDEPENDENT_REVIEW,
+                evidence.createdDate(),
+                LocalDate.now()
+        );
+        evidenceRepository.save(updatedEvidence);
+
+        return savedAssessment;
     }
 
     public Assessment submitAssessment(UUID evidenceId, UUID assessorId, Map<Pillar, Score> scores, String reviewSummary) {
@@ -71,8 +90,8 @@ public class AssessmentService {
 
         if (pendingItaAssessment.isPresent()) {
             // ITA Assessment
-            if (evidence.status() != EvidenceStatus.MANAGER_ASSESSED) {
-                throw new IllegalStateException("ITA can only assess evidence in MANAGER_ASSESSED state.");
+            if (evidence.status() != EvidenceStatus.UNDER_INDEPENDENT_REVIEW && evidence.status() != EvidenceStatus.MANAGER_ASSESSED) {
+                throw new IllegalStateException("ITA can only assess evidence in UNDER_INDEPENDENT_REVIEW or MANAGER_ASSESSED state.");
             }
             Assessment pending = pendingItaAssessment.get();
             assessmentToSave = new Assessment(

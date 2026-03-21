@@ -87,7 +87,7 @@ public class AssessmentController {
         // 2. Assessments explicitly assigned to this user (as Manager or ITA)
         List<Assessment> pendingAssessments = assessmentRepository.findByAssessorId(user.id())
                 .stream()
-                .filter(a -> a.assessedScores() == null)
+                .filter(a -> a.assessedScores() == null || a.assessedScores().isEmpty())
                 .collect(Collectors.toList());
 
         Map<UUID, String> userNames = new HashMap<>();
@@ -98,9 +98,11 @@ public class AssessmentController {
         for (Evidence evidence : teamEvidence) {
             evidenceTitles.put(evidence.id(), evidence.title());
         }
+        Map<UUID, String> evidenceStatuses = new HashMap<>();
         for (Assessment assessment : pendingAssessments) {
             evidenceRepository.findById(assessment.evidenceId()).ifPresent(evidence -> {
                 evidenceTitles.put(assessment.id(), evidence.title());
+                evidenceStatuses.put(assessment.id(), evidence.status().name());
                 userRepository.findById(evidence.userId()).ifPresent(userReport -> userNames.put(assessment.id(), userReport.fullName()));
             });
         }
@@ -109,6 +111,7 @@ public class AssessmentController {
         model.addAttribute("pendingAssessments", pendingAssessments);
         model.addAttribute("userNames", userNames);
         model.addAttribute("evidenceTitles", evidenceTitles);
+        model.addAttribute("evidenceStatuses", evidenceStatuses);
         
         return "assessor-queue";
     }

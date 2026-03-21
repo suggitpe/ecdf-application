@@ -342,6 +342,12 @@ a:hover {
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+.status-under_independent_review {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa; /* Light purple */
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
 .status-pending {
   background: rgba(148, 163, 184, 0.15);
   color: var(--text-secondary);

@@ -65,7 +65,23 @@ public class DevDataSeeder {
             if (manager == null) {
                 manager = userRepository.save(new User(null, "manager@example.com", "Manager Mary", managerGrade, null, true));
             } else if (manager.grade() == null) {
-                manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managerGrade, manager.managerId(), manager.isIta()));
+                manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managerGrade, manager.managerId(), true));
+            }
+
+            // Seed ITAs
+            Map<String, String> targetItas = Map.of(
+                "ita@example.com", "Assessor Ian",
+                "alice@example.com", "Assessor Alice"
+            );
+
+            for (Map.Entry<String, String> entry : targetItas.entrySet()) {
+                String itaEmail = entry.getKey();
+                String itaName = entry.getValue();
+
+                User ita = userRepository.findByEmail(itaEmail).orElse(null);
+                if (ita == null) {
+                    userRepository.save(new User(null, itaEmail, itaName, managerGrade, null, true));
+                }
             }
 
             // Define our target engineers
@@ -203,6 +219,35 @@ public class DevDataSeeder {
                         mgrScores, "Excellent strategic impact and leadership.",
                         false, LocalDate.now().minusMonths(monthsAgo)
                     ));
+                }
+            }
+
+            // Assign some evidence to ITA for review
+            User ian = userRepository.findByEmail("ita@example.com").orElse(null);
+            User charlieUser = userRepository.findByEmail("charlie@example.com").orElse(null);
+            
+            if (ian != null && charlieUser != null) {
+                // Find Charlie's first evidence that isn't already being assessed by him
+                List<Evidence> charlieEvidence = evidenceRepository.findByUserId(charlieUser.id());
+                if (!charlieEvidence.isEmpty()) {
+                    Evidence toAssign = charlieEvidence.get(0);
+                    
+                    // Only assign if not already assigned
+                    if (assessmentRepository.findByEvidenceId(toAssign.id()).stream().noneMatch(Assessment::isThirdParty)) {
+                        Evidence assigned = new Evidence(
+                            toAssign.id(), toAssign.userId(), toAssign.title(),
+                            toAssign.description(), toAssign.impact(), toAssign.complexity(), toAssign.contribution(),
+                            toAssign.selfAssessment(), toAssign.links(), toAssign.attachmentPaths(),
+                            EvidenceStatus.UNDER_INDEPENDENT_REVIEW,
+                            toAssign.createdDate(), LocalDate.now()
+                        );
+                        evidenceRepository.save(assigned);
+                        
+                        assessmentRepository.save(new Assessment(
+                            null, assigned.id(), ian.id(),
+                            null, null, true, null
+                        ));
+                    }
                 }
             }
         };

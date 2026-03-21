@@ -33,7 +33,9 @@
                         <td th:text="${userNames.get(assessment.id())}">Engineer Name</td>
                         <td th:text="${evidenceTitles.get(assessment.id())}">Evidence Title</td>
                         <td>
-                            <span class="status-badge status-pending">PENDING ITA</span>
+                            <span class="status-badge" 
+                                  th:classappend="${'status-' + #strings.toLowerCase(evidenceStatuses.get(assessment.id()))}"
+                                  th:text="${#strings.replace(evidenceStatuses.get(assessment.id()), '_', ' ')}">PENDING ITA</span>
                         </td>
                         <td>
                             <a th:href="@{/assessment/{id}(id=${assessment.evidenceId()})}" class="btn btn-primary btn-sm">Assess Evidence</a>

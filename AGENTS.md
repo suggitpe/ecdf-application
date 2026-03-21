@@ -30,7 +30,7 @@ This document provides core steering instructions for AI Assistants working on t
   - Check-in Model: Check-ins represent a point-in-time assessment rather than a date range. Captured as a single `checkInDate`.
   - When completing a piece of evidence and the user selects a pillar rating, they MUST also add a description (rationale) of why they have selected that rating.
   - **Evidence Linking**: Pillar score displays in the UI (Check-Ins, Dashboard) MUST include a visible link (using FontAwesome `fas fa-external-link-alt` in `text-primary`) to the source evidence.
-  - **Sequential Assessment**: Evidence submissions MUST be assessed by a direct manager (transitioning to `MANAGER_ASSESSED`) before an ITA can be assigned or perform an assessment. Completion of an ITA assessment transitions the status to `INDEPENDENTLY_ASSESSED`.
+  - **Sequential Assessment**: Evidence submissions MUST be assessed by a direct manager (transitioning to `MANAGER_ASSESSED`) before an ITA can be assigned. Assigning an ITA transitions the status to `UNDER_INDEPENDENT_REVIEW`. Completion of an ITA assessment transitions the status to `INDEPENDENTLY_ASSESSED`.
 - **Domain Constraints**: The ECDF framework strictly defines **8 pillars**. You must never introduce a 9th pillar (e.g., do not include the deprecated "DEFINES" pillar).
 - **Database**: H2 in-memory database (schema managed via Liquibase).
   - *Critical*: Always initialize an empty master changelog file at `src/main/resources/db/changelog/db.changelog-master.yaml` to prevent Liquibase from failing application startup.
