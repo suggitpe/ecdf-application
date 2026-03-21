@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base.html}">
+<head>
+    <title>ECDF framework</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+    <div class="header-content mb-8">
+        <h1 class="text-3xl font-bold mb-2">Pillar Expectations Framework</h1>
+        <p class="text-secondary">Explore the expected ECDF pillar scores for different roles and grades.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div th:each="grade : ${grades}" class="card glass-panel hover:border-primary transition-all cursor-pointer">
+            <a th:href="@{/framework/{id}(id=${grade.id})}" class="block h-full">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold mb-1" th:text="${grade.name}">Software Engineer</h2>
+                        <span class="badge badge-info" th:text="${grade.role}">Engineering</span>
+                    </div>
+                </div>
+                <div class="text-sm text-secondary mb-4">
+                    View target Dreyfus levels for all 8 pillars.
+                </div>
+                <div class="text-primary font-medium flex items-center gap-1">
+                    View Expectations <i class="fas fa-arrow-right text-xs"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

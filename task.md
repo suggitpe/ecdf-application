@@ -89,7 +89,7 @@
   - [x] Configure GCS FUSE mount for persistent evidence storage
   - [x] Implement GitHub Actions workflow for automated GCP deployment
 - [ ] Developer Pathways & PDP:
-  - [ ] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
+  - [x] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
   - [ ] Write Controller tests and implement `PdpController`
   - [ ] Implement `pdp.html` connecting identified gaps to learning journeys
 

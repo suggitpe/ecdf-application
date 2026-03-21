@@ -9,6 +9,7 @@
         <div class="flex items-center gap-6" sec:authorize="isAuthenticated()">
             <nav class="flex gap-2">
                 <a th:href="@{/}" class="nav-link" th:classappend="${requestURI == '/' ? 'active' : ''}">Dashboard</a>
+                <a th:href="@{/framework}" class="nav-link" th:classappend="${requestURI.startsWith('/framework') ? 'active' : ''}">Framework</a>
                 <a th:href="@{/team}" class="nav-link" th:classappend="${requestURI == '/team' ? 'active' : ''}">My Team</a>
                 <a th:href="@{/evidence}" class="nav-link" th:classappend="${requestURI.startsWith('/evidence') ? 'active' : ''}">Evidence Log</a>
                 <a th:href="@{/assessment/queue}" class="nav-link" th:classappend="${requestURI.startsWith('/assessment') ? 'active' : ''}">Assessments</a>

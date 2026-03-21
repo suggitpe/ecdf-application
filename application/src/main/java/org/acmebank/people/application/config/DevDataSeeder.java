@@ -44,28 +44,35 @@ public class DevDataSeeder {
             Random random = new Random();
             String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-            // Define expectations (demonstrating individual pillar levels)
+            // Director expectations for Engineering vs Architecture
+            Map<Pillar, Score> dirEngExpectations = new EnumMap<>(Pillar.class);
+            Map<Pillar, Score> dirArchExpectations = new EnumMap<>(Pillar.class);
             Map<Pillar, Score> vpExpectations = new EnumMap<>(Pillar.class);
-            Map<Pillar, Score> directorExpectations = new EnumMap<>(Pillar.class);
             
-            // Default baseline scores
             for (Pillar p : Pillar.values()) {
-                vpExpectations.put(p, new Score(3));
-                directorExpectations.put(p, new Score(4));
+                dirEngExpectations.put(p, new Score(3));
+                dirArchExpectations.put(p, new Score(3));
+                vpExpectations.put(p, new Score(4));
             }
 
-            // Example of setting individual pillar levels (e.g. higher expectations for some technical/behavioral aspects)
-            // vpExpectations.put(Pillar.DELIVERS, new Score(4)); 
-            // directorExpectations.put(Pillar.INFLUENCES, new Score(5));
+            // Engineer Director: Delivers 4, Designs 3
+            dirEngExpectations.put(Pillar.DELIVERS, new Score(4));
+            dirEngExpectations.put(Pillar.DESIGNS, new Score(3));
 
-            Grade managerGrade = ensureGrade(gradeRepository, "Director", "Management", directorExpectations);
-            Grade engineerGrade = ensureGrade(gradeRepository, "Vice President", "Engineering", vpExpectations);
+            // Architect Director: Delivers 3, Designs 4
+            dirArchExpectations.put(Pillar.DELIVERS, new Score(3));
+            dirArchExpectations.put(Pillar.DESIGNS, new Score(4));
+
+            Grade managementGrade = ensureGrade(gradeRepository, "Director", "Management", dirEngExpectations);
+            Grade engineeringDirectorGrade = ensureGrade(gradeRepository, "Director", "Engineering", dirEngExpectations);
+            Grade architectureDirectorGrade = ensureGrade(gradeRepository, "Director", "Architecture", dirArchExpectations);
+            Grade vpGrade = ensureGrade(gradeRepository, "Vice President", "Engineering", vpExpectations);
 
             User manager = userRepository.findByEmail("manager@example.com").orElse(null);
             if (manager == null) {
-                manager = userRepository.save(new User(null, "manager@example.com", "Manager Mary", managerGrade, null, true));
+                manager = userRepository.save(new User(null, "manager@example.com", "Manager Mary", managementGrade, null, true));
             } else if (manager.grade() == null) {
-                manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managerGrade, manager.managerId(), true));
+                manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managementGrade, manager.managerId(), true));
             }
 
             // Seed ITAs
@@ -80,7 +87,7 @@ public class DevDataSeeder {
 
                 User ita = userRepository.findByEmail(itaEmail).orElse(null);
                 if (ita == null) {
-                    userRepository.save(new User(null, itaEmail, itaName, managerGrade, null, true));
+                    userRepository.save(new User(null, itaEmail, itaName, managementGrade, null, true));
                 }
             }
 
@@ -88,23 +95,26 @@ public class DevDataSeeder {
             Map<String, String> targetEngineers = Map.of(
                 "user@example.com", "Developer Dave",
                 "charlie@example.com", "Engineer Charlie",
-                "bob@example.com", "Engineer Bob"
+                "bob@example.com", "Engineer Bob",
+                "arthur@example.com", "Architect Arthur"
             );
 
             for (Map.Entry<String, String> entry : targetEngineers.entrySet()) {
                 String email = entry.getKey();
                 String name = entry.getValue();
 
+                Grade targetGrade = email.equals("arthur@example.com") ? architectureDirectorGrade : engineeringDirectorGrade;
+
                 User engineer = userRepository.findByEmail(email).orElse(null);
                 if (engineer == null) {
-                    engineer = userRepository.save(new User(null, email, name, engineerGrade, manager.id(), false));
+                    engineer = userRepository.save(new User(null, email, name, targetGrade, manager.id(), false));
                 } else {
                     boolean needsUpdate = false;
                     Grade currentGrade = engineer.grade();
                     UUID currentManagerId = engineer.managerId();
                     
                     if (currentGrade == null) {
-                        currentGrade = engineerGrade;
+                        currentGrade = targetGrade;
                         needsUpdate = true;
                     }
                     if (currentManagerId == null) {
