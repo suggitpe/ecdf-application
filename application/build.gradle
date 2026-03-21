@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.kotlin.spring)
 }
 
+springBoot {
+    buildInfo()
+}
+
 dependencies {
     implementation project(':domain')
     

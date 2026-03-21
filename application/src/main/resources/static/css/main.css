@@ -596,3 +596,11 @@ a:hover {
   color: var(--accent-primary);
   text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
 }
+.app-footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+}
+
