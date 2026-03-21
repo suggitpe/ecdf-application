@@ -69,7 +69,7 @@
   - [x] View Employee Evidence summary (Manager/ITA view)
   - [x] Add Evidence button to direct reports on the Team page
   - [x] Implement UI flow for Manager to assign evidence to an Independent Technical Assessor (ITA)
-  - [ ] **Sequential Workflow**: Enforce Manager assessment before ITA assignment/assessment logic in `AssessmentService`
+  - [x] **Sequential Workflow**: Enforce Manager assessment before ITA assignment/assessment logic in `AssessmentService`. Once an ITA assessment is finalized, the status transitions to `INDEPENDENTLY_ASSESSED`.
   - [x] Implement `assessor-queue.html` listing evidence assigned to the current user
 - [x] Check-In & Period Review:
   - [x] Write Controller tests and implement `CheckInController`

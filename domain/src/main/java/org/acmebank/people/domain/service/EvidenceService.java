@@ -68,8 +68,8 @@ public class EvidenceService {
         Evidence evidence = evidenceRepository.findById(evidenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Evidence not found with ID: " + evidenceId));
 
-        if (evidence.status() == EvidenceStatus.SUBMITTED || evidence.status() == EvidenceStatus.MANAGER_ASSESSED || evidence.status() == EvidenceStatus.ASSESSED) {
-            throw new IllegalStateException("Cannot modify evidence that is already SUBMITTED, MANAGER_ASSESSED, or ASSESSED.");
+        if (evidence.status() == EvidenceStatus.SUBMITTED || evidence.status() == EvidenceStatus.MANAGER_ASSESSED || evidence.status() == EvidenceStatus.INDEPENDENTLY_ASSESSED) {
+            throw new IllegalStateException("Cannot modify evidence that is already SUBMITTED, MANAGER_ASSESSED, or INDEPENDENTLY_ASSESSED.");
         }
 
         Evidence updatedEvidence = new Evidence(

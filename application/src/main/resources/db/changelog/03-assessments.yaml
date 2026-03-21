@@ -17,7 +17,6 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: assessor_id
                   type: uuid

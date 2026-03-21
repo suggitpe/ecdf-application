@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Repository
 public interface AssessmentJpaRepository extends JpaRepository<AssessmentEntity, UUID> {
-    Optional<AssessmentEntity> findByEvidenceId(UUID evidenceId);
+    List<AssessmentEntity> findByEvidenceId(UUID evidenceId);
 
     List<AssessmentEntity> findByAssessorId(UUID assessorId);
 }

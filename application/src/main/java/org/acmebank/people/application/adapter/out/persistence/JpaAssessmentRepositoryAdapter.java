@@ -39,11 +39,9 @@ public class JpaAssessmentRepositoryAdapter implements AssessmentRepository {
         AssessmentEntity entity;
         if (assessment.id() != null) {
             entity = assessmentJpaRepository.findById(assessment.id())
-                    .or(() -> assessmentJpaRepository.findByEvidenceId(assessment.evidenceId()))
                     .orElse(new AssessmentEntity());
         } else {
-            entity = assessmentJpaRepository.findByEvidenceId(assessment.evidenceId())
-                    .orElse(new AssessmentEntity());
+            entity = new AssessmentEntity();
         }
 
         DomainPersistenceMapper.updateAssessmentEntity(entity, assessment, evidenceEntity, assessorEntity);
@@ -59,9 +57,10 @@ public class JpaAssessmentRepositoryAdapter implements AssessmentRepository {
     }
 
     @Override
-    public Optional<Assessment> findByEvidenceId(UUID evidenceId) {
-        return assessmentJpaRepository.findByEvidenceId(evidenceId)
-                .map(DomainPersistenceMapper::toDomainAssessment);
+    public List<Assessment> findByEvidenceId(UUID evidenceId) {
+        return assessmentJpaRepository.findByEvidenceId(evidenceId).stream()
+                .map(DomainPersistenceMapper::toDomainAssessment)
+                .collect(Collectors.toList());
     }
 
     @Override

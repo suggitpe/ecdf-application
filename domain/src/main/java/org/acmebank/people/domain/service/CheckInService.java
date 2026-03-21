@@ -81,13 +81,12 @@ public class CheckInService {
     private boolean checkHasItaAssessment(UUID userId) {
         LocalDate threeYearsAgo = LocalDate.now().minusYears(3);
         List<Evidence> assessedEvidence = new java.util.ArrayList<>(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED));
-        assessedEvidence.addAll(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED));
+        assessedEvidence.addAll(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED));
         
         for (Evidence evidence : assessedEvidence) {
             if (evidence.createdDate().isBefore(threeYearsAgo)) continue;
-            Optional<Assessment> assessmentOpt = assessmentRepository.findByEvidenceId(evidence.id());
-            if (assessmentOpt.isPresent()) {
-                Assessment assessment = assessmentOpt.get();
+            List<Assessment> assessments = assessmentRepository.findByEvidenceId(evidence.id());
+            for (Assessment assessment : assessments) {
                 if (assessment.assessmentDate() != null && assessment.assessmentDate().isBefore(threeYearsAgo)) continue;
                 if (assessment.isThirdParty()) return true;
             }
@@ -98,7 +97,7 @@ public class CheckInService {
     public Map<Pillar, PillarScoreInfo> getAggregatedScores(UUID userId) {
         LocalDate threeYearsAgo = LocalDate.now().minusYears(3);
         List<Evidence> assessedEvidence = new java.util.ArrayList<>(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED));
-        assessedEvidence.addAll(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED));
+        assessedEvidence.addAll(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED));
 
         assessedEvidence.sort(Comparator.comparing(Evidence::createdDate).reversed());
 
@@ -109,13 +108,15 @@ public class CheckInService {
                 continue;
             }
 
-            Optional<Assessment> assessmentOpt = assessmentRepository.findByEvidenceId(evidence.id());
-            if (assessmentOpt.isPresent()) {
-                Assessment assessment = assessmentOpt.get();
+            List<Assessment> assessments = assessmentRepository.findByEvidenceId(evidence.id());
+            // Prefer ITA assessment if it exists for this evidence, otherwise use the manager's
+            Optional<Assessment> preferredAssessment = assessments.stream()
+                    .filter(a -> a.assessmentDate() != null && !a.assessmentDate().isBefore(threeYearsAgo))
+                    .sorted(Comparator.comparing(Assessment::isThirdParty).reversed())
+                    .findFirst();
 
-                if (assessment.assessmentDate() != null && assessment.assessmentDate().isBefore(threeYearsAgo)) {
-                    continue;
-                }
+            if (preferredAssessment.isPresent()) {
+                Assessment assessment = preferredAssessment.get();
 
                 if (assessment.assessedScores() != null) {
                     for (Map.Entry<Pillar, Score> entry : assessment.assessedScores().entrySet()) {

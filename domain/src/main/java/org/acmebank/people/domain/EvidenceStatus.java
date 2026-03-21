@@ -4,5 +4,5 @@ public enum EvidenceStatus {
     DRAFT,
     SUBMITTED,
     MANAGER_ASSESSED,
-    ASSESSED
+    INDEPENDENTLY_ASSESSED
 }

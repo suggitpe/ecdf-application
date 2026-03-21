@@ -10,7 +10,7 @@ public interface AssessmentRepository {
 
     Optional<Assessment> findById(UUID id);
 
-    Optional<Assessment> findByEvidenceId(UUID evidenceId);
+    List<Assessment> findByEvidenceId(UUID evidenceId);
 
     List<Assessment> findByAssessorId(UUID assessorId);
 }

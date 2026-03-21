@@ -56,8 +56,8 @@ class CheckInServiceTest {
         ), false)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(evidence))
-        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
-        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(Optional.of(assessment))
+        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED)).thenReturn(emptyList())
+        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(listOf(assessment))
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
@@ -88,8 +88,8 @@ class CheckInServiceTest {
         ), false)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(evidence))
-        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
-        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(Optional.of(assessment))
+        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED)).thenReturn(emptyList())
+        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(listOf(assessment))
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
@@ -122,8 +122,8 @@ class CheckInServiceTest {
         ), false)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(evidence))
-        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
-        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(Optional.of(assessment))
+        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED)).thenReturn(emptyList())
+        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(listOf(assessment))
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
@@ -150,8 +150,8 @@ class CheckInServiceTest {
         val assessment = createAssessment(evidenceId, mapOf(Pillar.THINKS to Score(4), Pillar.DELIVERS to Score(4)), false)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(evidence))
-        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
-        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(Optional.of(assessment))
+        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED)).thenReturn(emptyList())
+        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(listOf(assessment))
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
@@ -177,8 +177,8 @@ class CheckInServiceTest {
         val assessment = createAssessment(evidenceId, mapOf(Pillar.THINKS to Score(4)), true)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(evidence))
-        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
-        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(Optional.of(assessment))
+        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED)).thenReturn(emptyList())
+        lenient().`when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(listOf(assessment))
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
@@ -205,8 +205,8 @@ class CheckInServiceTest {
         val oldAssessment = createAssessment(oldEvidenceId, mapOf(Pillar.THINKS to Score(5)), true)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(oldEvidence))
-        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
-        lenient().`when`(assessmentRepository.findByEvidenceId(oldEvidenceId)).thenReturn(Optional.of(oldAssessment))
+        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED)).thenReturn(emptyList())
+        lenient().`when`(assessmentRepository.findByEvidenceId(oldEvidenceId)).thenReturn(listOf(oldAssessment))
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When
@@ -238,9 +238,9 @@ class CheckInServiceTest {
         val assessment2 = createAssessment(evidence2Id, mapOf(Pillar.THINKS to Score(3)), false)
 
         lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.MANAGER_ASSESSED)).thenReturn(listOf(evidence1, evidence2))
-        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.ASSESSED)).thenReturn(emptyList())
-        lenient().`when`(assessmentRepository.findByEvidenceId(evidence1Id)).thenReturn(Optional.of(assessment1))
-        lenient().`when`(assessmentRepository.findByEvidenceId(evidence2Id)).thenReturn(Optional.of(assessment2))
+        lenient().`when`(evidenceRepository.findByUserIdAndStatus(userId, EvidenceStatus.INDEPENDENTLY_ASSESSED)).thenReturn(emptyList())
+        lenient().`when`(assessmentRepository.findByEvidenceId(evidence1Id)).thenReturn(listOf(assessment1))
+        lenient().`when`(assessmentRepository.findByEvidenceId(evidence2Id)).thenReturn(listOf(assessment2))
         lenient().`when`(checkInRepository.save(any(CheckIn::class.java))).thenAnswer { it.getArgument(0) }
 
         // When

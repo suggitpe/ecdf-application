@@ -31,7 +31,7 @@ This document outlines the business requirements for the Engineer Career Develop
 - Assessors score the evidence against the applicable pillars (1-5).
   - During assessment, the UI must default the assessor's scoring inputs to the exact rating submitted by the employee. If the employee did not select/rate a pillar, the default value must be a blank unselected entry.
 - Assessors must provide a Review Summary/feedback for the evidence submission.
-- **Sequential Assessment**: Evidence MUST first be assessed by a manager. Only once the manager has completed their assessment (`MANAGER_ASSESSED` status) can the evidence be assigned to or assessed by an Independent Technical Assessor (ITA).
+- **Sequential Assessment**: Evidence MUST first be assessed by a manager. Only once the manager has completed their assessment (`MANAGER_ASSESSED` status) can the evidence be assigned to or assessed by an Independent Technical Assessor (ITA). Once an ITA completes their review, the status transitions to `INDEPENDENTLY_ASSESSED`.
 
 ## 4. Check-ins & Holistic Rating
 - **Point-in-Time Assessment**: Check-ins represent a specific point-in-time assessment of performance rather than a date range.

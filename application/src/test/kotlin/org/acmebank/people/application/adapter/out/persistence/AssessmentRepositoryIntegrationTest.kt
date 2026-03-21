@@ -82,12 +82,75 @@ class AssessmentRepositoryIntegrationTest {
 
         // When
         val savedAssessment = assessmentRepository.save(assessment)
-        val foundAssessment = assessmentRepository.findByEvidenceId(savedEvidence.id)
+        val assessments = assessmentRepository.findByEvidenceId(savedEvidence.id)
 
         // Then
         savedAssessment.id shouldNotBe null
-        foundAssessment.shouldBePresent()
-        foundAssessment.get().reviewSummary shouldBe "Great work!"
-        foundAssessment.get().assessor.email shouldBe "mgr@acmebank.com"
+        assessments shouldHaveSize 1
+        assessments[0].reviewSummary shouldBe "Great work!"
+        assessments[0].assessor.email shouldBe "mgr@acmebank.com"
+    }
+
+    @Test
+    fun `should support multiple assessments for same evidence`() {
+        // Given
+        val grade = gradeRepository.save(GradeEntity().apply {
+            name = "Senior"
+            role = "Software Engineer"
+        })
+        val dev = userRepository.save(UserEntity().apply {
+            email = "dev2@acmebank.com"
+            fullName = "Jane Dev"
+            this.grade = grade
+        })
+        val manager = userRepository.save(UserEntity().apply {
+            email = "mgr2@acmebank.com"
+            fullName = "Bob Manager"
+            this.grade = grade
+        })
+        val ita = userRepository.save(UserEntity().apply {
+            email = "ita2@acmebank.com"
+            fullName = "Ian ITA"
+            this.grade = grade
+            isIta = true
+        })
+        val evidence = evidenceRepository.save(EvidenceEntity().apply {
+            this.user = dev
+            title = "Evidence for multiple assessments"
+            description = "Multiple assessment description"
+            impact = "High impact"
+            complexity = "Complex"
+            contribution = "Lead"
+            status = "SUBMITTED"
+            createdDate = LocalDate.now()
+            lastModifiedDate = LocalDate.now()
+        })
+
+        // When - Manager assesses
+        val managerAssessment = AssessmentEntity().apply {
+            this.evidence = evidence
+            this.assessor = manager
+            reviewSummary = "Manager review"
+            isThirdParty = false
+            assessmentDate = LocalDate.now()
+        }
+        assessmentRepository.save(managerAssessment)
+
+        // When - ITA assesses
+        val itaAssessment = AssessmentEntity().apply {
+            this.evidence = evidence
+            this.assessor = ita
+            reviewSummary = "ITA review"
+            isThirdParty = true
+            assessmentDate = LocalDate.now()
+        }
+        assessmentRepository.save(itaAssessment)
+
+        val assessments = assessmentRepository.findByEvidenceId(evidence.id)
+
+        // Then
+        assessments shouldHaveSize 2
+        assessments.any { it.reviewSummary == "Manager review" } shouldBe true
+        assessments.any { it.reviewSummary == "ITA review" } shouldBe true
     }
 }

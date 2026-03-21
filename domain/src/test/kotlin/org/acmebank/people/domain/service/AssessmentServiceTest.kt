@@ -30,17 +30,18 @@ class AssessmentServiceTest {
     private lateinit var assessmentService: AssessmentService
 
     @Test
-    fun `should assign third party assessor to submitted evidence`() {
+    fun `should assign third party assessor to manager assessed evidence`() {
         // Given
         val evidenceId = UUID.randomUUID()
         val assessorId = UUID.randomUUID()
         val evidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
             mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
-            EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
+            EvidenceStatus.MANAGER_ASSESSED, LocalDate.now(), LocalDate.now()
         )
 
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(evidence))
+        `when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(emptyList())
         `when`(assessmentRepository.save(any(Assessment::class.java))).thenAnswer { invocation ->
             val assessment = invocation.getArgument<Assessment>(0)
             if (assessment.id() == null) {
@@ -66,27 +67,27 @@ class AssessmentServiceTest {
     }
 
     @Test
-    fun `should fail to assign assessor if evidence is not SUBMITTED`() {
+    fun `should fail to assign assessor if evidence is not MANAGER_ASSESSED`() {
         // Given
         val evidenceId = UUID.randomUUID()
         val assessorId = UUID.randomUUID()
-        val draftEvidence = Evidence(
+        val submittedEvidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
             emptyMap(), emptyList(), emptyList(),
-            EvidenceStatus.DRAFT, LocalDate.now(), LocalDate.now()
+            EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 
-        `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(draftEvidence))
+        `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(submittedEvidence))
 
         // When & Then
         val exception = shouldThrow<IllegalStateException> {
             assessmentService.assignThirdPartyAssessor(evidenceId, assessorId)
         }
-        exception.message shouldBe "Can only assign assessor to SUBMITTED evidence."
+        exception.message shouldBe "Can only assign ITA to evidence that has been MANAGER_ASSESSED."
     }
 
     @Test
-    fun `should complete a pending third party assessment and update evidence status`() {
+    fun `should complete a pending third party assessment and update evidence status to INDEPENDENTLY_ASSESSED`() {
         // Given
         val evidenceId = UUID.randomUUID()
         val assessorId = UUID.randomUUID()
@@ -95,7 +96,7 @@ class AssessmentServiceTest {
         val evidence = Evidence(
             evidenceId, UUID.randomUUID(), "Test", "Description", "Impact", "Complexity", "Contribution",
             mapOf(Pillar.THINKS to EvidenceRating(Score(3), "")), emptyList(), emptyList(),
-            EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
+            EvidenceStatus.MANAGER_ASSESSED, LocalDate.now(), LocalDate.now()
         )
 
         val pendingAssessment = Assessment(
@@ -106,7 +107,7 @@ class AssessmentServiceTest {
         val summary = "Great job"
 
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(evidence))
-        `when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(Optional.of(pendingAssessment))
+        `when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(listOf(pendingAssessment))
         `when`(assessmentRepository.save(any(Assessment::class.java))).thenAnswer { it.getArgument(0) }
         `when`(evidenceRepository.save(any(Evidence::class.java))).thenAnswer { it.getArgument(0) }
 
@@ -121,14 +122,14 @@ class AssessmentServiceTest {
         result.assessmentDate shouldNotBe null
 
         verify(assessmentRepository).save(any(Assessment::class.java))
-        // Verify evidence status was also updated to MANAGER_ASSESSED
+        // Verify evidence status was updated to INDEPENDENTLY_ASSESSED
         val statusCaptor = org.mockito.ArgumentCaptor.forClass(Evidence::class.java)
         verify(evidenceRepository).save(statusCaptor.capture())
-        statusCaptor.value.status shouldBe EvidenceStatus.MANAGER_ASSESSED
+        statusCaptor.value.status shouldBe EvidenceStatus.INDEPENDENTLY_ASSESSED
     }
 
     @Test
-    fun `should create a direct manager assessment if none is pending and update evidence status`() {
+    fun `should create a direct manager assessment if none is pending and update evidence status to MANAGER_ASSESSED`() {
         // Given
         val evidenceId = UUID.randomUUID()
         val managerId = UUID.randomUUID()
@@ -143,7 +144,7 @@ class AssessmentServiceTest {
         val summary = "Manager review looks good"
 
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(evidence))
-        `when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(Optional.empty())
+        `when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(emptyList())
         `when`(assessmentRepository.save(any(Assessment::class.java))).thenAnswer { invocation ->
             val assessment = invocation.getArgument<Assessment>(0)
             if (assessment.id() == null) {
@@ -215,7 +216,7 @@ class AssessmentServiceTest {
     }
 
     @Test
-    fun `should fail to assess if evidence is already ASSESSED`() {
+    fun `should fail to assess if evidence is already INDEPENDENTLY_ASSESSED (Manager attempt)`() {
         // Given
         val evidenceId = UUID.randomUUID()
         val assessorId = UUID.randomUUID()
@@ -227,11 +228,12 @@ class AssessmentServiceTest {
         )
 
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(assessedEvidence))
+        `when`(assessmentRepository.findByEvidenceId(evidenceId)).thenReturn(emptyList())
 
         // When & Then
         val exception = shouldThrow<IllegalStateException> {
             assessmentService.submitAssessment(evidenceId, assessorId, mapOf(Pillar.THINKS to Score(4)), "Summary")
         }
-        exception.message shouldBe "Can only assess evidence that is in SUBMITTED state."
+        exception.message shouldBe "Manager can only assess evidence in SUBMITTED state."
     }
 }

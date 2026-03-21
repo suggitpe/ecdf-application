@@ -27,8 +27,14 @@ public class AssessmentService {
         Evidence evidence = evidenceRepository.findById(evidenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Evidence not found with ID: " + evidenceId));
 
-        if (evidence.status() != EvidenceStatus.SUBMITTED) {
-            throw new IllegalStateException("Can only assign assessor to SUBMITTED evidence.");
+        if (evidence.status() != EvidenceStatus.MANAGER_ASSESSED) {
+            throw new IllegalStateException("Can only assign ITA to evidence that has been MANAGER_ASSESSED.");
+        }
+
+        // Check if already assigned or assessed by ITA
+        java.util.List<Assessment> existing = assessmentRepository.findByEvidenceId(evidenceId);
+        if (existing.stream().anyMatch(Assessment::isThirdParty)) {
+            throw new IllegalStateException("This evidence is already assigned or assessed by an ITA.");
         }
 
         Assessment pendingAssessment = new Assessment(
@@ -47,10 +53,6 @@ public class AssessmentService {
         Evidence evidence = evidenceRepository.findById(evidenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Evidence not found with ID: " + evidenceId));
 
-        if (evidence.status() != EvidenceStatus.SUBMITTED) {
-            throw new IllegalStateException("Can only assess evidence that is in SUBMITTED state.");
-        }
-
         if (scores == null || scores.isEmpty()) {
             throw new IllegalArgumentException("Assessment scores cannot be empty.");
         }
@@ -59,30 +61,45 @@ public class AssessmentService {
             throw new IllegalArgumentException("Review summary must be provided.");
         }
 
-        Optional<Assessment> existingPendingAssessmentOpt = assessmentRepository.findByEvidenceId(evidenceId);
-        
+        java.util.List<Assessment> assessments = assessmentRepository.findByEvidenceId(evidenceId);
+        Optional<Assessment> pendingItaAssessment = assessments.stream()
+                .filter(a -> a.isThirdParty() && a.assessmentDate() == null)
+                .findFirst();
+
+        EvidenceStatus targetStatus;
         Assessment assessmentToSave;
-        if (existingPendingAssessmentOpt.isPresent()) {
-            Assessment pending = existingPendingAssessmentOpt.get();
+
+        if (pendingItaAssessment.isPresent()) {
+            // ITA Assessment
+            if (evidence.status() != EvidenceStatus.MANAGER_ASSESSED) {
+                throw new IllegalStateException("ITA can only assess evidence in MANAGER_ASSESSED state.");
+            }
+            Assessment pending = pendingItaAssessment.get();
             assessmentToSave = new Assessment(
                     pending.id(),
-                    pending.evidenceId(),
-                    pending.assessorId(),
+                    evidenceId,
+                    assessorId,
                     scores,
                     reviewSummary,
-                    pending.isThirdParty(),
+                    true,
                     LocalDate.now()
             );
+            targetStatus = EvidenceStatus.INDEPENDENTLY_ASSESSED;
         } else {
+            // Manager Assessment
+            if (evidence.status() != EvidenceStatus.SUBMITTED) {
+                throw new IllegalStateException("Manager can only assess evidence in SUBMITTED state.");
+            }
             assessmentToSave = new Assessment(
                     null,
                     evidenceId,
                     assessorId,
                     scores,
                     reviewSummary,
-                    false, // Direct manager assessment
+                    false,
                     LocalDate.now()
             );
+            targetStatus = EvidenceStatus.MANAGER_ASSESSED;
         }
 
         Assessment savedAssessment = assessmentRepository.save(assessmentToSave);
@@ -98,7 +115,7 @@ public class AssessmentService {
                 evidence.selfAssessment(),
                 evidence.links(),
                 evidence.attachmentPaths(),
-                EvidenceStatus.MANAGER_ASSESSED,
+                targetStatus,
                 evidence.createdDate(),
                 LocalDate.now()
         );

@@ -45,7 +45,7 @@
                 <div th:each="evidence : ${recentEvidence}" class="evidence-item p-4 rounded-md border border-gray-700 hover:border-primary transition-colors cursor-pointer bg-darker shadow-inner">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="font-medium text-lg" th:text="${evidence.title}">Evidence Title</h3>
-                        <span class="badge" th:classappend="${evidence.status.name() == 'DRAFT' ? 'badge-warning' : (evidence.status.name() == 'ASSESSED' || evidence.status.name() == 'MANAGER_ASSESSED' ? 'badge-success' : 'badge-info')}" th:text="${evidence.status}">STATUS</span>
+                        <span class="badge" th:classappend="${evidence.status.name() == 'DRAFT' ? 'badge-warning' : (evidence.status.name() == 'INDEPENDENTLY_ASSESSED' || evidence.status.name() == 'MANAGER_ASSESSED' ? 'badge-success' : 'badge-info')}" th:text="${evidence.status}">STATUS</span>
                     </div>
                     <p class="text-sm text-muted mb-2 line-clamp-2" th:text="${evidence.impact}">Impact description snippet...</p>
                     <div class="text-xs text-gray-500">

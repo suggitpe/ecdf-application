@@ -20,8 +20,8 @@ public class AssessmentEntity {
     @Version
     private Long version;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evidence_id", nullable = false, unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evidence_id", nullable = false)
     private EvidenceEntity evidence;
 
     @ManyToOne(fetch = FetchType.LAZY)
