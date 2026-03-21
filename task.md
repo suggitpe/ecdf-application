@@ -93,6 +93,13 @@
   - [x] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
   - [ ] Write Controller tests and implement `PdpController`
   - [ ] Implement `pdp.html` connecting identified gaps to learning journeys
+- [ ] Administrator Role & Framework Management:
+  - [ ] Database Schema & Entities: Create Liquibase migrations, JPA Entities, and pure Java Domain models/ports for dynamic Framework Management (Pillars, Descriptions, Examples, Roles, Grades expectations)
+  - [ ] Business Logic: Update `FrameworkService` (or equivalent) to transition from static definitions to database-backed data, allowing for updates
+  - [ ] Write Controller tests and implement `AdminController` for handling framework configuration forms
+  - [ ] Implement Security/RBAC to ensure only users with the `ADMIN` role can access or modify these endpoints and views
+  - [ ] Implement `admin-framework.html` UI for altering the framework (titles, descriptions, level details, evidence examples)
+  - [ ] Implement `admin-roles.html` UI for managing roles, grades, and baseline expected pillar ratings
 
 ## 5. Polish & Verification
 
