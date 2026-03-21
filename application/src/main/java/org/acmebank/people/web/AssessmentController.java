@@ -46,8 +46,18 @@ public class AssessmentController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evidence not found"));
         User developer = userRepository.findById(evidence.userId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Developer not found"));
+        
+        Assessment managerAssessment = null;
+        if (evidence.status() == EvidenceStatus.MANAGER_ASSESSED || evidence.status() == EvidenceStatus.UNDER_INDEPENDENT_REVIEW || evidence.status() == EvidenceStatus.INDEPENDENTLY_ASSESSED) {
+            managerAssessment = assessmentRepository.findByEvidenceId(evidenceId).stream()
+                    .filter(a -> !a.isThirdParty())
+                    .findFirst()
+                    .orElse(null);
+        }
+
         model.addAttribute("evidence", evidence);
         model.addAttribute("developer", developer);
+        model.addAttribute("managerAssessment", managerAssessment);
         model.addAttribute("pillars", Pillar.values());
         return "assessment-form";
     }

@@ -109,9 +109,16 @@
                                                   class="text-xs text-blue-300 ml-1 font-normal opacity-70"
                                                   th:text="'(Expected: ' + ${developer.getExpectedPillarLevel(pillar).value()} + ')'"></span>
                                         </label>
-                                        <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
-                                              class="text-xs opacity-60" 
-                                              th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
+                                        <div class="flex items-center gap-2">
+                                            <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
+                                                  class="text-xs opacity-60" 
+                                                  th:title="${evidence.selfAssessment().get(pillar).rationale()}"
+                                                  th:text="'Self: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
+                                            <span th:if="${managerAssessment != null and managerAssessment.assessedScores().containsKey(pillar)}" 
+                                                  class="text-xs text-blue-300 opacity-80" 
+                                                  th:title="${managerAssessment.assessedScores().get(pillar).rationale()}"
+                                                  th:text="'Manager: ' + ${managerAssessment.assessedScores().get(pillar).score().value()}">Manager: 3</span>
+                                        </div>
                                     </div>
                                     <select th:name="${'scores[' + pillar.name() + ']'}"
                                             class="dreyfus-select form-control-sm w-full mb-3"
@@ -161,9 +168,16 @@
                                                   class="text-xs text-blue-300 ml-1 font-normal opacity-70"
                                                   th:text="'(Expected: ' + ${developer.getExpectedPillarLevel(pillar).value()} + ')'"></span>
                                         </label>
-                                        <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
-                                              class="text-xs opacity-60" 
-                                              th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
+                                        <div class="flex items-center gap-2">
+                                            <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
+                                                  class="text-xs opacity-60" 
+                                                  th:title="${evidence.selfAssessment().get(pillar).rationale()}"
+                                                  th:text="'Self: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
+                                            <span th:if="${managerAssessment != null and managerAssessment.assessedScores().containsKey(pillar)}" 
+                                                  class="text-xs text-blue-300 opacity-80" 
+                                                  th:title="${managerAssessment.assessedScores().get(pillar).rationale()}"
+                                                  th:text="'Manager: ' + ${managerAssessment.assessedScores().get(pillar).score().value()}">Manager: 3</span>
+                                        </div>
                                     </div>
                                     <select th:name="${'scores[' + pillar.name() + ']'}"
                                             class="dreyfus-select form-control-sm w-full mb-3"
