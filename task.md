@@ -114,6 +114,22 @@
 - [x] Generate `README.md` providing essential project context and setup instructions
 - [ ] Generate `walkthrough.md` documenting implemented flows
 
+## 6. Promotion Flow Implementation
+
+- [ ] Persistence & Domain Models:
+  - [ ] Create Liquibase migration for `promotion_cases` and `promotion_feedback` tables
+  - [ ] Define pure Java Domain models/DTOs for Promotion entities
+  - [ ] Define JPA Entities and implement repository adapters
+- [ ] Business Logic (TDD):
+  - [ ] Write Unit Tests for `PromotionService` (Handling case initiation, feedback request logic, and ITA validation)
+  - [ ] Implement `PromotionService` to pass tests (Enforcing higher-rank feedback rule and manager endorsement)
+- [ ] UI Layer (WebMvcTests):
+  - [ ] Write Controller tests and implement `PromotionController`
+  - [ ] Implement `promotion-proposition.html` (Aggregating evidence/check-ins and proposition narrative)
+  - [ ] Implement `promotion-feedback-form.html` (Written statements from endorsers/higher ranks)
+  - [ ] Implement `promotion-ita-review.html` (ITA dashboard for case review and score validation)
+  - [ ] Implement `promotion-detail.html` (Final summary showing validated scores, positive points, and development recommendations)
+
 ## GCP Deployment Task
 
 - [x] **Target Project:** `ecdf-spring-boot-app-2026`

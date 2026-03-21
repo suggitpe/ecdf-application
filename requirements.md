@@ -99,3 +99,23 @@ This document outlines the business requirements for the Engineer Career Develop
 ## 10. Project Documentation
 
 - **README**: A comprehensive `README.md` MUST be maintained at the project root, providing essential setup, environment, and architectural context for new developers.
+
+## 11. Promotion Flow
+
+- **Trigger**: A promotion process can only be initiated from a Check-in where the employee has been categorized as "Ready for Promotion" (requiring independently assessed evidence).
+- **Promotion Proposition**: A formal case file that aggregates:
+  - All relevant evidence and assessments.
+  - Full Check-in history.
+  - A formal proposition statement/narrative.
+- **Promotion Feedback**:
+  - The system supports requesting formal feedback from up to **four** additional individuals.
+  - **Constraint**: Feedback providers must hold a higher rank/grade than the candidate.
+  - **Manager Endorsement**: The direct manager must provide a formal written endorsement within this flow.
+- **ITA Review & Validation**:
+  - Independent Technical Assessors (ITAs) are assigned to the promotion case.
+  - ITAs review the Proposition, evidence, and all feedback statements.
+  - ITAs conduct validation interviews with the feedback providers to corroborate the candidate's impact.
+- **Outcomes**:
+  - **Validated ECDF Scores**: Final validation of ECDF scores across all 8 pillars for the target grade.
+  - **Positive Observations**: A curated list of "really positive things seen" during the review.
+  - **Development Recommendations**: Specific development points recommended to the candidate for their next level.
