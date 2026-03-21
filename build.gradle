@@ -10,7 +10,7 @@ defaultTasks 'clean', 'build', 'jacocoTestReport'
 
 allprojects {
     group = 'org.acmebank.people'
-    version = new Date().format('yyyy.MM.dd.HHmmss')
+    version = new Date().format('yyyy.MM.dd-HHmmss')
 
     repositories {
         mavenCentral()
