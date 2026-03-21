@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: 13-dynamic-framework-tables
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: framework_pillars
+            columns:
+              - column:
+                  name: pillar_name
+                  type: varchar(50)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: false
+        
+        - createTable:
+            tableName: framework_levels
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: pillar_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: level_description
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: evidence_examples
+                  type: text
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: framework_levels
+            columnNames: pillar_name, score
+            constraintName: ux_framework_levels_pillar_score
+        - addForeignKeyConstraint:
+            baseTableName: framework_levels
+            baseColumnNames: pillar_name
+            referencedTableName: framework_pillars
+            referencedColumnNames: pillar_name
+            constraintName: fk_framework_levels_pillar

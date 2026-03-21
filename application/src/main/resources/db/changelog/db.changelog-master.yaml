@@ -23,3 +23,5 @@ databaseChangeLog:
       file: db/changelog/11-make-assessment-fields-nullable.yaml
   - include:
       file: db/changelog/12-assessor-rationale.yaml
+  - include:
+      file: db/changelog/13-dynamic-framework.yaml
