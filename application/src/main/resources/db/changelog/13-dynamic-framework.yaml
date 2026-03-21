@@ -19,7 +19,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: description
-                  type: text
+                  type: varchar(4000)
                   constraints:
                     nullable: false
         
@@ -44,12 +44,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: level_description
-                  type: text
+                  type: varchar(4000)
                   constraints:
                     nullable: false
               - column:
                   name: evidence_examples
-                  type: text
+                  type: varchar(4000)
                   constraints:
                     nullable: false
         - addUniqueConstraint:

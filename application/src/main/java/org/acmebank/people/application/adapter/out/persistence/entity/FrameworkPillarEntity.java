@@ -17,7 +17,7 @@ public class FrameworkPillarEntity {
     @Column(nullable = false, length = 255)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, length = 4000)
     private String description;
 
     @OneToMany(mappedBy = "pillar", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true, fetch = jakarta.persistence.FetchType.EAGER)

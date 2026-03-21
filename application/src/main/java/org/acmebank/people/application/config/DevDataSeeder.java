@@ -39,8 +39,11 @@ public class DevDataSeeder {
             GradeRepository gradeRepository, 
             CheckInRepository checkInRepository,
             EvidenceRepository evidenceRepository,
-            AssessmentRepository assessmentRepository) {
+            AssessmentRepository assessmentRepository,
+            org.acmebank.people.domain.port.FrameworkRepository frameworkRepository) {
         return args -> {
+            seedFrameworkData(frameworkRepository);
+            
             Random random = new Random();
             String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
@@ -295,5 +298,54 @@ public class DevDataSeeder {
                     return existing;
                 })
                 .orElseGet(() -> repository.save(new Grade(null, name, role, expectations)));
+    }
+
+    private void seedFrameworkData(org.acmebank.people.domain.port.FrameworkRepository frameworkRepository) {
+        if (frameworkRepository.findAllPillars().isEmpty()) {
+            for (Pillar p : Pillar.values()) {
+                String title = switch (p) {
+                    case THINKS -> "Analytical & Strategic Thinking";
+                    case ENGAGES -> "Collaboration & Growth";
+                    case INFLUENCES -> "Impact & Alignment";
+                    case ACHIEVES -> "Reliability & Result Orientation";
+                    case DESIGNS -> "Strategic Design & Architecture";
+                    case DELIVERS -> "Execution & Engineering Standard";
+                    case CONTROLS -> "Safety, Security & Risk";
+                    case OPERATES -> "Sustainability & Observability";
+                };
+
+                String description = switch (p) {
+                    case THINKS -> "Critical and analytical reasoning to solve complex engineering problems.";
+                    case ENGAGES -> "Collaborating with peers and stakeholders to drive collective improvement.";
+                    case INFLUENCES -> "Shaping directions and outcomes beyond your immediate squad.";
+                    case ACHIEVES -> "Taking ownership and delivering high-quality results consistently.";
+                    case DESIGNS -> "Creating robust, scalable and decoupled technical architectures.";
+                    case DELIVERS -> "Implementing and shipping high-quality code into production safely.";
+                    case CONTROLS -> "Ensuring our systems are secure, compliant and risk-aware.";
+                    case OPERATES -> "Owning the performance, health and maintenance of systems.";
+                };
+
+                List<org.acmebank.people.domain.FrameworkLevel> levels = new java.util.ArrayList<>();
+                for (int i = 1; i <= 5; i++) {
+                    String levelDesc = switch (i) {
+                        case 1 -> "Novice: Focuses on following rules and standard procedures. Requires high levels of supervision.";
+                        case 2 -> "Advanced Beginner: Can perform simple tasks independently but still needs help for complex ones.";
+                        case 3 -> "Competent: Can handle common non-routine tasks and solve problems through analytical reasoning.";
+                        case 4 -> "Proficient: Sees situations holistically and identifies important issues intuitively based on experience.";
+                        case 5 -> "Expert: Has deep intuitive grasp and can innovate or push industry boundaries.";
+                        default -> "";
+                    };
+                    
+                    String examples = "Completed assigned tasks correctly and on time\nParticipated in code reviews highlighting best practices";
+                    if (i >= 4) {
+                        examples = "Led a cross-team initiative to standardized data patterns\nMentored multiple engineers to achieve their promotion goals";
+                    }
+
+                    levels.add(new org.acmebank.people.domain.FrameworkLevel(null, p, new Score(i), levelDesc, examples));
+                }
+
+                frameworkRepository.savePillar(new org.acmebank.people.domain.FrameworkPillar(p, title, description, levels));
+            }
+        }
     }
 }

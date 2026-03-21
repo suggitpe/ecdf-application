@@ -23,9 +23,9 @@ public class FrameworkLevelEntity {
     @Column(nullable = false)
     private Integer score;
 
-    @Column(name = "level_description", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "level_description", nullable = false, length = 4000)
     private String levelDescription;
 
-    @Column(name = "evidence_examples", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "evidence_examples", nullable = false, length = 4000)
     private String evidenceExamples;
 }
