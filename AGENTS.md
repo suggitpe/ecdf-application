@@ -40,12 +40,13 @@ This document provides core steering instructions for AI Assistants working on t
 - **Database**: H2 in-memory database (schema managed via Liquibase).
   - *Critical*: Always initialize an empty master changelog file at `src/main/resources/db/changelog/db.changelog-master.yaml` to prevent Liquibase from failing application startup.
 - **Testing**: Strict Test-Driven Development (TDD). JUnit 5, Mockito, `@WebMvcTest`, and **Testcontainers** for DB integration tests. **JaCoCo** is used for test coverage metrics and is included in the default Gradle task (`.\gradlew`).
-- **Environment**: 12-Factor App design. Configuration externalized via environment variables. Containerized using Azul Zulu JRE 21 via standard `Dockerfile`/`Containerfile` and `docker-compose.yml`. *Note*: The `Dockerfile` should act as a runtime wrapper; the application `.jar` must be built on the host machine before building the container image.
+- **Environment**: 12-Factor App design. Configuration externalized via environment variables. Containerized using Azul Zulu JRE 21 via standard `Dockerfile`/`Containerfile` and `docker-compose.yml`. *Note*: The `Dockerfile` should act as a runtime wrapper; the application `.jar` must be built on the host machine before building the container image. **The `jib` Gradle plugin is explicitly forbidden**; rely on a strict `.gcloudignore` and pure Dockerfile wrappers for deployment.
 - **GCP Infrastructure**: Target environment is **Google Cloud Platform (GCP)**.
   - **Compute**: Google Cloud Run (v2) in `europe-west2` (London).
   - **Persistence**: Google Cloud Storage (GCS) bucket mounted via GCS FUSE to `/data/storage` for persistent evidence attachments.
   - **Registry**: Google Artifact Registry for container image storage.
-  - **CI/CD**: GitHub Actions for automated building, testing, and deployment to GCP.
+  - **Infrastructure as Code**: Terraform is used to provision base resources. Concrete `.tfvars` files must be local and ignored by Git; check in `.tfvars.template` files instead.
+  - **CI/CD**: GitHub Actions for automated building, testing, and deployment to GCP. **Security Rule**: GCP Service Account JSON keys (`*.json`) must never be committed to version control and must be placed in `.gitignore`. Provide keys securely via GitHub Secrets.
 
 ## 3. Workday Integration Strategy (Ports & Adapters)
 

@@ -1,0 +1,13 @@
+.git/
+.gitignore
+.gradle/
+domain/build/
+application/build/classes/
+application/build/generated/
+application/build/jacoco/
+application/build/kotlin/
+application/build/reports/
+application/build/resources/
+application/build/test-results/
+application/build/tmp/
+application/build/libs/*-plain.jar

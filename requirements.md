@@ -94,5 +94,6 @@ This document outlines the business requirements for the Engineer Career Develop
 - **Compute**: The application is deployed on **Google Cloud Run** (v2) in the `europe-west2` (London) region for serverless scalability.
 - **Registry**: Container images are stored in **Google Artifact Registry**.
 - **Persistence**: While the database is currently H2 in-memory, persistent evidence attachments are stored in a **Google Cloud Storage (GCS)** bucket, which is mounted to the container's `/data/storage` path using **GCS FUSE**.
-- **CI/CD**: Fully automated building, testing, and delivery pipeline using **GitHub Actions**.
+- **Infrastructure as Code**: The bedrock infrastructure (Storage, Registry, IAM base roles, and the initial Cloud Run service configuration) is strictly managed and provisioned via Terraform scripts.
+- **CI/CD Deployment**: Fully automated building, testing, and delivery pipeline using **GitHub Actions**. The pipeline leverages the Google Cloud SDK (with a customized `.gcloudignore` structure and a native `Dockerfile` wrapper) to robustly build and deploy updates without external containerization plugins (e.g., Jib).
 

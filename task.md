@@ -87,18 +87,22 @@
 
 - [x] Infrastructure & CI/CD:
   - [x] Provision GCP Infrastructure using Terraform (Cloud Run, Artifact Registry, GCS Bucket)
+  - [x] Configure dedicated Terraform `.tfvars` with targeted GCP project data.
   - [x] Configure GCS FUSE mount for persistent evidence storage
   - [x] Implement GitHub Actions workflow for automated GCP deployment
+  - [x] Remove redundant Jib plugin and establish standard Dockerfile/gcloudignore deployment pipeline.
+  - [ ] Upgrade GitHub Actions GCP Authentication from static JSON keys to Workload Identity Federation (WIF) (Recommended for enhanced CI/CD security).
 - [x] Developer Pathways & PDP:
   - [x] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
   - [x] Write Controller tests and implement `PdpController`
   - [x] Implement `pdp.html` connecting identified gaps to learning journeys
   - [x] Implement manual PDP creation endpoint and UI on Check-In detail page
-- [ ] Administrator Role & Framework Management:
-  - [ ] Database Schema & Entities: Create Liquibase migrations, JPA Entities, and pure Java Domain models/ports for dynamic Framework Management (Pillars, Descriptions, Examples, Roles, Grades expectations)
-  - [ ] Business Logic: Update `FrameworkService` (or equivalent) to transition from static definitions to database-backed data, allowing for updates
+- [x] Administrator Role & Framework Management:
+  - [x] Database Schema & Entities: Create Liquibase migrations, JPA Entities, and pure Java Domain models/ports for dynamic Framework Management (Pillars, Descriptions, Examples, Roles, Grades expectations)
+  - [x] Business Logic: Update `FrameworkService` (or equivalent) to transition from static definitions to database-backed data, allowing for updates
   - [ ] Write Controller tests and implement `AdminController` for handling framework configuration forms
   - [ ] Implement Security/RBAC to ensure only users with the `ADMIN` role can access or modify these endpoints and views
+  - [ ] Create an initial Admin user (e.g., in `DevDataSeeder`) explicitly granted the `ADMIN` role to manage the application
   - [ ] Implement `admin-framework.html` UI for altering the framework (titles, descriptions, level details, evidence examples)
   - [ ] Implement `admin-roles.html` UI for managing roles, grades, and baseline expected pillar ratings
 
@@ -108,3 +112,12 @@
 - [ ] Refine visual design (glassmorphism details, animations, responsive layout)
 - [ ] Perform manual end-to-end verification
 - [ ] Generate `walkthrough.md` documenting implemented flows
+
+## GCP Deployment Task
+
+- [x] **Target Project:** `ecdf-spring-boot-app-2026`
+- [x] **Region:** `europe-west2`
+- [x] **Method:** Docker-based build via Cloud Build
+- [x] **Service Name:** `ecdf-mockup`
+- [x] **Auth:** Allow unauthenticated (public)
+- [x] **Live URL:** <https://ecdf-mockup-334478560184.europe-west2.run.app> (Deployed on 2026-03-21)

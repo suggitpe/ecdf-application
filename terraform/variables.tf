@@ -1,6 +1,7 @@
 variable "project_id" {
   description = "The GCP project ID"
-  type        = String
+  type        = string
+  default     = "ecdf-spring-boot-app-2026"
 }
 
 variable "region" {
@@ -10,7 +11,7 @@ variable "region" {
 }
 
 variable "app_name" {
-  description = "The name of the application"
-  type        = String
-  default     = "ecdf-app"
+  description = "The name of the application deployed"
+  type        = string
+  default     = "ecdf-mockup"
 }
