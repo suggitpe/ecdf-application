@@ -15,6 +15,7 @@ This document provides core steering instructions for AI Assistants working on t
 - **Do NOT run all steps in one go**. Execute one logical block, verify it compiles and runs, then pause for human review via standard chat or `notify_user`.
 - **Git Commits**: Committing any changes must be a human-in-the-loop activity. Do NOT run `git commit` commands automatically without explicit user approval.
 - **CI/CD Pipeline**: Any code changes committed and pushed to the repository should trigger a GitHub Actions build pipeline. Ensure that GitHub Actions is properly configured (e.g., in `.github/workflows/build.yml`) to automatically build the application, execute all tests, and upload JaCoCo coverage reports on every push and pull request.
+- **Documentation**: A comprehensive `README.md` MUST be maintained at the project root, providing essential setup, environment, and architectural context for new developers.
 - Before making significant architectural decisions or writing massive amounts of code, confirm the approach with the user.
 
 ## 2. Technical Stack & Architecture
@@ -69,4 +70,3 @@ This document provides core steering instructions for AI Assistants working on t
 - **Web/Controller Testing**: Write `@WebMvcTest` tests to verify controller routing, mapping, validation, and view selection before implementing the Spring MVC `@Controller`s.
 - **Minimal Code**: Do not write production code unless it is specifically to make a failing test pass. Always ensure tests fail for the right reason before fixing them.
 - **Teardown & Cleanup**: All tests MUST clean up after themselves. If a test creates local files (e.g., file uploads), use JUnit 5's `@TempDir` to ensure automatic deletion. Do NOT pollute the project's `data/` or `storage/` directories with test artifacts.
-

@@ -111,6 +111,7 @@
 - [x] Implement realistic historical demo data seeding in `DevDataSeeder` (spanning a 2-year history, ensuring items are 3+ months old)
 - [ ] Refine visual design (glassmorphism details, animations, responsive layout)
 - [ ] Perform manual end-to-end verification
+- [x] Generate `README.md` providing essential project context and setup instructions
 - [ ] Generate `walkthrough.md` documenting implemented flows
 
 ## GCP Deployment Task

@@ -41,7 +41,9 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           name: application-jar
-          path: application/build/libs/application-*.jar
+          path: |
+            application/build/libs/application-*.jar
+            !application/build/libs/*-plain.jar
 
   deploy:
     name: Deploy to GCP

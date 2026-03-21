@@ -51,7 +51,6 @@ This document outlines the business requirements for the Engineer Career Develop
   - *Underperforming*: Triggered when the employee has **more than three** pillars not meeting the minimum threshold for their grade.
 - **Evidence Linking**: Every pillar score displayed in a check-in or on the dashboard MUST link directly to the specific piece of evidence that provided that rating, enabling full traceability.
 
-
 ## 5. Personal Development Plan (PDP)
 
 - Tied to a Check-in.
@@ -97,3 +96,6 @@ This document outlines the business requirements for the Engineer Career Develop
 - **Infrastructure as Code**: The bedrock infrastructure (Storage, Registry, IAM base roles, and the initial Cloud Run service configuration) is strictly managed and provisioned via Terraform scripts.
 - **CI/CD Deployment**: Fully automated building, testing, and delivery pipeline using **GitHub Actions**. The pipeline leverages the Google Cloud SDK (with a customized `.gcloudignore` structure and a native `Dockerfile` wrapper) to robustly build and deploy updates without external containerization plugins (e.g., Jib).
 
+## 10. Project Documentation
+
+- **README**: A comprehensive `README.md` MUST be maintained at the project root, providing essential setup, environment, and architectural context for new developers.
