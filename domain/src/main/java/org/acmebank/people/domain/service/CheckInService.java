@@ -119,9 +119,9 @@ public class CheckInService {
                 Assessment assessment = preferredAssessment.get();
 
                 if (assessment.assessedScores() != null) {
-                    for (Map.Entry<Pillar, Score> entry : assessment.assessedScores().entrySet()) {
+                    for (Map.Entry<Pillar, EvidenceRating> entry : assessment.assessedScores().entrySet()) {
                         Pillar pillar = entry.getKey();
-                        Score currentScore = entry.getValue();
+                        Score currentScore = entry.getValue().score();
 
                         if (!aggregatedScores.containsKey(pillar)) {
                             aggregatedScores.put(pillar, new PillarScoreInfo(currentScore, evidence.id()));

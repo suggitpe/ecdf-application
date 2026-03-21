@@ -59,7 +59,7 @@ public class AssessmentController {
                                   HttpServletRequest request,
                                   Principal principal) {
         User assessor = resolveUser(principal);
-        Map<Pillar, Score> scores = buildAssessmentScores(selectedPillars, request);
+        Map<Pillar, org.acmebank.people.domain.EvidenceRating> scores = buildAssessmentScores(selectedPillars, request);
         
         assessmentService.submitAssessment(evidenceId, assessor.id(), scores, reviewSummary);
         
@@ -124,19 +124,22 @@ public class AssessmentController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
-    private Map<Pillar, Score> buildAssessmentScores(List<String> selectedPillars, HttpServletRequest request) {
+    private Map<Pillar, org.acmebank.people.domain.EvidenceRating> buildAssessmentScores(List<String> selectedPillars, HttpServletRequest request) {
         if (selectedPillars == null || selectedPillars.isEmpty()) {
             return Collections.emptyMap();
         }
-        Map<Pillar, Score> result = new HashMap<>();
+        Map<Pillar, org.acmebank.people.domain.EvidenceRating> result = new HashMap<>();
         for (String pillarName : selectedPillars) {
             try {
                 Pillar pillar = Pillar.valueOf(pillarName.toUpperCase());
                 String scoreKey = "scores[" + pillarName + "]";
+                String rationaleKey = "rationales[" + pillarName + "]";
                 String scoreStr = request.getParameter(scoreKey);
-                if (scoreStr != null && !scoreStr.isBlank()) {
+                String rationale = request.getParameter(rationaleKey);
+                
+                if (scoreStr != null && !scoreStr.isBlank() && rationale != null && !rationale.isBlank()) {
                     int scoreVal = Integer.parseInt(scoreStr);
-                    result.put(pillar, new Score(scoreVal));
+                    result.put(pillar, new org.acmebank.people.domain.EvidenceRating(new Score(scoreVal), rationale));
                 }
             } catch (Exception ignored) {
             }

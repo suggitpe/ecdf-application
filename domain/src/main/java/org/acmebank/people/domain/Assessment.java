@@ -8,7 +8,7 @@ public record Assessment(
         UUID id,
         UUID evidenceId,
         UUID assessorId,
-        Map<Pillar, Score> assessedScores,
+        Map<Pillar, EvidenceRating> assessedScores,
         String reviewSummary,
         boolean isThirdParty,
         LocalDate assessmentDate) {

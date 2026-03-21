@@ -21,3 +21,5 @@ databaseChangeLog:
       file: db/changelog/10-checkin-evidence-link.yaml
   - include:
       file: db/changelog/11-make-assessment-fields-nullable.yaml
+  - include:
+      file: db/changelog/12-assessor-rationale.yaml

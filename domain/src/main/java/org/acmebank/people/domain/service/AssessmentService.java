@@ -68,7 +68,7 @@ public class AssessmentService {
         return savedAssessment;
     }
 
-    public Assessment submitAssessment(UUID evidenceId, UUID assessorId, Map<Pillar, Score> scores, String reviewSummary) {
+    public Assessment submitAssessment(UUID evidenceId, UUID assessorId, Map<Pillar, org.acmebank.people.domain.EvidenceRating> scores, String reviewSummary) {
         Evidence evidence = evidenceRepository.findById(evidenceId)
                 .orElseThrow(() -> new IllegalArgumentException("Evidence not found with ID: " + evidenceId));
 

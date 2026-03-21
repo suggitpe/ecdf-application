@@ -80,6 +80,6 @@ public class SecurityConfig {
                 .roles("USER")
                 .build();
 
-        return new InMemoryUserDetailsManager(manager, charlie, bob, ita, alice, arthur);
+        return new InMemoryUserDetailsManager(user, manager, charlie, bob, ita, alice, arthur);
     }
 }

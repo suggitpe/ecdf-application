@@ -103,10 +103,10 @@
 
                                 <div class="dreyfus-selector" th:id="${'score-group-' + pillar.name()}">
                                     <div class="flex justify-between items-center mb-1">
-                                        <label class="dreyfus-label-small">
+                                        <label class="dreyfus-label-small text-blue-300">
                                             Assessor Score
                                             <span th:if="${developer != null}" 
-                                                  class="text-xs text-blue-300 ml-1 font-normal"
+                                                  class="text-xs text-blue-300 ml-1 font-normal opacity-70"
                                                   th:text="'(Expected: ' + ${developer.getExpectedPillarLevel(pillar).value()} + ')'"></span>
                                         </label>
                                         <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
@@ -114,16 +114,22 @@
                                               th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
                                     </div>
                                     <select th:name="${'scores[' + pillar.name() + ']'}"
-                                            class="dreyfus-select form-control-sm"
+                                            class="dreyfus-select form-control-sm w-full mb-3"
                                             th:id="${'score-' + pillar.name()}"
                                             th:title="|Assessment score for ${pillar.name()}|">
-                                        <option value="" disabled th:selected="${!evidence.selfAssessment().containsKey(pillar)}">Select...</option>
-                                        <option value="1" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 1}">1 — Novice</option>
-                                        <option value="2" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 2}">2 — Advanced Beginner</option>
-                                        <option value="3" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 3}">3 — Competent</option>
-                                        <option value="4" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 4}">4 — Proficient</option>
-                                        <option value="5" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 5}">5 — Expert</option>
+                                        <option value="" disabled selected>Select...</option>
+                                        <option value="1">1 — Novice</option>
+                                        <option value="2">2 — Advanced Beginner</option>
+                                        <option value="3">3 — Competent</option>
+                                        <option value="4">4 — Proficient</option>
+                                        <option value="5">5 — Expert</option>
                                     </select>
+                                    
+                                    <label class="dreyfus-label-small text-blue-300 mt-2 block">Assessor Rationale *</label>
+                                    <textarea th:name="${'rationales[' + pillar.name() + ']'}"
+                                              class="form-control text-sm p-2 w-full mt-1 bg-opacity-30 bg-gray-900"
+                                              rows="2"
+                                              placeholder="Provide your rationale for this rating..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -149,10 +155,10 @@
 
                                 <div class="dreyfus-selector" th:id="${'score-group-' + pillar.name()}">
                                     <div class="flex justify-between items-center mb-1">
-                                        <label class="dreyfus-label-small">
+                                        <label class="dreyfus-label-small text-blue-300">
                                             Assessor Score
                                             <span th:if="${developer != null}" 
-                                                  class="text-xs text-blue-300 ml-1 font-normal"
+                                                  class="text-xs text-blue-300 ml-1 font-normal opacity-70"
                                                   th:text="'(Expected: ' + ${developer.getExpectedPillarLevel(pillar).value()} + ')'"></span>
                                         </label>
                                         <span th:if="${evidence.selfAssessment().containsKey(pillar)}" 
@@ -160,16 +166,22 @@
                                               th:text="'Self-Rated: ' + ${evidence.selfAssessment().get(pillar).score().value()}">Self: 3</span>
                                     </div>
                                     <select th:name="${'scores[' + pillar.name() + ']'}"
-                                            class="dreyfus-select form-control-sm"
+                                            class="dreyfus-select form-control-sm w-full mb-3"
                                             th:id="${'score-' + pillar.name()}"
                                             th:title="|Assessment score for ${pillar.name()}|">
-                                        <option value="" disabled th:selected="${!evidence.selfAssessment().containsKey(pillar)}">Select...</option>
-                                        <option value="1" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 1}">1 — Novice</option>
-                                        <option value="2" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 2}">2 — Advanced Beginner</option>
-                                        <option value="3" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 3}">3 — Competent</option>
-                                        <option value="4" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 4}">4 — Proficient</option>
-                                        <option value="5" th:selected="${evidence.selfAssessment().containsKey(pillar) and evidence.selfAssessment().get(pillar).score().value() == 5}">5 — Expert</option>
+                                        <option value="" disabled selected>Select...</option>
+                                        <option value="1">1 — Novice</option>
+                                        <option value="2">2 — Advanced Beginner</option>
+                                        <option value="3">3 — Competent</option>
+                                        <option value="4">4 — Proficient</option>
+                                        <option value="5">5 — Expert</option>
                                     </select>
+                                    
+                                    <label class="dreyfus-label-small text-blue-300 mt-2 block">Assessor Rationale *</label>
+                                    <textarea th:name="${'rationales[' + pillar.name() + ']'}"
+                                              class="form-control text-sm p-2 w-full mt-1 bg-opacity-30 bg-gray-900"
+                                              rows="2"
+                                              placeholder="Provide your rationale for this rating..."></textarea>
                                 </div>
                             </div>
                         </div>

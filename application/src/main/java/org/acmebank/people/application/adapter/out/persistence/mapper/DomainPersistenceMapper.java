@@ -135,10 +135,10 @@ public class DomainPersistenceMapper {
     public static Assessment toDomainAssessment(AssessmentEntity entity) {
         if (entity == null)
             return null;
-        Map<Pillar, Score> scores = entity.getScores().entrySet().stream()
+        Map<Pillar, EvidenceRating> scores = entity.getScores().entrySet().stream()
                 .collect(Collectors.toMap(
                         e -> Pillar.valueOf(e.getKey()),
-                        e -> new Score(e.getValue())));
+                        e -> new EvidenceRating(new Score(e.getValue().getScore()), e.getValue().getRationale() == null ? "" : e.getValue().getRationale())));
         return new Assessment(
                 entity.getId(),
                 entity.getEvidence().getId(),
@@ -172,8 +172,8 @@ public class DomainPersistenceMapper {
         // Update scores map
         entity.getScores().clear();
         if (domain.assessedScores() != null) {
-            domain.assessedScores().forEach((pillar, score) -> {
-                entity.getScores().put(pillar.name(), score.value());
+            domain.assessedScores().forEach((pillar, rating) -> {
+                entity.getScores().put(pillar.name(), new AssessedScoreEmbeddable(rating.score().value(), rating.rationale()));
             });
         }
     }

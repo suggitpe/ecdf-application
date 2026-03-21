@@ -40,6 +40,5 @@ public class AssessmentEntity {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "assessment_scores", joinColumns = @JoinColumn(name = "assessment_id"))
     @MapKeyColumn(name = "pillar")
-    @Column(name = "score")
-    private java.util.Map<String, Integer> scores = new java.util.HashMap<>();
+    private java.util.Map<String, AssessedScoreEmbeddable> scores = new java.util.HashMap<>();
 }

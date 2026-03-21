@@ -103,7 +103,7 @@ class AssessmentServiceTest {
             pendingAssessmentId, evidenceId, assessorId, null, null, true, null
         )
 
-        val scores = mapOf(Pillar.THINKS to Score(4))
+        val scores = mapOf(Pillar.THINKS to EvidenceRating(Score(4), "Rationale"))
         val summary = "Great job"
 
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(evidence))
@@ -140,7 +140,7 @@ class AssessmentServiceTest {
             EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
         )
 
-        val scores = mapOf(Pillar.THINKS to Score(4))
+        val scores = mapOf(Pillar.THINKS to EvidenceRating(Score(4), "Rationale"))
         val summary = "Manager review looks good"
 
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(evidence))
@@ -210,7 +210,7 @@ class AssessmentServiceTest {
 
         // When & Then
         val exception = shouldThrow<IllegalArgumentException> {
-            assessmentService.submitAssessment(evidenceId, assessorId, mapOf(Pillar.THINKS to Score(4)), "   ")
+            assessmentService.submitAssessment(evidenceId, assessorId, mapOf(Pillar.THINKS to EvidenceRating(Score(4), "Rationale")), "   ")
         }
         exception.message shouldBe "Review summary must be provided."
     }
@@ -232,7 +232,7 @@ class AssessmentServiceTest {
 
         // When & Then
         val exception = shouldThrow<IllegalStateException> {
-            assessmentService.submitAssessment(evidenceId, assessorId, mapOf(Pillar.THINKS to Score(4)), "Summary")
+            assessmentService.submitAssessment(evidenceId, assessorId, mapOf(Pillar.THINKS to EvidenceRating(Score(4), "Rationale")), "Summary")
         }
         exception.message shouldBe "Manager can only assess evidence in SUBMITTED state."
     }

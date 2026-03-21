@@ -300,8 +300,9 @@ class CheckInServiceTest {
     }
 
     private fun createAssessment(evidenceId: UUID, scores: Map<Pillar, Score>, isThirdParty: Boolean): Assessment {
+        val ratings = scores.mapValues { EvidenceRating(it.value, "Rationale") }
         return Assessment(
-            UUID.randomUUID(), evidenceId, UUID.randomUUID(), scores, "Summary", isThirdParty, LocalDate.now()
+            UUID.randomUUID(), evidenceId, UUID.randomUUID(), ratings, "Summary", isThirdParty, LocalDate.now()
         )
     }
 }

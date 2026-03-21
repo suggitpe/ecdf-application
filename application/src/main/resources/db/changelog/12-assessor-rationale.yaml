@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-rationale-to-assessment-scores
+      author: ai-assistant
+      changes:
+        - addColumn:
+            tableName: assessment_scores
+            columns:
+              - column:
+                  name: rationale
+                  type: varchar(4000)

@@ -161,9 +161,16 @@ public class DevDataSeeder {
 
                         // Only save assessment if status is MANAGER_ASSESSED
                         if (status == EvidenceStatus.MANAGER_ASSESSED) {
+                            Map<Pillar, EvidenceRating> managerAssessmentRatings = mgrScores.entrySet().stream()
+                                .collect(Collectors.toMap(
+                                    Map.Entry::getKey,
+                                    e -> new EvidenceRating(e.getValue(), "Manager assessed " + e.getKey().name()),
+                                    (oldValue, newValue) -> oldValue, // Merge function for duplicates, though not expected here
+                                    () -> new EnumMap<>(Pillar.class)
+                                ));
                             assessmentRepository.save(new Assessment(
                                 null, evidence.id(), manager.id(),
-                                mgrScores, "Assessed based on project outcomes.",
+                                managerAssessmentRatings, "Assessed based on project outcomes.",
                                 false, LocalDate.now().minusMonths(monthsAgo)
                             ));
                         }
@@ -224,9 +231,17 @@ public class DevDataSeeder {
                         LocalDate.now().minusMonths(monthsAgo), LocalDate.now().minusMonths(monthsAgo)
                     ));
 
+                    Map<Pillar, EvidenceRating> managerAssessmentRatings = mgrScores.entrySet().stream()
+                        .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            e -> new EvidenceRating(e.getValue(), "Manager assessed " + e.getKey().name()),
+                            (oldValue, newValue) -> oldValue,
+                            () -> new EnumMap<>(Pillar.class)
+                        ));
+
                     assessmentRepository.save(new Assessment(
                         null, evidence.id(), manager.id(), // Assessed by self or a peer for example purposes
-                        mgrScores, "Excellent strategic impact and leadership.",
+                        managerAssessmentRatings, "Excellent strategic impact and leadership.",
                         false, LocalDate.now().minusMonths(monthsAgo)
                     ));
                 }
@@ -253,9 +268,17 @@ public class DevDataSeeder {
                         );
                         evidenceRepository.save(assigned);
                         
+                        // For ITA assessment, let's use some arbitrary scores
+                        int baseline = 3; // Example baseline score
+                        Map<Pillar, EvidenceRating> itaScores = Map.of(
+                                Pillar.THINKS, new EvidenceRating(new Score(baseline), "ITA logic for THINKS"),
+                                Pillar.ENGAGES, new EvidenceRating(new Score(baseline + 1), "ITA logic for ENGAGES"),
+                                Pillar.DELIVERS, new EvidenceRating(new Score(baseline), "ITA logic for DELIVERS")
+                        );
                         assessmentRepository.save(new Assessment(
-                            null, assigned.id(), ian.id(),
-                            null, null, true, null
+                            null, assigned.id(), ian.id(), itaScores,
+                            "ITA review: Technically sound and well executed.",
+                            true, LocalDate.now()
                         ));
                     }
                 }
