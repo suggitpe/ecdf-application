@@ -31,6 +31,17 @@
                 <p class="text-secondary mb-4">Define baseline pillar ratings for different grades and engineering roles across the organisation.</p>
                 <a th:href="@{/admin/roles}" class="btn btn-primary">Manage Roles</a>
             </div>
+
+            <div class="glass-card p-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="icon-circle bg-primary-faint text-primary">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold">Promotion Cycles</h2>
+                </div>
+                <p class="text-secondary mb-4">Open and close promotion time windows during which managers can propose staff for progression.</p>
+                <a th:href="@{/promotion/coordinator/periods}" class="btn btn-primary">Manage Periods</a>
+            </div>
         </div>
     </div>
 </body>
