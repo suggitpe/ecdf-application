@@ -175,6 +175,10 @@
                                     </td>
                                     
                                     <td class="flex gap-2">
+                                        <a th:if="${activePeriod != null and member.latestCheckIn != null and member.latestCheckIn.status.name() == 'READY_FOR_PROMOTION'}"
+                                           th:href="@{/promotion/propose(candidateId=${member.user.id})}" 
+                                           class="btn btn-secondary border-purple-500 text-purple-400" 
+                                           style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Propose Promotion</a>
                                         <a th:href="@{/evidence/user/{userId}(userId=${member.user.id})}" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Evidence</a>
                                         <a th:href="@{/checkins/user/{userId}(userId=${member.user.id})}" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">History</a>
                                         <a th:href="@{/checkins/new/{userId}(userId=${member.user.id})}" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Check-In</a>

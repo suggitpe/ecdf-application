@@ -269,4 +269,31 @@ public class DomainPersistenceMapper {
         entity.setEndDate(domain.endDate());
         entity.setStatus(domain.status());
     }
+
+    public static PromotionCase toDomainPromotionCase(PromotionCaseEntity entity) {
+        if (entity == null)
+            return null;
+        return new PromotionCase(
+                entity.getId(),
+                entity.getCandidate().getId(),
+                entity.getManager().getId(),
+                entity.getTargetGrade().getId(),
+                entity.getPromotionPeriod().getId(),
+                entity.getRationale(),
+                entity.getStatus());
+    }
+
+    public static void updatePromotionCaseEntity(PromotionCaseEntity entity, PromotionCase domain,
+                                                 UserEntity candidate, UserEntity manager,
+                                                 GradeEntity targetGrade, PromotionPeriodEntity period) {
+        if (domain.id() != null) {
+            entity.setId(domain.id());
+        }
+        entity.setCandidate(candidate);
+        entity.setManager(manager);
+        entity.setTargetGrade(targetGrade);
+        entity.setPromotionPeriod(period);
+        entity.setRationale(domain.rationale());
+        entity.setStatus(domain.status());
+    }
 }

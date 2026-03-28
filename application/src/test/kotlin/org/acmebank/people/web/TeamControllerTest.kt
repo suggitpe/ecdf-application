@@ -39,6 +39,9 @@ class TeamControllerTest {
     @MockitoBean
     private lateinit var checkInRepository: CheckInRepository
 
+    @MockitoBean
+    private lateinit var promotionPeriodService: org.acmebank.people.domain.service.PromotionPeriodService
+
     @Test
     @WithMockUser(username = "manager@example.com")
     fun `should return team view and populate model on success`() {

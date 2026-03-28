@@ -20,11 +20,24 @@ import java.util.UUID;
 public class PromotionCoordinatorController {
 
     private final PromotionPeriodService promotionPeriodService;
+    private final org.acmebank.people.domain.service.PromotionService promotionService;
+    private final org.acmebank.people.domain.port.UserRepository userRepository;
+    private final org.acmebank.people.domain.port.GradeRepository gradeRepository;
 
     @GetMapping("/periods")
     public String listPeriods(Model model) {
         model.addAttribute("periods", promotionPeriodService.getAllPeriods());
         model.addAttribute("activePeriod", promotionPeriodService.getActivePeriod().orElse(null));
+        model.addAttribute("activeCases", promotionService.getActiveCases());
+        
+        var userMap = userRepository.findAll().stream()
+                .collect(java.util.stream.Collectors.toMap(org.acmebank.people.domain.User::id, org.acmebank.people.domain.User::fullName));
+        var gradeMap = gradeRepository.findAll().stream()
+                .collect(java.util.stream.Collectors.toMap(org.acmebank.people.domain.Grade::id, org.acmebank.people.domain.Grade::name));
+        
+        model.addAttribute("userMap", userMap);
+        model.addAttribute("gradeMap", gradeMap);
+        
         return "promotion-periods";
     }
 

@@ -1,0 +1,74 @@
+databaseChangeLog:
+  - changeSet:
+      id: 16-create-promotion-cases-table
+      author: ai-assistant
+      changes:
+        - createTable:
+            tableName: promotion_cases
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: candidate_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: manager_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: target_grade_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: promotion_period_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rationale
+                  type: varchar(4000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: bigint
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: promotion_cases
+            baseColumnNames: candidate_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_promo_case_candidate
+        - addForeignKeyConstraint:
+            baseTableName: promotion_cases
+            baseColumnNames: manager_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_promo_case_manager
+        - addForeignKeyConstraint:
+            baseTableName: promotion_cases
+            baseColumnNames: target_grade_id
+            referencedTableName: grades
+            referencedColumnNames: id
+            constraintName: fk_promo_case_target_grade
+        - addForeignKeyConstraint:
+            baseTableName: promotion_cases
+            baseColumnNames: promotion_period_id
+            referencedTableName: promotion_periods
+            referencedColumnNames: id
+            constraintName: fk_promo_case_period

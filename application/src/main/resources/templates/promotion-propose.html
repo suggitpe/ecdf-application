@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/base">
+<head>
+    <title>Propose Promotion</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="glass-panel mb-8">
+            <h2 class="section-title mb-4">🚀 Propose Promotion</h2>
+            <p class="text-secondary mb-6">Initiate a formal promotion case for your direct report during the <strong th:text="${activePeriod.title()}">Cycle</strong>.</p>
+
+            <form th:action="@{/promotion/propose}" method="post" class="space-y-6">
+                <input type="hidden" name="candidateId" th:value="${candidate.id()}">
+
+                <div class="form-group">
+                    <label class="form-label">Candidate</label>
+                    <input type="text" class="form-control" th:value="${candidate.fullName()}" readonly disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetGradeId" class="form-label">Target Grade</label>
+                    <p class="text-xs text-secondary mb-2">Select the grade you are proposing the candidate for.</p>
+                    <select id="targetGradeId" name="targetGradeId" class="form-control" required>
+                        <option value="">Select Target Grade</option>
+                        <option th:each="grade : ${grades}" 
+                                th:value="${grade.id()}" 
+                                th:text="${grade.name() + ' (' + grade.role() + ')'}">Grade Name</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="rationale" class="form-label">Manager Rationale</label>
+                    <p class="text-xs text-secondary mb-2">Provide a detailed account of why the candidate is ready for the next grade, referencing ECDF pillars.</p>
+                    <textarea id="rationale" name="rationale" class="form-control" rows="8" required placeholder="Describe the candidate's impact, complexity of work, and demonstrated skill growth..."></textarea>
+                </div>
+
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="btn btn-primary shadow-sm glow-effect">Submit Proposal</button>
+                    <a th:href="@{/team}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</body>
+</html>

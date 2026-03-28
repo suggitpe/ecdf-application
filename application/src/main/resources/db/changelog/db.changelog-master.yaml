@@ -29,3 +29,5 @@ databaseChangeLog:
       file: db/changelog/14-promotion-period.yaml
   - include:
       file: db/changelog/15-add-promotion-coordinator-flag-to-users.yaml
+  - include:
+      file: db/changelog/16-promotion-cases.yaml

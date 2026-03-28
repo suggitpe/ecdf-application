@@ -149,7 +149,7 @@ public class DevDataSeeder {
                         for (int j = 0; j < pillarsPerEvidence; j++) {
                             int pillarIdx = (i * pillarsPerEvidence + j) % Pillar.values().length;
                             Pillar p = Pillar.values()[pillarIdx];
-                            int scoreVal = 2 + random.nextInt(3);
+                            int scoreVal = (email.equals("charlie@acmebank.org") || email.equals("arthur@acmebank.org")) ? 4 : 2 + random.nextInt(3);
                             selfScores.put(p, new EvidenceRating(new Score(scoreVal), "Demonstrated skills for " + p.name()));
                             mgrScores.put(p, new Score(scoreVal));
                         }
@@ -296,13 +296,23 @@ public class DevDataSeeder {
     }
 
     private void seedPromotionPeriod(org.acmebank.people.domain.port.PromotionPeriodRepository repository) {
-        if (repository.findByStatus(org.acmebank.people.domain.PromotionPeriodStatus.OPEN).isEmpty()) {
+        if (repository.findAll().isEmpty()) {
+            // Current Open Cycle
             repository.save(new org.acmebank.people.domain.PromotionPeriod(
                 null,
                 "Q1 2026 Promotion Cycle",
                 LocalDate.now().minusDays(7),
                 LocalDate.now().plusMonths(1),
                 org.acmebank.people.domain.PromotionPeriodStatus.OPEN
+            ));
+
+            // Future Cycle: 1st Oct to End Nov
+            repository.save(new org.acmebank.people.domain.PromotionPeriod(
+                null,
+                "Q4 2026 Promotion Cycle",
+                LocalDate.of(2026, 10, 1),
+                LocalDate.of(2026, 11, 30),
+                org.acmebank.people.domain.PromotionPeriodStatus.CLOSED
             ));
         }
     }

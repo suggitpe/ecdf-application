@@ -20,10 +20,13 @@ public class TeamController {
 
     private final UserRepository userRepository;
     private final CheckInRepository checkInRepository;
+    private final org.acmebank.people.domain.service.PromotionPeriodService promotionPeriodService;
 
-    public TeamController(UserRepository userRepository, CheckInRepository checkInRepository) {
+    public TeamController(UserRepository userRepository, CheckInRepository checkInRepository,
+                          org.acmebank.people.domain.service.PromotionPeriodService promotionPeriodService) {
         this.userRepository = userRepository;
         this.checkInRepository = checkInRepository;
+        this.promotionPeriodService = promotionPeriodService;
     }
 
     @GetMapping("/team")
@@ -55,6 +58,7 @@ public class TeamController {
 
         model.addAttribute("manager", manager);
         model.addAttribute("teamMembers", teamMembers);
+        model.addAttribute("activePeriod", promotionPeriodService.getActivePeriod().orElse(null));
 
         return "team";
     }

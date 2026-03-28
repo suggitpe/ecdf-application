@@ -45,27 +45,36 @@
 
             <!-- History Table -->
             <h3 class="text-lg font-bold mb-4">Historical Periods</h3>
+            <div class="overflow-x-auto mb-8">
+                <!-- ... table content ... -->
+            </div>
+
+            <!-- Active Proposals -->
+            <h3 class="text-lg font-bold mb-4">Active Proposals (Current Cycle)</h3>
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead>
                         <tr class="border-b border-white border-opacity-10">
-                            <th class="py-3 px-4">Title</th>
-                            <th class="py-3 px-4">Dates</th>
+                            <th class="py-3 px-4">Candidate</th>
+                            <th class="py-3 px-4">Manager</th>
+                            <th class="py-3 px-4">Target Grade</th>
                             <th class="py-3 px-4">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="p : ${periods}" class="border-b border-white border-opacity-5 hover:bg-white hover:bg-opacity-5">
-                            <td class="py-3 px-4 font-medium" th:text="${p.title()}">Title</td>
-                            <td class="py-3 px-4 text-secondary text-sm">
-                                <span th:text="${p.startDate()}">Start</span> to <span th:text="${p.endDate()}">End</span>
-                            </td>
+                        <tr th:each="c : ${activeCases}" class="border-b border-white border-opacity-5 hover:bg-white hover:bg-opacity-5">
+                            <td class="py-3 px-4 font-medium" 
+                                th:text="${userMap.get(c.candidateId()) ?: c.candidateId()}">Candidate</td>
+                            <td class="py-3 px-4 text-secondary text-sm" 
+                                th:text="${userMap.get(c.managerId()) ?: c.managerId()}">Manager</td>
+                            <td class="py-3 px-4 text-secondary text-sm" 
+                                th:text="${gradeMap.get(c.targetGradeId()) ?: c.targetGradeId()}">Grade</td>
                             <td class="py-3 px-4">
-                                <span class="status-badge" th:text="${p.status()}">OPEN</span>
+                                <span class="status-badge" th:text="${c.status()}">PROPOSED</span>
                             </td>
                         </tr>
-                        <tr th:if="${#lists.isEmpty(periods)}">
-                            <td colspan="3" class="py-8 text-center text-secondary italic">No historical periods found.</td>
+                        <tr th:if="${#lists.isEmpty(activeCases)}">
+                            <td colspan="4" class="py-8 text-center text-secondary italic">No active proposals in the current cycle.</td>
                         </tr>
                     </tbody>
                 </table>
