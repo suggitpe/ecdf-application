@@ -12,6 +12,12 @@ This document outlines the business requirements for the Engineer Career Develop
 - **Roles, Grades & Expectations**: Different roles and grade levels will have different expected baseline scores for each of the 8 pillars.
   - *Example Baseline*: A "Vice President" role defaults to an expectation of Level 3 across all pillars. A "Director" role defaults to an expectation of Level 4 across all pillars.
 
+## 1.1 Development Model
+
+- **Adoption**: Usage of the **Google Conductor framework** for a CLI-driven, context-rich development experience.
+- **Workflow**: Project specifications, plans, and technical metadata are maintained as versioned Markdown files within the repository (`/conductor`) to ensure persistent context across AI/human boundaries.
+- **Rules**: Planning and requirements stabilization MUST precede implementation.
+
 ## 2. Evidence Submission
 
 - Employees submit "evidence" of their work (e.g., successful project delivery, mentorship).

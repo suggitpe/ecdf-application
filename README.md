@@ -70,13 +70,22 @@ A fully automated pipeline is configured in `.github/workflows/build.yml`:
 * **On push to any branch**: Runs whole build, JUnit/Kotest suite, and checks JaCoCo coverage.
 * **On push to `main`**: Deploys the application automatically to **Google Cloud Run** in `europe-west2`.
 
+## 🧭 Development Model: Google Conductor
+
+The ECDF application follows a **context-driven, CLI-first development model** using the **Google Conductor** framework.
+
+- **System of Record**: All project requirements, technical standards, and style guides are maintained as versioned Markdown files in the `/conductor` directory.
+- **Tracks**: Active development is managed through structured "Tracks" (`/conductor/tracks/`), each containing its own specification (`spec.md`) and execution plan (`plan.md`).
+- **Workflow**: Planning and requirements stabilization MUST precede implementation. Progress is tracked directly in the track's `plan.md`.
+
 ## 📂 Project Structure
 
 * `domain/`: Business logic and interfaces.
 * `application/`: Infrastructure, UI, and Database adapters.
+* `conductor/`: Persistent project context and active development tracks.
 * `terraform/`: Infrastructure as Code scripts.
 * `.github/`: CI/CD workflow definitions.
 
 ---
 
-*Created by Antigravity AI Engine.*
+*Refined by Antigravity AI Engine via the Google Conductor Framework.*
