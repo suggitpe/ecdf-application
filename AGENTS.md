@@ -39,6 +39,8 @@ This document provides core steering instructions for AI Assistants working on t
   - **Sequential Assessment**: Evidence submissions MUST be assessed by a direct manager (transitioning to `MANAGER_ASSESSED`) before an ITA can be assigned. Assigning an ITA transitions the status to `UNDER_INDEPENDENT_REVIEW`. Completion of an ITA assessment transitions the status to `INDEPENDENTLY_ASSESSED`.
   - **Administrative Navigation**: All administrator-only functions (Framework management, Roles management) MUST be consolidated under a single, conditionally-rendered "Administration" link in the global navigation bar (`/admin`).
   - **Administrator UI Hub**: The Administration module must feature a unified landing page that provides clear entry points to all management capabilities, utilizing consistent iconography and layout.
+  - **Corporate Identity**: The application header MUST display the official "AcmeBank" company name and logo to establish a consistent corporate brand.
+  - **Email Standard**: All user identifiers and credentials throughout the system MUST utilize the official `@acmebank.org` domain.
 
 - **Domain Constraints**: The ECDF framework strictly defines **8 pillars**. You must never introduce a 9th pillar (e.g., do not include the deprecated "DEFINES" pillar).
 - **Database**: H2 in-memory database (schema managed via Liquibase).
