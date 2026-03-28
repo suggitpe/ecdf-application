@@ -107,8 +107,11 @@
     - [x] `POST /admin/roles` - Update or create roles and their corresponding pillar targets
   - [x] Implement Security/RBAC to ensure only users with the `ADMIN` role can access or modify these endpoints and views
   - [x] Create an initial Admin user (e.g., in `DevDataSeeder`) explicitly granted the `ADMIN` role to manage the application
-  - [x] Implement `admin-framework.html` UI for altering the framework (titles, descriptions, level details, evidence examples)
-  - [x] Implement `admin-roles.html` UI for managing roles, grades, and baseline expected pillar ratings.
+  - [x] Create a unified Administration Hub (`/admin`) to consolidate all management tools
+  - [x] Implement `admin-home.html` landing page with premium glassmorphism design
+  - [x] Implement `admin-framework.html` UI for altering the framework (titles, descriptions, detailed level descriptors 1-5)
+  - [x] Implement `admin-roles.html` UI for managing roles, grades, and baseline expected pillar ratings using dropdown selectors.
+  - [x] Consolidated Admin Navigation: Linked all admin functions under a single, conditionally-rendered "Administration" header link.
 
 ## 5. Polish & Verification
 

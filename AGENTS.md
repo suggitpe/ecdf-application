@@ -37,6 +37,9 @@ This document provides core steering instructions for AI Assistants working on t
   - When completing a piece of evidence and the user selects a pillar rating, they MUST also add a description (rationale) of why they have selected that rating.
   - **Evidence Linking**: Pillar score displays in the UI (Check-Ins, Dashboard) MUST include a visible link (using FontAwesome `fas fa-external-link-alt` in `text-primary`) to the source evidence.
   - **Sequential Assessment**: Evidence submissions MUST be assessed by a direct manager (transitioning to `MANAGER_ASSESSED`) before an ITA can be assigned. Assigning an ITA transitions the status to `UNDER_INDEPENDENT_REVIEW`. Completion of an ITA assessment transitions the status to `INDEPENDENTLY_ASSESSED`.
+  - **Administrative Navigation**: All administrator-only functions (Framework management, Roles management) MUST be consolidated under a single, conditionally-rendered "Administration" link in the global navigation bar (`/admin`).
+  - **Administrator UI Hub**: The Administration module must feature a unified landing page that provides clear entry points to all management capabilities, utilizing consistent iconography and layout.
+
 - **Domain Constraints**: The ECDF framework strictly defines **8 pillars**. You must never introduce a 9th pillar (e.g., do not include the deprecated "DEFINES" pillar).
 - **Database**: H2 in-memory database (schema managed via Liquibase).
   - *Critical*: Always initialize an empty master changelog file at `src/main/resources/db/changelog/db.changelog-master.yaml` to prevent Liquibase from failing application startup.

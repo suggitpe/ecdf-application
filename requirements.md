@@ -79,7 +79,8 @@ This document outlines the business requirements for the Engineer Career Develop
   - **Role & Grade Management**: Can manage the firm's hierarchy of roles and grades, including:
     - Creating/editing Roles (e.g., "Engineer", "Vice President").
     - Defining the target **Baseline Expectations** (1-5) for *all 8 pillars* for every role-grade combination.
-  - **User RBAC**: No user can perform these actions unless they possess the `ROLE_ADMIN` authority. The application must enforce this at both the UI and API levels.
+  - **User RBAC**: No user can perform these actions unless they possess the `ROLE_ADMIN` authority. The application must enforce this at both the UI (hidden links) and API (controller security) levels.
+  - **Administration Hub**: A unified landing page (`/admin`) that provides high-level access to both Framework and Role management, using a consistent premium aesthetic.
 
 ## 7. UI / UX Design
 
