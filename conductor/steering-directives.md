@@ -4,16 +4,18 @@ This document provides core steering instructions for AI Assistants working on t
 
 ## 1. Execution Workflow (CRITICAL)
 
+- **Track Granularity**: You MUST prioritize small, incremental tracks over large, monolithic ones. Each track should focus on a single logical advancement of a feature (e.g., "Persistence & Domain Models" as one track, "Core Service Logic" as another, then "UI Layer"). This ensures faster review cycles and reduced risk.
 - **Handling New Requirements**:
   - When the user asks for a new function or requirement, you MUST update `requirements.md` FIRST to reflect the business logic.
   - You MUST then present the updated `requirements.md` and explicitly ask the user if they agree the requirement is correctly captured.
   - ONLY after the user agrees should you update `task.md` with the actionable implementation tasks.
   - Implementation code MUST NOT be written until both documents are updated and agreed upon.
 - **Task Boundaries & Human Approval**:
+  - For **each** phase in a track implementation plan, you MUST explicitly ask for permission to start work on that phase.
   - For **each** task in the checklist, you MUST explicitly ask for a human to strongly agree to start the next task.
   - Once a task has completed, you MUST ask a human to review what has been created before moving on.
 - **Do NOT run all steps in one go**. Execute one logical block, verify it compiles and runs, then pause for human review via standard chat or `notify_user`.
-- **Git Commits**: Committing any changes must be a human-in-the-loop activity. Do NOT run `git commit` commands automatically without explicit user approval.
+- **Git Commits**: You MUST NOT execute `git commit` commands. Committing changes is strictly a human activity. After a task or phase is reviewed and approved, you must ask the human to execute the commit manually.
 - **CI/CD Pipeline**: Any code changes committed and pushed to the repository should trigger a GitHub Actions build pipeline. Ensure that GitHub Actions is properly configured (e.g., in `.github/workflows/build.yml`) to automatically build the application, execute all tests, and upload JaCoCo coverage reports on every push and pull request.
 - **Documentation**: A comprehensive `README.md` MUST be maintained at the project root, providing essential setup, environment, and architectural context for new developers.
 - Before making significant architectural decisions or writing massive amounts of code, confirm the approach with the user.

@@ -76,8 +76,13 @@ This document outlines the business requirements for the Engineer Career Develop
   - Can easily identify staff with skill gaps for their role/grade (underperforming) as well as staff with higher skills for their role/grade.
   - **Crucially**, it must be extremely easy and clear for a manager to instantly see exactly who in their organization should be considered for promotion.
   - Can assign Third-Party assessments and initiate Check-ins.
-- **Third-Party Assessors**: Have a dedicated queue for evidence explicitly assigned to them by managers for independent review.
-- **Administrators**: A dedicated role strictly limited to altering the foundational framework of the system.
+- **Promotion Coordinators**:
+  - Responsible for the administrative oversight of the promotion process.
+  - Allocates an Independent Technical Assessor (ITA) to a promotion case once the manager and sponsor inputs are complete.
+- **Third-Party Assessors**:
+  - Have a dedicated queue for evidence explicitly assigned to them by managers for independent review.
+- **Administrators**:
+ A dedicated role strictly limited to altering the foundational framework of the system.
   - **Framework Management**: Can update the definitions for each of the 8 pillars, including:
     - Pillar Title and Overall Description.
     - Level descriptions (1-5) based on the Dreyfus model.
@@ -116,20 +121,28 @@ This document outlines the business requirements for the Engineer Career Develop
 
 ## 11. Promotion Flow
 
-- **Trigger**: A promotion process can only be initiated from a Check-in where the employee has been categorized as "Ready for Promotion" (requiring independently assessed evidence).
-- **Promotion Proposition**: A formal case file that aggregates:
-  - All relevant evidence and assessments.
-  - Full Check-in history.
-  - A formal proposition statement/narrative.
-- **Promotion Feedback**:
-  - The system supports requesting formal feedback from up to **four** additional individuals.
-  - **Constraint**: Feedback providers must hold a higher rank/grade than the candidate.
-  - **Manager Endorsement**: The direct manager must provide a formal written endorsement within this flow.
-- **ITA Review & Validation**:
-  - Independent Technical Assessors (ITAs) are assigned to the promotion case.
-  - ITAs review the Proposition, evidence, and all feedback statements.
-  - ITAs conduct validation interviews with the feedback providers to corroborate the candidate's impact.
+- **Promotion Period**: 
+  - Promotions are managed within specific time windows opened by a **Promotion Coordinator**.
+  - A manager can only propose a candidate if an active promotion period exists.
+- **Trigger**: 
+  - A promotion process can only be initiated from a Check-in where the employee has been categorized as "Ready for Promotion" (requiring independently assessed evidence).
+  - **Manager Proposal**: A manager can explicitly propose one of their direct reports for promotion if the reporting staff member is meeting the ECDF pillar requirements for the next grade up.
+- **Promotion Proposition**: When a manager puts a candidate forward, they must:
+  - Complete a formal **Manager Justification** statement.
+  - Nominate exactly **three sponsors** to support the promotion.
+  - **Constraint**: Nominated sponsors MUST hold a higher grade than the candidate.
+- **Sponsorship Workflow**:
+  - Nominated sponsors receive a request which they must either **Accept** or **Reject**.
+  - Upon acceptance, sponsors must complete their nomination with a **Written Account** justifying why the candidate is ready for the next grade.
+- **ITA Assessment & Validation**:
+  - Once the manager justification and all three sponsor accounts are complete, an Independent Technical Assessor (ITA) is assigned to independently assess the case.
+  - The ITA reviews the Proposition, all evidence, and the manager/sponsor forms. They may optionally conduct interviews with the manager or sponsors.
+  - **Pillar Concurrence**: The ITA must concur that the candidate is at the required level for the target grade for **each of the 8 pillars**.
+  - **Scoring**: For each pillar, the ITA marks the candidate as:
+    - *Does not meet expected level*
+    - *Meets expected level*
+    - *Exceeds expected level*
 - **Outcomes**:
-  - **Validated ECDF Scores**: Final validation of ECDF scores across all 8 pillars for the target grade.
+  - **Validated ECDF Scores**: Final validation of ECDF scores across all 8 pillars.
   - **Positive Observations**: A curated list of "really positive things seen" during the review.
   - **Development Recommendations**: Specific development points recommended to the candidate for their next level.
