@@ -12,15 +12,18 @@ public class PromotionService {
     private final PromotionPeriodRepository promotionPeriodRepository;
     private final UserRepository userRepository;
     private final GradeRepository gradeRepository;
+    private final CheckInRepository checkInRepository;
 
     public PromotionService(PromotionCaseRepository promotionCaseRepository,
                             PromotionPeriodRepository promotionPeriodRepository,
                             UserRepository userRepository,
-                            GradeRepository gradeRepository) {
+                            GradeRepository gradeRepository,
+                            CheckInRepository checkInRepository) {
         this.promotionCaseRepository = promotionCaseRepository;
         this.promotionPeriodRepository = promotionPeriodRepository;
         this.userRepository = userRepository;
         this.gradeRepository = gradeRepository;
+        this.checkInRepository = checkInRepository;
     }
 
     public PromotionCase proposeCandidate(UUID candidateId, UUID managerId, UUID targetGradeId, String rationale) {
@@ -47,7 +50,25 @@ public class PromotionService {
                 PromotionStatus.PROPOSED
         );
 
-        return promotionCaseRepository.save(promotionCase);
+        PromotionCase savedCase = promotionCaseRepository.save(promotionCase);
+
+        // Update latest Check-In status to PROMOTION_CANDIDATE
+        checkInRepository.findByUserId(candidateId).stream()
+                .max(java.util.Comparator.comparing(CheckIn::checkInDate))
+                .ifPresent(latest -> {
+                    CheckIn updated = new CheckIn(
+                            latest.id(),
+                            latest.userId(),
+                            latest.managerId(),
+                            latest.holisticScores(),
+                            latest.managerNotes(),
+                            CheckInStatus.PROMOTION_CANDIDATE,
+                            latest.checkInDate()
+                    );
+                    checkInRepository.save(updated);
+                });
+
+        return savedCase;
     }
 
     public List<PromotionCase> getCasesForPeriod(UUID periodId) {

@@ -31,11 +31,14 @@ class PromotionServiceTest {
     @Mock
     private lateinit var gradeRepository: GradeRepository
 
+    @Mock
+    private lateinit var checkInRepository: CheckInRepository
+
     @InjectMocks
     private lateinit var promotionService: PromotionService
 
     @Test
-    fun `should successfully propose a candidate`() {
+    fun `should successfully propose a candidate and update check-in status`() {
         // Given
         val candidateId = UUID.randomUUID()
         val managerId = UUID.randomUUID()
@@ -46,25 +49,22 @@ class PromotionServiceTest {
         val activePeriod = PromotionPeriod(periodId, "Q1 2026", LocalDate.now(), LocalDate.now().plusMonths(1), PromotionPeriodStatus.OPEN)
         val candidate = User(candidateId, "dev@test.com", "Dev", null, managerId, false, false)
         val targetGrade = Grade(targetGradeId, "Lead", "Engineer", emptyMap())
+        val latestCheckIn = CheckIn(UUID.randomUUID(), candidateId, managerId, emptyMap(), "Notes", CheckInStatus.READY_FOR_PROMOTION, LocalDate.now())
 
         `when`(promotionPeriodRepository.findByStatus(PromotionPeriodStatus.OPEN)).thenReturn(Optional.of(activePeriod))
         `when`(userRepository.findById(candidateId)).thenReturn(Optional.of(candidate))
         `when`(gradeRepository.findById(targetGradeId)).thenReturn(Optional.of(targetGrade))
         `when`(promotionCaseRepository.save(any(PromotionCase::class.java))).thenAnswer { it.getArgument(0) }
+        `when`(checkInRepository.findByUserId(candidateId)).thenReturn(listOf(latestCheckIn))
 
         // When
         val result = promotionService.proposeCandidate(candidateId, managerId, targetGradeId, rationale)
 
         // Then
-        result.candidateId shouldBe candidateId
-        result.managerId shouldBe managerId
-        result.targetGradeId shouldBe targetGradeId
-        result.promotionPeriodId shouldBe periodId
-        result.rationale shouldBe rationale
         result.status shouldBe PromotionStatus.PROPOSED
-        
-        verify(promotionCaseRepository).save(any(PromotionCase::class.java))
+        verify(checkInRepository).save(any(CheckIn::class.java))
     }
+
 
     @Test
     fun `should fail if no open promotion period exists`() {

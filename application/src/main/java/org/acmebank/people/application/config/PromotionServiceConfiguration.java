@@ -12,7 +12,8 @@ public class PromotionServiceConfiguration {
     public PromotionService promotionService(PromotionCaseRepository promotionCaseRepository,
                                              PromotionPeriodRepository promotionPeriodRepository,
                                              UserRepository userRepository,
-                                             GradeRepository gradeRepository) {
-        return new PromotionService(promotionCaseRepository, promotionPeriodRepository, userRepository, gradeRepository);
+                                             GradeRepository gradeRepository,
+                                             CheckInRepository checkInRepository) {
+        return new PromotionService(promotionCaseRepository, promotionPeriodRepository, userRepository, gradeRepository, checkInRepository);
     }
 }
