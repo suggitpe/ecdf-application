@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface PillarFrameworkService {
     List<PillarDefinition> getAllDefinitions();
     Optional<PillarDefinition> getDefinition(Pillar pillar);
+    void updateDefinition(PillarDefinition definition);
 }

@@ -13,4 +13,6 @@ public interface GradeRepository {
     Optional<Grade> findByNameAndRole(String name, String role);
 
     List<Grade> findAll();
+
+    void updateExpectations(UUID gradeId, java.util.Map<org.acmebank.people.domain.Pillar, org.acmebank.people.domain.Score> expectations);
 }

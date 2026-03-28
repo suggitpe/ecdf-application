@@ -72,8 +72,14 @@ This document outlines the business requirements for the Engineer Career Develop
   - Can assign Third-Party assessments and initiate Check-ins.
 - **Third-Party Assessors**: Have a dedicated queue for evidence explicitly assigned to them by managers for independent review.
 - **Administrators**: A dedicated role strictly limited to altering the foundational framework of the system.
-  - Can update the framework descriptions (titles, overall descriptions, level-specific descriptions, and evidence examples for all pillars).
-  - Can manage roles, grades, and their corresponding expected pillar ratings (baseline expectations).
+  - **Framework Management**: Can update the definitions for each of the 8 pillars, including:
+    - Pillar Title and Overall Description.
+    - Level descriptions (1-5) based on the Dreyfus model.
+    - Illustrative evidence examples for each level.
+  - **Role & Grade Management**: Can manage the firm's hierarchy of roles and grades, including:
+    - Creating/editing Roles (e.g., "Engineer", "Vice President").
+    - Defining the target **Baseline Expectations** (1-5) for *all 8 pillars* for every role-grade combination.
+  - **User RBAC**: No user can perform these actions unless they possess the `ROLE_ADMIN` authority. The application must enforce this at both the UI and API levels.
 
 ## 7. UI / UX Design
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base.html}">
+<head>
+    <title>Role Management - ECDF Admin</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Role Expectations</h1>
+            <div class="text-sm text-secondary">
+                <i class="fas fa-user-shield mr-2"></i> Define baseline pillar scores for each engineering grade.
+            </div>
+        </div>
+
+        <div th:each="grade : ${grades}" class="glass-card mb-8 overflow-hidden">
+            <div class="bg-accent-faint p-4 flex justify-between items-center border-b border-white/10">
+                <div class="flex items-center gap-4">
+                    <div class="bg-accent text-white font-bold p-2 rounded shadow-lg">
+                        <i class="fas fa-id-badge"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold" th:text="${grade.role + ' - ' + grade.name}">Software Engineer - Level 3</h2>
+                    </div>
+                </div>
+            </div>
+
+            <form th:action="@{/admin/roles}" method="post" class="p-6">
+                <input type="hidden" name="gradeId" th:value="${grade.id}">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div th:each="pillar : ${T(org.acmebank.people.domain.Pillar).values()}" class="form-group p-4 bg-white/5 rounded border border-white/10">
+                        <label class="block text-sm font-semibold mb-2" th:text="${pillar.name()}">THINKS</label>
+                        <select th:name="${pillar.name()}" class="input w-full">
+                            <option value="">-- No baseline --</option>
+                            <option th:each="i : ${#numbers.sequence(1, 5)}" 
+                                    th:value="${i}" 
+                                    th:text="${i}"
+                                    th:selected="${grade.expectations.get(pillar)?.value() == i}">1</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-4 border-t border-white/5">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save mr-2"></i> Save Expectations
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

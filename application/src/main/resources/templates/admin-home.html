@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/base.html}">
+<head>
+    <title>Administration - ECDF</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Administration Console</h1>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-card p-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="icon-circle bg-primary-faint text-primary">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold">Framework Management</h2>
+                </div>
+                <p class="text-secondary mb-4">Configure the 8 Pillars of the ECDF framework, including descriptions and proficiency level definitions.</p>
+                <a th:href="@{/admin/framework}" class="btn btn-primary">Manage Framework</a>
+            </div>
+
+            <div class="glass-card p-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="icon-circle bg-accent-faint text-accent">
+                        <i class="fas fa-user-tag"></i>
+                    </div>
+                    <h2 class="text-xl font-semibold">Roles & Expectations</h2>
+                </div>
+                <p class="text-secondary mb-4">Define baseline pillar ratings for different grades and engineering roles across the organisation.</p>
+                <a th:href="@{/admin/roles}" class="btn btn-primary">Manage Roles</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

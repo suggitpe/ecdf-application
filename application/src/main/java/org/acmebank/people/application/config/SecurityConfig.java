@@ -20,6 +20,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -80,6 +81,12 @@ public class SecurityConfig {
                 .roles("USER")
                 .build();
 
-        return new InMemoryUserDetailsManager(user, manager, charlie, bob, ita, alice, arthur);
+        UserDetails admin = User.withDefaultPasswordEncoder()
+                .username("admin@example.com")
+                .password("password")
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, manager, charlie, bob, ita, alice, arthur, admin);
     }
 }

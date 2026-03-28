@@ -1,6 +1,7 @@
 package org.acmebank.people.application.adapter.out.framework;
 
 import org.acmebank.people.domain.FrameworkLevel;
+import org.acmebank.people.domain.FrameworkPillar;
 import org.acmebank.people.domain.Pillar;
 import org.acmebank.people.domain.PillarDefinition;
 import org.acmebank.people.domain.PillarLevelDetail;
@@ -9,7 +10,6 @@ import org.acmebank.people.domain.port.PillarFrameworkService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -58,5 +58,18 @@ public class DatabasePillarFrameworkService implements PillarFrameworkService {
                 level.levelDescription(),
                 examples
         );
+    }
+
+    @Override
+    public void updateDefinition(PillarDefinition definition) {
+        frameworkRepository.findPillar(definition.pillar()).ifPresent(existing -> {
+            FrameworkPillar updated = new FrameworkPillar(
+                    existing.pillar(),
+                    definition.title(),
+                    definition.description(),
+                    existing.levels()
+            );
+            frameworkRepository.savePillar(updated);
+        });
     }
 }

@@ -31,6 +31,7 @@ public class JpaGradeRepositoryAdapter implements GradeRepository {
     @Override
     @Transactional(readOnly = true)
     public Optional<Grade> findById(UUID id) {
+        if (id == null) return Optional.empty();
         return gradeJpaRepository.findById(id)
                 .map(DomainPersistenceMapper::toDomainGrade);
     }
@@ -48,5 +49,21 @@ public class JpaGradeRepositoryAdapter implements GradeRepository {
         return gradeJpaRepository.findAll().stream()
                 .map(DomainPersistenceMapper::toDomainGrade)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateExpectations(UUID gradeId, java.util.Map<org.acmebank.people.domain.Pillar, org.acmebank.people.domain.Score> expectations) {
+        gradeJpaRepository.findById(gradeId).ifPresent(entity -> {
+            // Clear existing and add new
+            entity.getExpectations().clear();
+            expectations.forEach((pillar, score) -> {
+                org.acmebank.people.application.adapter.out.persistence.entity.GradeExpectationEntity expectation = new org.acmebank.people.application.adapter.out.persistence.entity.GradeExpectationEntity();
+                expectation.setId(new org.acmebank.people.application.adapter.out.persistence.entity.GradeExpectationId(gradeId, pillar.name()));
+                expectation.setExpectedScore(score.value());
+                expectation.setGrade(entity);
+                entity.getExpectations().add(expectation);
+            });
+            gradeJpaRepository.save(entity);
+        });
     }
 }

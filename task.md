@@ -91,7 +91,7 @@
   - [x] Configure GCS FUSE mount for persistent evidence storage
   - [x] Implement GitHub Actions workflow for automated GCP deployment
   - [x] Remove redundant Jib plugin and establish standard Dockerfile/gcloudignore deployment pipeline.
-  - [ ] Upgrade GitHub Actions GCP Authentication from static JSON keys to Workload Identity Federation (WIF) (Recommended for enhanced CI/CD security).
+  - [x] Upgrade GitHub Actions GCP Authentication from static JSON keys to Workload Identity Federation (WIF) (Recommended for enhanced CI/CD security).
 - [x] Developer Pathways & PDP:
   - [x] Write Controller tests and implement `FrameworkController` mapping roles to expected pillar scores
   - [x] Write Controller tests and implement `PdpController`
@@ -100,11 +100,15 @@
 - [x] Administrator Role & Framework Management:
   - [x] Database Schema & Entities: Create Liquibase migrations, JPA Entities, and pure Java Domain models/ports for dynamic Framework Management (Pillars, Descriptions, Examples, Roles, Grades expectations)
   - [x] Business Logic: Update `FrameworkService` (or equivalent) to transition from static definitions to database-backed data, allowing for updates
-  - [ ] Write Controller tests and implement `AdminController` for handling framework configuration forms
-  - [ ] Implement Security/RBAC to ensure only users with the `ADMIN` role can access or modify these endpoints and views
-  - [ ] Create an initial Admin user (e.g., in `DevDataSeeder`) explicitly granted the `ADMIN` role to manage the application
-  - [ ] Implement `admin-framework.html` UI for altering the framework (titles, descriptions, level details, evidence examples)
-  - [ ] Implement `admin-roles.html` UI for managing roles, grades, and baseline expected pillar ratings
+  - [x] Write Controller tests (`WebMvcTest` in Kotlin) and implement `AdminController` for handling:
+    - [x] `GET /admin/framework` - View existing pillars and level details
+    - [x] `POST /admin/framework` - Update pillar names, descriptions, and level content
+    - [x] `GET /admin/roles` - View roles and baseline pillar expectations
+    - [x] `POST /admin/roles` - Update or create roles and their corresponding pillar targets
+  - [x] Implement Security/RBAC to ensure only users with the `ADMIN` role can access or modify these endpoints and views
+  - [x] Create an initial Admin user (e.g., in `DevDataSeeder`) explicitly granted the `ADMIN` role to manage the application
+  - [x] Implement `admin-framework.html` UI for altering the framework (titles, descriptions, level details, evidence examples)
+  - [x] Implement `admin-roles.html` UI for managing roles, grades, and baseline expected pillar ratings.
 
 ## 5. Polish & Verification
 

@@ -94,6 +94,12 @@ public class DevDataSeeder {
                 }
             }
 
+            // Seed Admin
+            User admin = userRepository.findByEmail("admin@example.com").orElse(null);
+            if (admin == null) {
+                userRepository.save(new User(null, "admin@example.com", "System Administrator", managementGrade, null, false));
+            }
+
             // Define our target engineers
             Map<String, String> targetEngineers = Map.of(
                 "user@example.com", "Developer Dave",
