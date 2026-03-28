@@ -62,7 +62,7 @@ This document outlines the business requirements for the Engineer Career Develop
 ## 6. Workflows & Permissions
 
 - **All Users**: Default to seeing their own "Employee Record" on the Dashboard (holistic rating, target expectations, recent evidence, and a full chronological history of past check-ins).
-- **Engineers**: Submit evidence, view their own assessments and Check-ins.
+- **Engineers**: Submit evidence, view their own assessments and Check-ins. All users MUST login using an `@acmebank.org` email address.
 - **Managers**:
   - Review direct reports' evidence and perform assessments.
   - Can view the ECDF scores for their entire reporting hierarchy (including staff reporting to managers who report to them).
@@ -89,6 +89,7 @@ This document outlines the business requirements for the Engineer Career Develop
 - Glassmorphism elements.
 - Modern typography.
 - Built-in data visualization (e.g., radar charts) to compare holistic scores against grade expectations.
+- **Branding**: The application header must display the company name "AcmeBank" alongside a custom-generated company logo to establish a professional corporate identity.
 
 ## 8. Development & Sample Data
 

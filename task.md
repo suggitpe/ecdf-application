@@ -137,6 +137,13 @@
   - [ ] Implement `promotion-ita-review.html` (ITA dashboard for case review and score validation)
   - [ ] Implement `promotion-detail.html` (Final summary showing validated scores, positive points, and development recommendations)
 
+## 7. Custom Branding & Identity
+
+- [x] Generate a professional, minimalist company logo for "AcmeBank" using AI generation tools
+- [x] Integrate the AcmeBank logo and company name into the global application header
+- [x] Refine header CSS to ensure the logo and brand name align perfectly with the existing glassmorphism aesthetic
+- [x] Migrate all sample users and security configurations to use `@acmebank.org` corporate email addresses
+
 ## GCP Deployment Task
 
 - [x] **Target Project:** `ecdf-spring-boot-app-2026`

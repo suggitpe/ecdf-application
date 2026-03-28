@@ -71,17 +71,17 @@ public class DevDataSeeder {
             Grade architectureDirectorGrade = ensureGrade(gradeRepository, "Director", "Architecture", dirArchExpectations);
             Grade vpGrade = ensureGrade(gradeRepository, "Vice President", "Engineering", vpExpectations);
 
-            User manager = userRepository.findByEmail("manager@example.com").orElse(null);
+            User manager = userRepository.findByEmail("manager@acmebank.org").orElse(null);
             if (manager == null) {
-                manager = userRepository.save(new User(null, "manager@example.com", "Manager Mary", managementGrade, null, true));
+                manager = userRepository.save(new User(null, "manager@acmebank.org", "Manager Mary", managementGrade, null, true));
             } else if (manager.grade() == null) {
                 manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managementGrade, manager.managerId(), true));
             }
 
             // Seed ITAs
             Map<String, String> targetItas = Map.of(
-                "ita@example.com", "Assessor Ian",
-                "alice@example.com", "Assessor Alice"
+                "ita@acmebank.org", "Assessor Ian",
+                "alice@acmebank.org", "Assessor Alice"
             );
 
             for (Map.Entry<String, String> entry : targetItas.entrySet()) {
@@ -95,24 +95,24 @@ public class DevDataSeeder {
             }
 
             // Seed Admin
-            User admin = userRepository.findByEmail("admin@example.com").orElse(null);
+            User admin = userRepository.findByEmail("admin@acmebank.org").orElse(null);
             if (admin == null) {
-                userRepository.save(new User(null, "admin@example.com", "System Administrator", managementGrade, null, false));
+                userRepository.save(new User(null, "admin@acmebank.org", "System Administrator", managementGrade, null, false));
             }
 
             // Define our target engineers
             Map<String, String> targetEngineers = Map.of(
-                "user@example.com", "Developer Dave",
-                "charlie@example.com", "Engineer Charlie",
-                "bob@example.com", "Engineer Bob",
-                "arthur@example.com", "Architect Arthur"
+                "user@acmebank.org", "Developer Dave",
+                "charlie@acmebank.org", "Engineer Charlie",
+                "bob@acmebank.org", "Engineer Bob",
+                "arthur@acmebank.org", "Architect Arthur"
             );
 
             for (Map.Entry<String, String> entry : targetEngineers.entrySet()) {
                 String email = entry.getKey();
                 String name = entry.getValue();
 
-                Grade targetGrade = email.equals("arthur@example.com") ? architectureDirectorGrade : engineeringDirectorGrade;
+                Grade targetGrade = email.equals("arthur@acmebank.org") ? architectureDirectorGrade : engineeringDirectorGrade;
 
                 User engineer = userRepository.findByEmail(email).orElse(null);
                 if (engineer == null) {
@@ -197,8 +197,8 @@ public class DevDataSeeder {
                     for (int i = 0; i < 4; i++) { // Generate 4 checkins
                         int monthsAgo = 3 + (i * 6); // 3, 9, 15, 21 months ago
                         
-                        CheckInStatus status = email.equals("charlie@example.com") ? CheckInStatus.READY_FOR_PROMOTION : 
-                                             (email.equals("user@example.com") ? CheckInStatus.UNDERPERFORMING : CheckInStatus.ON_TRACK);
+                        CheckInStatus status = email.equals("charlie@acmebank.org") ? CheckInStatus.READY_FOR_PROMOTION : 
+                                             (email.equals("user@acmebank.org") ? CheckInStatus.UNDERPERFORMING : CheckInStatus.ON_TRACK);
                         
                         checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(), 
                             seededScores, "Quarterly review summary for " + engineer.fullName(), 
@@ -206,7 +206,7 @@ public class DevDataSeeder {
                     }
 
                     // Seed one DRAFT check-in for user@example.com
-                    if (email.equals("user@example.com")) {
+                    if (email.equals("user@acmebank.org")) {
                         checkInRepository.save(new CheckIn(null, engineer.id(), manager.id(),
                             seededScores, "This is a draft check-in notes.",
                             CheckInStatus.DRAFT, LocalDate.now().minusDays(1)));
@@ -257,8 +257,8 @@ public class DevDataSeeder {
             }
 
             // Assign some evidence to ITA for review
-            User ian = userRepository.findByEmail("ita@example.com").orElse(null);
-            User charlieUser = userRepository.findByEmail("charlie@example.com").orElse(null);
+            User ian = userRepository.findByEmail("ita@acmebank.org").orElse(null);
+            User charlieUser = userRepository.findByEmail("charlie@acmebank.org").orElse(null);
             
             if (ian != null && charlieUser != null) {
                 // Find Charlie's first evidence that isn't already being assessed by him

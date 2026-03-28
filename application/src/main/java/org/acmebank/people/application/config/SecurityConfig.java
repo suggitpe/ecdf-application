@@ -40,49 +40,49 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.withDefaultPasswordEncoder()
-            .username("user@example.com")
+            .username("user@acmebank.org")
             .password("password")
             .roles("USER")
             .build();
             
         UserDetails manager = User.withDefaultPasswordEncoder()
-            .username("manager@example.com")
+            .username("manager@acmebank.org")
             .password("password")
             .roles("MANAGER")
             .build();
 
         UserDetails charlie = User.withDefaultPasswordEncoder()
-            .username("charlie@example.com")
+            .username("charlie@acmebank.org")
             .password("password")
             .roles("USER")
             .build();
 
         UserDetails bob = User.withDefaultPasswordEncoder()
-            .username("bob@example.com")
+            .username("bob@acmebank.org")
             .password("password")
             .roles("USER")
             .build();
 
         UserDetails ita = User.withDefaultPasswordEncoder()
-            .username("ita@example.com")
+            .username("ita@acmebank.org")
             .password("password")
             .roles("ITA")
             .build();
 
         UserDetails alice = User.withDefaultPasswordEncoder()
-            .username("alice@example.com")
+            .username("alice@acmebank.org")
             .password("password")
             .roles("ITA")
             .build();
         
         UserDetails arthur = User.withDefaultPasswordEncoder()
-                .username("arthur@example.com")
+                .username("arthur@acmebank.org")
                 .password("password")
                 .roles("USER")
                 .build();
 
         UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin@example.com")
+                .username("admin@acmebank.org")
                 .password("password")
                 .roles("ADMIN")
                 .build();
