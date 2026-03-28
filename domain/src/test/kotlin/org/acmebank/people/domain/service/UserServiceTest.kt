@@ -29,13 +29,13 @@ class UserServiceTest {
         // Given
         val userId = UUID.randomUUID()
         val grade = Grade(UUID.randomUUID(), "Senior", "Software Engineer", mapOf())
-        val userToCreate = User(null, "dev@acmebank.com", "Jane Dev", grade, null, false)
-        val createdUser = User(userId, "dev@acmebank.com", "Jane Dev", grade, null, false)
+        val userToCreate = User(null, "dev@acmebank.com", "Jane Dev", grade, null, false, false)
+        val createdUser = User(userId, "dev@acmebank.com", "Jane Dev", grade, null, false, false)
 
         `when`(userRepository.save(userToCreate)).thenReturn(createdUser)
 
         // When
-        val result = userService.createUser("dev@acmebank.com", "Jane Dev", grade, null, false)
+        val result = userService.createUser("dev@acmebank.com", "Jane Dev", grade, null, false, false)
 
         // Then
         assertEquals(userId, result.id())
@@ -48,7 +48,7 @@ class UserServiceTest {
         // Given
         val userId = UUID.randomUUID()
         val grade = Grade(UUID.randomUUID(), "Senior", "Software Engineer", mapOf())
-        val expectedUser = User(userId, "dev@acmebank.com", "Jane Dev", grade, null, false)
+        val expectedUser = User(userId, "dev@acmebank.com", "Jane Dev", grade, null, false, false)
 
         `when`(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser))
 
@@ -66,7 +66,7 @@ class UserServiceTest {
         // Given
         val managerId = UUID.randomUUID()
         val grade = Grade(UUID.randomUUID(), "Senior", "Software Engineer", mapOf())
-        val expectedUser = User(UUID.randomUUID(), "dev@acmebank.com", "Jane Dev", grade, managerId, false)
+        val expectedUser = User(UUID.randomUUID(), "dev@acmebank.com", "Jane Dev", grade, managerId, false, false)
 
         `when`(userRepository.findByManagerId(managerId)).thenReturn(listOf(expectedUser))
 

@@ -14,6 +14,7 @@ This document provides core steering instructions for AI Assistants working on t
   - For **each** phase in a track implementation plan, you MUST explicitly ask for permission to start work on that phase.
   - For **each** task in the checklist, you MUST explicitly ask for a human to strongly agree to start the next task.
   - Once a task has completed, you MUST ask a human to review what has been created before moving on.
+  - After **each** phase is complete, you MUST run a full Gradle build with all tests using the command `./gradlew clean build jacocoTestReport` and present the results to the user before proceeding to the next phase or asking for a commit.
 - **Do NOT run all steps in one go**. Execute one logical block, verify it compiles and runs, then pause for human review via standard chat or `notify_user`.
 - **Git Commits**: You MUST NOT execute `git commit` commands. Committing changes is strictly a human activity. After a task or phase is reviewed and approved, you must ask the human to execute the commit manually.
 - **CI/CD Pipeline**: Any code changes committed and pushed to the repository should trigger a GitHub Actions build pipeline. Ensure that GitHub Actions is properly configured (e.g., in `.github/workflows/build.yml`) to automatically build the application, execute all tests, and upload JaCoCo coverage reports on every push and pull request.

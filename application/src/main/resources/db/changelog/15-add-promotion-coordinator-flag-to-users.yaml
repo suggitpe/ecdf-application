@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 15-add-promotion-coordinator-flag-to-users
+      author: ai-assistant
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: is_promotion_coordinator
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false

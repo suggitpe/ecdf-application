@@ -44,8 +44,9 @@ class PdpControllerTest {
     fun `GET pdp should display user and team pdps`() {
         val userId = UUID.randomUUID()
         val managerId = UUID.randomUUID()
-        val user = User(userId, "user@example.com", "Developer Dave", null, managerId, false)
-        val report = User(UUID.randomUUID(), "report@example.com", "Report", null, userId, false)
+        val user = User(userId, "user@example.com", "Developer Dave", null, managerId, false, false)
+        val report = User(UUID.randomUUID(), "report@example.com", "Report", null, userId, false, false)
+
 
         val myPdp = PdpItem(UUID.randomUUID(), userId, UUID.randomUUID(), Pillar.THINKS, "Gap", "Plan", "Link", false, LocalDate.now(), LocalDate.now())
         val teamPdp = PdpItem(UUID.randomUUID(), report.id(), UUID.randomUUID(), Pillar.ENGAGES, "Gap2", "Plan2", "Link2", true, LocalDate.now(), LocalDate.now())
@@ -68,7 +69,7 @@ class PdpControllerTest {
     fun `POST pdp complete should mark pdp as complete and redirect`() {
         val userId = UUID.randomUUID()
         val pdpId = UUID.randomUUID()
-        val user = User(userId, "user@example.com", "Developer Dave", null, null, false)
+        val user = User(userId, "user@example.com", "Developer Dave", null, null, false, false)
 
         `when`(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user))
 
@@ -84,7 +85,7 @@ class PdpControllerTest {
     fun `POST create pdp should generate pdp item and redirect`() {
         val checkInId = UUID.randomUUID()
         val userId = UUID.randomUUID()
-        val user = User(userId, "user@example.com", "Developer Dave", null, null, false)
+        val user = User(userId, "user@example.com", "Developer Dave", null, null, false, false)
 
         `when`(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user))
 

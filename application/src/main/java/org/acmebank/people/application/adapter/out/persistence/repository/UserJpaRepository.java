@@ -14,5 +14,5 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, UUID> {
 
     List<UserEntity> findByManagerId(UUID managerId);
  
-    List<UserEntity> findByIsItaTrue();
+    List<UserEntity> findByItaTrue();
 }

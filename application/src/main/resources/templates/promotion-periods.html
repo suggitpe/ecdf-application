@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/base">
+<head>
+    <title>Promotion Periods</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="glass-panel mb-8">
+            <h2 class="section-title mb-4">🗓️ Promotion Periods</h2>
+            <p class="text-secondary mb-6">Manage the time windows during which managers can propose candidates for promotion.</p>
+
+            <!-- Active Period Info -->
+            <div th:if="${activePeriod != null}" class="p-4 bg-green-500 bg-opacity-10 border border-green-500 rounded-lg mb-6">
+                <h3 class="text-lg font-bold text-green-400 mb-1">Current Active Period: <span th:text="${activePeriod.title()}">Title</span></h3>
+                <p class="text-sm text-secondary">Ends on <span th:text="${activePeriod.endDate()}">Date</span></p>
+                <form th:action="@{/promotion/coordinator/periods/close}" method="post" class="mt-4">
+                    <input type="hidden" name="periodId" th:value="${activePeriod.id()}">
+                    <button type="submit" class="btn btn-secondary border-red-500 text-red-400">Close Period</button>
+                </form>
+            </div>
+
+            <!-- Open New Period Form -->
+            <div th:if="${activePeriod == null}" class="mb-8">
+                <h3 class="text-lg font-bold mb-4">Open New Promotion Period</h3>
+                <form th:action="@{/promotion/coordinator/periods/open}" method="post" class="space-y-4">
+                    <div class="form-group">
+                        <label for="title" class="form-label">Period Title</label>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="e.g., Q2 2026 Promotions" required>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label for="startDate" class="form-label">Start Date</label>
+                            <input type="date" id="startDate" name="startDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate" class="form-label">End Date</label>
+                            <input type="date" id="endDate" name="endDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Open Period</button>
+                </form>
+            </div>
+
+            <!-- History Table -->
+            <h3 class="text-lg font-bold mb-4">Historical Periods</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-white border-opacity-10">
+                            <th class="py-3 px-4">Title</th>
+                            <th class="py-3 px-4">Dates</th>
+                            <th class="py-3 px-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p : ${periods}" class="border-b border-white border-opacity-5 hover:bg-white hover:bg-opacity-5">
+                            <td class="py-3 px-4 font-medium" th:text="${p.title()}">Title</td>
+                            <td class="py-3 px-4 text-secondary text-sm">
+                                <span th:text="${p.startDate()}">Start</span> to <span th:text="${p.endDate()}">End</span>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="status-badge" th:text="${p.status()}">OPEN</span>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(periods)}">
+                            <td colspan="3" class="py-8 text-center text-secondary italic">No historical periods found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

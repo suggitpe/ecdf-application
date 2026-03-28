@@ -63,7 +63,7 @@ class EvidenceControllerTest {
     private val mockUser = User(
         userId, "user@example.com", "Engineer Bob",
         Grade(UUID.randomUUID(), "Software Engineer", "Engineering", emptyMap()),
-        null, false
+        null, false, false
     )
 
     private val mockEvidence = Evidence(
@@ -95,8 +95,8 @@ class EvidenceControllerTest {
         @WithMockUser(username = "mgr@example.com")
         fun `should allow manager to view user evidence list`() {
             val managerId = UUID.randomUUID()
-            val mockManager = User(managerId, "mgr@example.com", "Manager Bob", mockUser.grade(), null, false)
-            val mockUserWithManager = User(userId, "user@example.com", "Engineer Bob", mockUser.grade(), managerId, false)
+            val mockManager = User(managerId, "mgr@example.com", "Manager Bob", mockUser.grade(), null, false, false)
+            val mockUserWithManager = User(userId, "user@example.com", "Engineer Bob", mockUser.grade(), managerId, false, false)
 
             `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockManager))
             `when`(userRepository.findById(userId)).thenReturn(Optional.of(mockUserWithManager))
@@ -216,9 +216,9 @@ class EvidenceControllerTest {
         @WithMockUser(username = "mgr@example.com")
         fun `should allow manager to view evidence and see ITA list`() {
             val managerId = UUID.randomUUID()
-            val mockManager = User(managerId, "mgr@example.com", "Manager Bob", mockUser.grade(), null, false)
-            val mockUserWithManager = User(mockUser.id(), mockUser.email(), mockUser.fullName(), mockUser.grade(), managerId, mockUser.isIta())
-            val mockIta = User(UUID.randomUUID(), "ita@example.com", "ITA Alice", mockUser.grade(), null, true)
+            val mockManager = User(managerId, "mgr@example.com", "Manager Bob", mockUser.grade(), null, false, false)
+            val mockUserWithManager = User(mockUser.id(), mockUser.email(), mockUser.fullName(), mockUser.grade(), managerId, mockUser.isIta(), mockUser.isPromotionCoordinator())
+            val mockIta = User(UUID.randomUUID(), "ita@example.com", "ITA Alice", mockUser.grade(), null, true, false)
 
             `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockManager))
             `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(mockEvidence))

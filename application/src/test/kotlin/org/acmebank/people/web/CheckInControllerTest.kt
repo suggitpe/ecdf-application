@@ -46,13 +46,13 @@ class CheckInControllerTest {
     private val mockUser = User(
         userId, "dev@example.com", "Jane Dev",
         Grade(UUID.randomUUID(), "Senior Engineer", "Engineering", emptyMap()),
-        managerId, false
+        managerId, false, false
     )
 
     private val mockManager = User(
         managerId, "mgr@example.com", "Manager Bob",
         Grade(UUID.randomUUID(), "Manager", "Engineering", emptyMap()),
-        null, true
+        null, true, false
     )
 
     @Test

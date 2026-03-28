@@ -73,9 +73,9 @@ public class DevDataSeeder {
 
             User manager = userRepository.findByEmail("manager@acmebank.org").orElse(null);
             if (manager == null) {
-                manager = userRepository.save(new User(null, "manager@acmebank.org", "Manager Mary", managementGrade, null, true));
+                manager = userRepository.save(new User(null, "manager@acmebank.org", "Manager Mary", managementGrade, null, true, false));
             } else if (manager.grade() == null) {
-                manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managementGrade, manager.managerId(), true));
+                manager = userRepository.save(new User(manager.id(), manager.email(), manager.fullName(), managementGrade, manager.managerId(), true, manager.isPromotionCoordinator()));
             }
 
             // Seed ITAs
@@ -90,14 +90,14 @@ public class DevDataSeeder {
 
                 User ita = userRepository.findByEmail(itaEmail).orElse(null);
                 if (ita == null) {
-                    userRepository.save(new User(null, itaEmail, itaName, managementGrade, null, true));
+                    userRepository.save(new User(null, itaEmail, itaName, managementGrade, null, true, false));
                 }
             }
 
             // Seed Admin
             User admin = userRepository.findByEmail("admin@acmebank.org").orElse(null);
             if (admin == null) {
-                userRepository.save(new User(null, "admin@acmebank.org", "System Administrator", managementGrade, null, false));
+                userRepository.save(new User(null, "admin@acmebank.org", "System Administrator", managementGrade, null, false, true));
             }
 
             // Define our target engineers
@@ -116,7 +116,7 @@ public class DevDataSeeder {
 
                 User engineer = userRepository.findByEmail(email).orElse(null);
                 if (engineer == null) {
-                    engineer = userRepository.save(new User(null, email, name, targetGrade, manager.id(), false));
+                    engineer = userRepository.save(new User(null, email, name, targetGrade, manager.id(), false, false));
                 } else {
                     boolean needsUpdate = false;
                     Grade currentGrade = engineer.grade();
@@ -132,7 +132,7 @@ public class DevDataSeeder {
                     }
                     
                     if (needsUpdate) {
-                        engineer = userRepository.save(new User(engineer.id(), engineer.email(), engineer.fullName(), currentGrade, currentManagerId, engineer.isIta()));
+                        engineer = userRepository.save(new User(engineer.id(), engineer.email(), engineer.fullName(), currentGrade, currentManagerId, engineer.isIta(), engineer.isPromotionCoordinator()));
                     }
                 }
 
@@ -293,6 +293,18 @@ public class DevDataSeeder {
                 }
             }
         };
+    }
+
+    private void seedPromotionPeriod(org.acmebank.people.domain.port.PromotionPeriodRepository repository) {
+        if (repository.findByStatus(org.acmebank.people.domain.PromotionPeriodStatus.OPEN).isEmpty()) {
+            repository.save(new org.acmebank.people.domain.PromotionPeriod(
+                null,
+                "Q1 2026 Promotion Cycle",
+                LocalDate.now().minusDays(7),
+                LocalDate.now().plusMonths(1),
+                org.acmebank.people.domain.PromotionPeriodStatus.OPEN
+            ));
+        }
     }
 
     private Grade ensureGrade(GradeRepository repository, String name, String role, Map<Pillar, Score> expectations) {

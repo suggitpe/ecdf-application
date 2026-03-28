@@ -53,7 +53,7 @@ class DashboardControllerTest {
         val mockUser = User(
             userId, "jane.doe@example.com", "Jane Doe",
             Grade(UUID.randomUUID(), "Software Engineer", "Software Engineer", emptyMap()),
-            null, false
+            null, false, false
         )
         val mockCheckIn = CheckIn(
             UUID.randomUUID(),

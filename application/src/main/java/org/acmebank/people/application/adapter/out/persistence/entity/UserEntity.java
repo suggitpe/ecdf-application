@@ -22,7 +22,11 @@ public class UserEntity {
     private String fullName;
 
     @Column(name = "is_ita", nullable = false)
-    private boolean isIta;
+    private boolean ita;
+
+    @Column(name = "is_promotion_coordinator", nullable = false)
+    private boolean promotionCoordinator;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grade_id")

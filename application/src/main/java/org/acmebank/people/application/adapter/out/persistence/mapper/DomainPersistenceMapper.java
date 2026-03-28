@@ -45,7 +45,8 @@ public class DomainPersistenceMapper {
                 entity.getFullName(),
                 toDomainGrade(entity.getGrade()),
                 entity.getManager() != null ? entity.getManager().getId() : null,
-                entity.isIta());
+                entity.isIta(),
+                entity.isPromotionCoordinator());
     }
 
     public static UserEntity toUserEntity(User domain, GradeEntity gradeEntity, UserEntity managerEntity) {
@@ -56,6 +57,7 @@ public class DomainPersistenceMapper {
         entity.setEmail(domain.email());
         entity.setFullName(domain.fullName());
         entity.setIta(domain.isIta());
+        entity.setPromotionCoordinator(domain.isPromotionCoordinator());
         entity.setGrade(gradeEntity);
         entity.setManager(managerEntity);
         return entity;
@@ -245,5 +247,26 @@ public class DomainPersistenceMapper {
         entity.setCreatedDate(domain.createdDate());
         entity.setUpdatedDate(domain.updatedDate());
         return entity;
+    }
+
+    public static PromotionPeriod toDomainPromotionPeriod(PromotionPeriodEntity entity) {
+        if (entity == null)
+            return null;
+        return new PromotionPeriod(
+                entity.getId(),
+                entity.getTitle(),
+                entity.getStartDate(),
+                entity.getEndDate(),
+                entity.getStatus());
+    }
+
+    public static void updatePromotionPeriodEntity(PromotionPeriodEntity entity, PromotionPeriod domain) {
+        if (domain.id() != null) {
+            entity.setId(domain.id());
+        }
+        entity.setTitle(domain.title());
+        entity.setStartDate(domain.startDate());
+        entity.setEndDate(domain.endDate());
+        entity.setStatus(domain.status());
     }
 }

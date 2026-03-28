@@ -66,7 +66,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     @Override
     @Transactional(readOnly = true)
     public List<User> findItas() {
-        return userJpaRepository.findByIsItaTrue().stream()
+        return userJpaRepository.findByItaTrue().stream()
                 .map(DomainPersistenceMapper::toDomainUser)
                 .collect(Collectors.toList());
     }

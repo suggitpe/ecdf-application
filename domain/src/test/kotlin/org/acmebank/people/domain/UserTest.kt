@@ -10,11 +10,11 @@ class UserTest {
     fun `user should have an expected pillar level per grade requirement`() {
         val directorExpectations = Pillar.values().associateWith { Score(4) }
         val directorGrade = Grade(UUID.randomUUID(), "Director", "Management", directorExpectations)
-        val directorUser = User(UUID.randomUUID(), "director@example.com", "Director Dave", directorGrade, null, false)
+        val directorUser = User(UUID.randomUUID(), "director@example.com", "Director Dave", directorGrade, null, false, false)
 
         val vpExpectations = Pillar.values().associateWith { Score(3) }
         val vpGrade = Grade(UUID.randomUUID(), "Vice President", "Management", vpExpectations)
-        val vpUser = User(UUID.randomUUID(), "vp@example.com", "VP Vera", vpGrade, null, false)
+        val vpUser = User(UUID.randomUUID(), "vp@example.com", "VP Vera", vpGrade, null, false, false)
 
         directorUser.getExpectedPillarLevel(Pillar.THINKS).value() shouldBe 4
         directorUser.getExpectedPillarLevel(Pillar.DELIVERS).value() shouldBe 4

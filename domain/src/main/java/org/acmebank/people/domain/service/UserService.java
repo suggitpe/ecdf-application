@@ -16,8 +16,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(String email, String fullName, Grade grade, UUID managerId, boolean isIta) {
-        User user = new User(null, email, fullName, grade, managerId, isIta);
+    public User createUser(String email, String fullName, Grade grade, UUID managerId, boolean isIta, boolean isPromotionCoordinator) {
+        User user = new User(null, email, fullName, grade, managerId, isIta, isPromotionCoordinator);
         return userRepository.save(user);
     }
 

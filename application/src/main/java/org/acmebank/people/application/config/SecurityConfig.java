@@ -84,9 +84,15 @@ public class SecurityConfig {
         UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin@acmebank.org")
                 .password("password")
-                .roles("ADMIN")
+                .roles("ADMIN", "PROMOTION_COORDINATOR")
                 .build();
 
-        return new InMemoryUserDetailsManager(user, manager, charlie, bob, ita, alice, arthur, admin);
+        UserDetails coordinator = User.withDefaultPasswordEncoder()
+                .username("coordinator@acmebank.org")
+                .password("password")
+                .roles("PROMOTION_COORDINATOR")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, manager, charlie, bob, ita, alice, arthur, admin, coordinator);
     }
 }

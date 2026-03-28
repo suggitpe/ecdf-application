@@ -46,14 +46,14 @@ class TeamControllerTest {
         val mockManager = User(
             managerId, "manager@example.com", "Manager Alice",
             Grade(UUID.randomUUID(), "Engineering Manager", "Management", emptyMap()),
-            null, true
+            null, true, false
         )
 
         val teamMemberId = UUID.randomUUID()
         val mockTeamMember = User(
             teamMemberId, "user@example.com", "Engineer Bob",
             Grade(UUID.randomUUID(), "Software Engineer", "Engineering", emptyMap()),
-            managerId, false
+            managerId, false, false
         )
 
         val mockCheckIn = CheckIn(

@@ -49,7 +49,7 @@ class AssessmentControllerTest {
     private val mockAssessor = User(
         assessorId, "mgr@example.com", "Manager Bob",
         Grade(UUID.randomUUID(), "Manager", "Engineering", emptyMap()),
-        null, true
+        null, true, false
     )
 
     private val mockEvidence = Evidence(
@@ -63,7 +63,7 @@ class AssessmentControllerTest {
     fun `should show assessment form for submitted evidence`() {
         `when`(evidenceRepository.findById(evidenceId)).thenReturn(Optional.of(mockEvidence))
         `when`(userRepository.findByEmail("mgr@example.com")).thenReturn(Optional.of(mockAssessor))
-        `when`(userRepository.findById(userId)).thenReturn(Optional.of(User(userId, "dev@example.com", "Jane Dev", null, null, false)))
+        `when`(userRepository.findById(userId)).thenReturn(Optional.of(User(userId, "dev@example.com", "Jane Dev", null, null, false, false)))
 
         mockMvc.perform(get("/assessment/$evidenceId"))
             .andExpect(status().isOk)
@@ -110,7 +110,7 @@ class AssessmentControllerTest {
     @WithMockUser(username = "mgr@example.com")
     fun `should show assessor queue view with reports and assignments`() {
         val reporterId = UUID.randomUUID()
-        val reporter = User(reporterId, "dev@example.com", "Reporter", null, null, false)
+        val reporter = User(reporterId, "dev@example.com", "Reporter", null, null, false, false)
         val teamEvidence = Evidence(
             UUID.randomUUID(), reporterId, "Team Project", "Description", "Impact", "Complex", "Contrib",
             emptyMap(), emptyList(), emptyList(), EvidenceStatus.SUBMITTED, LocalDate.now(), LocalDate.now()
