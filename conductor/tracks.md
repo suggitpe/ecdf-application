@@ -22,3 +22,5 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./tracks/008-promotee-force-ranking/](./tracks/008-promotee-force-ranking/)*
 - [ ] **Track: 009-polish-and-verification**
   *Link: [./tracks/009-polish-and-verification/](./tracks/009-polish-and-verification/)*
+- [ ] **Track: 010-upgrade-versions**
+  *Link: [./tracks/010-upgrade-versions/](./tracks/010-upgrade-versions/)*
