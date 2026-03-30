@@ -1,8 +1,8 @@
 # TRACK: 004-sponsor-assignment-acceptance Plan
 
 ## Phase 1: Persistence & Domain Models (TDD - Kotlin)
-- [ ] Task: Create Liquibase migration for `sponsorships` table
-- [ ] Task: Define `Sponsorship` domain model and `SponsorshipStatus` enum
+- [x] Task: Create Liquibase migration for `sponsorships` table
+- [x] Task: Define `Sponsorship` domain model and `SponsorshipStatus` enum
 - [ ] Task: Implement repository adapter for `Sponsorship`
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Persistence & Domain Models' (Protocol in workflow.md)
 
