@@ -3,7 +3,7 @@
 ## Phase 1: Persistence & Domain Models (TDD - Kotlin)
 - [x] Task: Create Liquibase migration for `sponsorships` table
 - [x] Task: Define `Sponsorship` domain model and `SponsorshipStatus` enum
-- [ ] Task: Implement repository adapter for `Sponsorship`
+- [x] Task: Implement repository adapter for `Sponsorship`
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Persistence & Domain Models' (Protocol in workflow.md)
 
 ## Phase 2: Business Logic (TDD - Kotlin)

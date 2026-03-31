@@ -24,3 +24,5 @@ This file tracks all major tracks for the project. Each track has its own detail
   *Link: [./tracks/009-polish-and-verification/](./tracks/009-polish-and-verification/)*
 - [ ] **Track: 010-upgrade-versions**
   *Link: [./tracks/010-upgrade-versions/](./tracks/010-upgrade-versions/)*
+- [ ] **Track: 011-serenity-bdd-tests**
+  *Link: [./tracks/011-serenity-bdd-tests/](./tracks/011-serenity-bdd-tests/)*
